@@ -9,6 +9,25 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const Signup = ({ name }) => {
+  let token = document.querySelector('meta[name="csrf-token"]').content;
+  const data = { user: { email: "saad@gmail.com", password: "nonya92" } };
+
+  fetch("/users/sign_in", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": token,
+    },
+    credentials: "same-origin",
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+
   return (
     <Layout style={{ height: "100vh" }}>
       <div className="center-screen signup-form">
