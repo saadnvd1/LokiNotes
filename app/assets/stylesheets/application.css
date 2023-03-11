@@ -66,3 +66,7 @@ body {
 .ql-container.ql-snow {
     border: 0 !important;
 }
+
+.ql-snow .ql-picker {
+    color: #fff !important;
+}
