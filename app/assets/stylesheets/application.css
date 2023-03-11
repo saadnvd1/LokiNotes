@@ -26,6 +26,7 @@ body {
 
 #root {
     height: '100%'
+    font-size: 10px;
 }
 
 .ant-menu-item-selected {
@@ -39,6 +40,7 @@ body {
 
 .ant-menu {
     background-color: #291e34 !important;
+    font-size: 10px;
 }
 
 .ant-layout {
@@ -79,4 +81,12 @@ body {
 
 .ql-snow .ql-picker {
     color: #fff !important;
+}
+
+.center-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
 }

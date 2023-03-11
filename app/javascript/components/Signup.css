@@ -1,0 +1,29 @@
+.signup-form {
+  color: #ffffff !important;
+}
+
+.ant-form-item-required {
+  color: #ffffff !important;
+}
+
+.ant-checkbox-checked {
+  color: #ffffff !important;
+}
+
+.ant-checkbox-wrapper {
+  color: #ffffff !important;
+}
+
+.ant-input {
+  background-color: #291e34 !important;
+  color: #fff !important;
+}
+
+.ant-input-password {
+  background-color: #291e34 !important;
+  color: #fff !important;
+}
+
+.ant-form-item-control-input-content {
+  color: #fff !important;
+}

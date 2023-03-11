@@ -16,15 +16,17 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import HelloMessage from "./App";
+import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { ConfigProvider } from "antd";
 import {
   createBrowserRouter,
   RouterProvider,
   Route,
   Link,
 } from "react-router-dom";
+import Signup from "./components/Signup";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -32,18 +34,26 @@ const root = createRoot(container);
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HelloMessage />,
+    element: <App />,
   },
   {
-    path: "about",
-    element: <div>About</div>,
+    path: "signup",
+    element: <Signup />,
   },
 ]);
 
 document.addEventListener("DOMContentLoaded", () => {
   root.render(
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#222426",
+          },
+        }}
+      >
+        <RouterProvider router={router} />
+      </ConfigProvider>
     </Provider>
   );
 });
