@@ -14,10 +14,55 @@
  *= require_self
  */
 
+/* 07030e, 221443 */
+
 body {
     margin: 0;
 }
 
 #root {
     height: '100%'
+}
+
+.ant-menu-item-selected {
+    background-color: #07030e !important;
+}
+
+.ant-layout-sider-dark {
+    background-color: #221443 !important;
+    border-right: 1px solid #160c2d;
+}
+
+.ant-menu {
+    background-color: #221443 !important;
+}
+
+.ant-layout {
+    background-color: #181818 !important;
+    color: #fff;
+}
+
+.ant-layout-header {
+    background-color: #221443 !important;
+    border-bottom: 1px solid #160c2d;
+}
+
+.ql-editor {
+    background-color: #07030e !important;
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.ql-toolbar.ql-snow {
+    background-color: #221443 !important;
+    border: 0 !important;
+    color: #fff !important;
+}
+
+.ql-container.ql-snow {
+    border: 0 !important;
 }

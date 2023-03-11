@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29c772b1-11e0-46be-9535-3b59e325553d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/javascript/components/Editor.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/javascript/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +61,7 @@
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
     &quot;ruby.rails.projectView.checked&quot;: &quot;true&quot;,
     &quot;ruby.structure.view.model.defaults.configured&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;watcher.settings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Applications/RubyMine.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -197,7 +199,7 @@
       <workItem from="1678054986683" duration="90000" />
       <workItem from="1678202693600" duration="11316000" />
       <workItem from="1678369574489" duration="9658000" />
-      <workItem from="1678493314520" duration="4562000" />
+      <workItem from="1678493314520" duration="9147000" />
     </task>
     <servers />
   </component>

@@ -5,21 +5,32 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme, ConfigProvider, Input } from "antd";
+const { TextArea } = Input;
 import React, { useState } from "react";
 const { Header, Sider, Content } = Layout;
 import "./App.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const HelloMessage = ({ name }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [value, setValue] = useState("");
+
+  const [mainCollapsed, setMainCollapsed] = useState(false);
+  const [secondaryCollapsed, setSecondaryCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#222426",
+        },
+      }}
+    >
       <Layout style={{ height: "100vh" }}>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo">Lokinotes</div>
+        <Sider trigger={null} collapsible collapsed={mainCollapsed}>
           <Menu
             theme="dark"
             mode="inline"
@@ -57,7 +68,7 @@ const HelloMessage = ({ name }) => {
             ]}
           />
         </Sider>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider trigger={null} collapsible collapsed={secondaryCollapsed}>
           <Menu
             theme="dark"
             mode="inline"
@@ -87,28 +98,19 @@ const HelloMessage = ({ name }) => {
               padding: 0,
               background: colorBgContainer,
             }}
-          >
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "trigger",
-                onClick: () => setCollapsed(!collapsed),
-              }
-            )}
-          </Header>
+          ></Header>
           <Content
             style={{
               margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-              background: colorBgContainer,
+              padding: "0px",
+              overflowY: "scroll",
             }}
           >
-            Content
+            <ReactQuill value={value} onChange={setValue} />
           </Content>
         </Layout>
       </Layout>
-    </>
+    </ConfigProvider>
   );
 };
 export default HelloMessage;
