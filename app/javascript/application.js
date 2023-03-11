@@ -17,10 +17,33 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import HelloMessage from "./App";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+} from "react-router-dom";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HelloMessage />,
+  },
+  {
+    path: "about",
+    element: <div>About</div>,
+  },
+]);
+
 document.addEventListener("DOMContentLoaded", () => {
-  root.render(<HelloMessage name="World" />);
+  root.render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 });
