@@ -97,8 +97,13 @@ const HelloMessage = ({ name }) => {
             style={{
               padding: 0,
               background: colorBgContainer,
+              display: "flex",
             }}
-          ></Header>
+          >
+            <span style={{ fontSize: "32px", marginLeft: 20, color: "#fff" }}>
+              Django Models
+            </span>
+          </Header>
           <Content
             style={{
               margin: "24px 16px",

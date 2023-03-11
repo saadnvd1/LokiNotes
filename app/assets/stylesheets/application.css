@@ -14,7 +14,11 @@
  *= require_self
  */
 
-/* 07030e, 221443 */
+/* 07030e, 291e34 */
+
+root {
+    font-family: 'Roboto', sans-serif !important;
+}
 
 body {
     margin: 0;
@@ -29,12 +33,12 @@ body {
 }
 
 .ant-layout-sider-dark {
-    background-color: #221443 !important;
-    border-right: 1px solid #160c2d;
+    background-color: #291e34 !important;
+    border-right: 1px solid #140c1c;
 }
 
 .ant-menu {
-    background-color: #221443 !important;
+    background-color: #291e34 !important;
 }
 
 .ant-layout {
@@ -43,8 +47,8 @@ body {
 }
 
 .ant-layout-header {
-    background-color: #221443 !important;
-    border-bottom: 1px solid #160c2d;
+    background-color: #291e34 !important;
+    border-bottom: 1px solid #140c1c;
 }
 
 .ql-editor {
@@ -58,9 +62,15 @@ body {
 }
 
 .ql-toolbar.ql-snow {
-    background-color: #221443 !important;
+    background-color: #291e34 !important;
     border: 0 !important;
     color: #fff !important;
+    font-family: 'Roboto', sans-serif !important
+}
+
+.ql-container {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 15px !important;
 }
 
 .ql-container.ql-snow {
