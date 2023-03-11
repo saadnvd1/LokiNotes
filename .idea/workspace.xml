@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29c772b1-11e0-46be-9535-3b59e325553d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/javascript/components/Signup.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controllers/registrations_controller.rb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controllers/sessions_controller.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/application.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/application.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/components/Signup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/components/Signup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/category.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/category.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/note.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/note.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/user.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +202,7 @@
       <workItem from="1678054986683" duration="90000" />
       <workItem from="1678202693600" duration="11316000" />
       <workItem from="1678369574489" duration="9658000" />
-      <workItem from="1678493314520" duration="15603000" />
+      <workItem from="1678493314520" duration="17525000" />
     </task>
     <servers />
   </component>
