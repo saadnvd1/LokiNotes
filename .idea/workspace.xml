@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="29c772b1-11e0-46be-9535-3b59e325553d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierignore" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/tailwind-output.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/tailwind-output.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/javascript/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -200,7 +198,7 @@
       <workItem from="1678054986683" duration="90000" />
       <workItem from="1678202693600" duration="11316000" />
       <workItem from="1678369574489" duration="9658000" />
-      <workItem from="1678493314520" duration="1557000" />
+      <workItem from="1678493314520" duration="1836000" />
     </task>
     <servers />
   </component>
