@@ -5,10 +5,12 @@ import axiosI from "axiosInstance";
 import { checkLoggedIn, login } from "slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import useToast from "hooks/useToast";
 const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
+  toastError("You have to completely fill out the form");
 };
 const Login = ({}) => {
+  const { toastError } = useToast();
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -17,8 +19,15 @@ const Login = ({}) => {
   }, []);
 
   const handleSubmit = (values) => {
-    dispatch(login({ email: values.email, password: values.password }));
-    console.log("Success:", values);
+    dispatch(login({ email: values.email, password: values.password }))
+      .unwrap()
+      .catch(() => {
+        toastError("Sorry, that doesn't seem right. Try again.");
+      });
+  };
+
+  const handleFailed = (values) => {
+    toastError("Sorry, that doesn't seem right. Try again.");
   };
 
   if (user) {
@@ -44,7 +53,6 @@ const Login = ({}) => {
             remember: true,
           }}
           onFinish={handleSubmit}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item

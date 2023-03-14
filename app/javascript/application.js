@@ -20,6 +20,9 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { ConfigProvider } from "antd";
 import Main from "Main";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -35,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }}
       >
         <Main />
+        <ToastContainer />
       </ConfigProvider>
     </Provider>
   );
