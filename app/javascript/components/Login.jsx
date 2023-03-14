@@ -1,23 +1,25 @@
 import { Button, Checkbox, Form, Input, Layout } from "antd";
 import React, { useEffect, useState } from "react";
 import "./Signup.css";
+import axiosI from "axiosInstance";
+import { checkLoggedIn, login } from "slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { checkLoggedIn } from "slices/userSlice";
-
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const Signup = ({}) => {
+const Login = ({}) => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkLoggedIn());
   }, []);
+
+  const handleSubmit = (values) => {
+    dispatch(login({ email: values.email, password: values.password }));
+    console.log("Success:", values);
+  };
 
   if (user) {
     return <Navigate to="/" replace />;
@@ -41,17 +43,18 @@ const Signup = ({}) => {
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Mind entering in an e-mail?",
+                type: "email",
               },
             ]}
           >
@@ -64,7 +67,7 @@ const Signup = ({}) => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "A password would be nice too ;)",
               },
             ]}
           >
@@ -97,4 +100,4 @@ const Signup = ({}) => {
     </Layout>
   );
 };
-export default Signup;
+export default Login;

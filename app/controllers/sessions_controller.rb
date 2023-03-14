@@ -13,6 +13,10 @@ class SessionsController < Devise::SessionsController
     end
   end
 
+  def logged_in?
+    render json: user_signed_in? ? current_user : nil
+  end
+
   def destroy
     sign_out(@user)
     render :json=> {:success=>true}

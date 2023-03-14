@@ -16,31 +16,13 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { ConfigProvider } from "antd";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
-import Signup from "./components/Signup";
+import Main from "Main";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "signup",
-    element: <Signup />,
-  },
-]);
 
 document.addEventListener("DOMContentLoaded", () => {
   root.render(
@@ -52,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         }}
       >
-        <RouterProvider router={router} />
+        <Main />
       </ConfigProvider>
     </Provider>
   );
