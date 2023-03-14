@@ -18,6 +18,14 @@ export const login = createAsyncThunk("users/login", async (data, thunkAPI) => {
   return response.data;
 });
 
+export const register = createAsyncThunk(
+  "users/register",
+  async (data, thunkAPI) => {
+    const response = await axiosI.post("/users", { user: data });
+    return response.data;
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -27,6 +35,9 @@ export const userSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(login.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload;
     });
   },
