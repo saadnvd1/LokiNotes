@@ -11,10 +11,10 @@ class HomeController < ApplicationController
   end
 
   def notes
-    @categories = current_user.categories
-    @formatted_categories =  @categories.map(&:format_category)
+    @categories = current_user.categories.where(ancestry: nil).includes(:notes)
+    @notes_data =  @categories.map { |category| format_category(category) }
 
-    render json: { categories: @formatted_categories }
+    render json: { notes_data: @notes_data }
   end
 
   def format_category(category)
@@ -23,8 +23,8 @@ class HomeController < ApplicationController
     {
         id: category.id,
         name: category.name,
-        subcategories: category.children.map { |category| format_category(category) },
-        notes: category.notes.map(&:format_note)
+        subcategories: category.children.includes(:notes).map { |category| format_category(category) },
+        notes: category.notes.map { |note| format_note(note) }
     }
   end
 
