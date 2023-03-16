@@ -1,12 +1,14 @@
 import axios from "axios";
 
-let token = document.querySelector('meta[name="csrf-token"]').content;
+const token = localStorage.getItem("lnt");
 
 const axiosI = axios.create({
   baseURL: "http://localhost:3000",
   timeout: 1000,
-  headers: { "Content-Type": "application/json", "X-CSRF-Token": token },
-  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  },
 });
 
 export default axiosI;

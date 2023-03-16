@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosI from "axiosInstance";
 
 const initialState = {
-  user: null,
+  categories: null,
+  notes: null,
 };
 
 export const checkLoggedIn = createAsyncThunk(
@@ -27,20 +28,18 @@ export const register = createAsyncThunk(
 );
 
 export const userSlice = createSlice({
-  name: "user",
+  name: "notes",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(checkLoggedIn.fulfilled, (state, action) => {
-      state.user = action.payload.user;
+      state.user = action.payload;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      state.user = action.payload.user;
-      localStorage.setItem("lnt", action.payload.token);
+      state.user = action.payload;
     });
     builder.addCase(register.fulfilled, (state, action) => {
-      state.user = action.payload.user;
-      localStorage.setItem("lnt", action.payload.token);
+      state.user = action.payload;
     });
   },
 });

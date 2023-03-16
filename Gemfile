@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.0.3"
 
 gem 'devise'
+gem 'devise-jwt'
 gem 'ancestry'
 gem 'active_interaction', '~> 5.2'
 gem 'rabl'

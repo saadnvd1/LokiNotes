@@ -4,9 +4,8 @@ Rails.application.routes.draw do
   root 'home#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  devise_scope :user do
-    get '/logged_in', to: 'sessions#logged_in?'
-  end
+  get 'logged_in', to: 'home#check_logged_in'
+  get 'notes', to: 'home#notes'
 
   get '*path', to: "home#index", constraints: ->(request) do
     !request.xhr? && request.format.html?

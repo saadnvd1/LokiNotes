@@ -11,6 +11,8 @@ const Auth = ({ type }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (user) return;
+
     dispatch(checkLoggedIn());
   }, []);
 

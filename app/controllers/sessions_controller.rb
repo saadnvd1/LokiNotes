@@ -7,14 +7,10 @@ class SessionsController < Devise::SessionsController
 
     if @user.valid_password?(user_params[:password])
       sign_in :user, @user
-      render json: @user
+      render json: { user: @user, token: request.env['warden-jwt_auth.token'] }
     else
       invalid_login_attempt
     end
-  end
-
-  def logged_in?
-    render json: user_signed_in? ? current_user : nil
   end
 
   def destroy
@@ -22,16 +18,14 @@ class SessionsController < Devise::SessionsController
     render :json=> {:success=>true}
   end
 
+  private
 
-    private
+  def invalid_login_attempt
+    warden.custom_failure!
+    render json: {error: 'invalid login attempt'}, status: :unprocessable_entity
+  end
 
-    def invalid_login_attempt
-      warden.custom_failure!
-      render json: {error: 'invalid login attempt'}, status: :unprocessable_entity
-    end
-
-    def user_params
-       params.require(:user).permit(:email, :password)
-    end
-
+  def user_params
+     params.require(:user).permit(:email, :password)
+  end
 end
