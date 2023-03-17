@@ -28,7 +28,9 @@ const App = (s) => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  useEffect(() => dispatch(getNotesData()), []);
+  useEffect(() => {
+    dispatch(getNotesData());
+  }, []);
 
   const buildCategory = (category) => {
     if (!category) return;

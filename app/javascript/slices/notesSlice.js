@@ -8,6 +8,7 @@ const initialState = {
 export const getNotesData = createAsyncThunk(
   "users/getNotesData",
   async (thunkAPI) => {
+    debugger;
     const response = await axiosI.get("/notes");
     return response.data;
   }

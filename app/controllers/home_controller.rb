@@ -11,6 +11,7 @@ class HomeController < ApplicationController
   end
 
   def notes
+    # TODO: make sure there's no n+1s here, esp with the ancestry stuff
     @categories = current_user.categories.where(ancestry: nil).includes(:notes)
     @notes_data =  @categories.map { |category| format_category(category) }
 

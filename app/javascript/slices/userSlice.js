@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosI from "axiosInstance";
+import axiosInstance from "axiosInstance";
 
 const initialState = {
   user: null,
@@ -26,6 +27,12 @@ export const register = createAsyncThunk(
   }
 );
 
+const handleUserAuthSuccess = (state, action) => {
+  state.user = action.payload.user;
+  localStorage.setItem("lnt", action.payload.token);
+  axiosInstance.defaults.headers.Authorization = `Bearer ${action.payload.token}`;
+};
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -35,12 +42,10 @@ export const userSlice = createSlice({
       state.user = action.payload.user;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      state.user = action.payload.user;
-      localStorage.setItem("lnt", action.payload.token);
+      handleUserAuthSuccess(state, action);
     });
     builder.addCase(register.fulfilled, (state, action) => {
-      state.user = action.payload.user;
-      localStorage.setItem("lnt", action.payload.token);
+      handleUserAuthSuccess(state, action);
     });
   },
 });
