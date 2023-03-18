@@ -3,7 +3,9 @@ import {
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
+  CaretDownFilled,
   VideoCameraOutlined,
+  CaretUpFilled,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Input } from "antd";
 const { TextArea } = Input;
@@ -14,8 +16,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { getNotesData } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Icon from "antd/es/icon";
 
 const App = (s) => {
+  const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const { notesData } = useSelector((state) => state.notes);
@@ -32,67 +36,93 @@ const App = (s) => {
     dispatch(getNotesData());
   }, []);
 
+  // Setup Menu State
+  useEffect(() => {
+    if (notesData) {
+      setupMenuItems(notesData);
+    }
+  }, [notesData]);
+
+  const toggleSubmenu = (categoryId) => {
+    const menuCopy = menu;
+    menuCopy[categoryId].showSubMenu = !menuCopy[categoryId].showSubMenu;
+    setMenu({ ...menuCopy });
+  };
+
+  const setupMenuItems = (categories) => {
+    const items = {};
+
+    categories.forEach((category) => {
+      items[category.id] = {
+        selected: false,
+        showSubMenu: false,
+      };
+    });
+
+    setMenu(items);
+  };
+
   const buildCategory = (category) => {
     if (!category) return;
 
-    console.log("category", category);
+    if (category.subcategories.length > 0) {
+      return (
+        <div key={category.id}>
+          <li
+            className={`single-menu-item parent-menu ${
+              category.id === selectedCategoryId ? "menu-selected" : ""
+            }
+        `}
+            onClick={() => setSelectedCategoryId(category.id)}
+          >
+            <div className="parent-menu-title">
+              <span>{category.name}</span>
+              {!menu[category.id]?.showSubMenu && (
+                <CaretDownFilled onClick={() => toggleSubmenu(category.id)} />
+              )}
+              {menu[category.id]?.showSubMenu && (
+                <CaretUpFilled onClick={() => toggleSubmenu(category.id)} />
+              )}
+            </div>
+          </li>
+          <ul
+            className={`submenu ${
+              !menu[category.id]?.showSubMenu ? "display-none" : ""
+            }`}
+          >
+            {category.subcategories.map((subcategory) =>
+              buildCategory(subcategory)
+            )}
+          </ul>
+        </div>
+      );
+    }
 
-    return {
-      key: category.id,
-      icon: <UserOutlined />,
-      label: category.name,
-      children: category.subcategories.map((subcategory) =>
-        buildCategory(subcategory)
-      ),
-    };
+    console.log("menu", menu);
+    console.log("selectedCategoryId", selectedCategoryId);
+
+    return (
+      <li
+        key={category.id}
+        className={`single-menu-item ${
+          category.id === selectedCategoryId ? "menu-selected" : ""
+        }`}
+        onClick={() => setSelectedCategoryId(category.id)}
+      >
+        <span>{category.name}</span>
+      </li>
+    );
   };
 
   const buildCategories = () => {
     if (!notesData) return;
-
     return notesData.map((noteCategory) => buildCategory(noteCategory));
   };
 
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={mainCollapsed}>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={[1]}
-          items={buildCategories()}
-          // items={[
-          //   {
-          //     key: "1",
-          //     icon: <UserOutlined />,
-          //     label: "Django",
-          //   },
-          //   {
-          //     key: "2",
-          //     icon: <VideoCameraOutlined />,
-          //     label: "Vue.js",
-          //   },
-          //   {
-          //     key: "3",
-          //     icon: <UploadOutlined />,
-          //     label: "School",
-          //     children: [
-          //       {
-          //         label: "CS 429",
-          //         key: "setting:1",
-          //         icon: <UploadOutlined />,
-          //         children: [
-          //           {
-          //             label: "Lol",
-          //             key: "setting:3",
-          //             children: [{ label: "Lol", key: "setting:3" }],
-          //           },
-          //         ],
-          //       },
-          //     ],
-          //   },
-          // ]}
-        />
+        <ul className="menu">{buildCategories()}</ul>
       </Sider>
       <Sider trigger={null} collapsible collapsed={secondaryCollapsed}>
         <Menu
