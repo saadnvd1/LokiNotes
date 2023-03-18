@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Icon from "antd/es/icon";
 
 const App = (s) => {
+  const [content, setContent] = useState("");
   const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
@@ -42,6 +43,13 @@ const App = (s) => {
       setupMenuItems(notesData);
     }
   }, [notesData]);
+
+  useEffect(() => {
+    if (selectedNoteId) {
+      const currentNote = getCurrentNote();
+      setContent(currentNote.content);
+    }
+  }, [selectedNoteId]);
 
   const toggleSubmenu = (categoryId) => {
     const menuCopy = menu;
@@ -100,6 +108,8 @@ const App = (s) => {
 
     console.log("menu", menu);
     console.log("selectedCategoryId", selectedCategoryId);
+    console.log("selectedNote", selectedNoteId);
+    console.log("content", content);
 
     return (
       <li
@@ -119,6 +129,34 @@ const App = (s) => {
     return notesData.map((noteCategory) => buildCategory(noteCategory));
   };
 
+  const getCurrentlySelectedCategory = () => {
+    return notesData.find((category) => category.id === selectedCategoryId);
+  };
+
+  const buildNoteItems = () => {
+    if (!notesData || !selectedCategoryId) return;
+
+    const categoryNotes = getCurrentlySelectedCategory();
+
+    if (categoryNotes) {
+      return categoryNotes.notes.map((note) => ({
+        key: note.id,
+        icon: <UploadOutlined />,
+        label: note.title,
+      }));
+    }
+
+    return [];
+  };
+
+  const getCurrentNote = () => {
+    const categoryNotes = getCurrentlySelectedCategory();
+
+    if (categoryNotes) {
+      return categoryNotes.notes.find((note) => note.id === selectedNoteId);
+    }
+  };
+
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={mainCollapsed}>
@@ -129,23 +167,10 @@ const App = (s) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["3"]}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "Django Models",
-            },
-            {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "Inheritance",
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "Random",
-            },
-          ]}
+          items={buildNoteItems()}
+          onClick={(e) => {
+            setSelectedNoteId(Number(e.key));
+          }}
         />
       </Sider>
       <Layout className="site-layout">
@@ -167,7 +192,7 @@ const App = (s) => {
             overflowY: "scroll",
           }}
         >
-          <ReactQuill value={value} onChange={setValue} />
+          <ReactQuill value={content} onChange={setContent} />
         </Content>
       </Layout>
     </Layout>
