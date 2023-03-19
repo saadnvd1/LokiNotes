@@ -18,9 +18,14 @@ import { getNotesData, updateNote } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Icon from "antd/es/icon";
 import { isEmpty } from "lodash";
+import { useFocusAndSetRef } from "hooks/useFocusAndSetRef";
 
 const App = (s) => {
   // TODO: https://www.npmjs.com/package/use-keyboard-shortcut
+  let editorRef;
+  editorRef = useFocusAndSetRef(editorRef);
+
+  console.log("editorRef", editorRef);
   const [content, setContent] = useState(null);
   const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -159,12 +164,6 @@ const App = (s) => {
         </div>
       );
     }
-
-    console.log("menu", menu);
-    console.log("selectedCategoryId", selectedCategoryId);
-    console.log("selectedNote", selectedNoteId);
-    console.log("content", content);
-
     return (
       <li
         key={catId}
@@ -265,9 +264,21 @@ const App = (s) => {
             padding: "0px",
             overflowY: "scroll",
           }}
+          className="editor-container" // prevents scrolling jump issue for quill.js
         >
           <div style={{ backgroundColor: "white", color: "black" }}>
-            <ReactQuill value={content} onChange={setContent} />
+            <ReactQuill
+              ref={editorRef}
+              value={content}
+              onChange={(content, delta, source, editor) => {
+                setContent(content);
+                debugger;
+                console.log("getContents", editor.getContents());
+                console.log("delta", delta);
+              }}
+              placeholder="Begin something amazing here..."
+              scrollingContainer=".editor-container"
+            />
           </div>
         </Content>
       </Layout>
