@@ -6,9 +6,19 @@ const initialState = {
 };
 
 export const getNotesData = createAsyncThunk(
-  "users/getNotesData",
+  "notes/getNotesData",
   async (thunkAPI) => {
     const response = await axiosI.get("/notes");
+    return response.data;
+  }
+);
+
+export const updateNote = createAsyncThunk(
+  "notes/updateNote",
+  async ({ noteId, content }, thunkAPI) => {
+    const response = await axiosI.patch(`/notes/${noteId}`, {
+      content: content,
+    });
     return response.data;
   }
 );
@@ -20,6 +30,10 @@ export const notesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getNotesData.fulfilled, (state, action) => {
       state.notesData = action.payload.notes_data;
+    });
+    builder.addCase(updateNote.fulfilled, (state, action) => {
+      // Maybe later I'll use this for something, not sure
+      console.log("note successfully saved!");
     });
   },
 });

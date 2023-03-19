@@ -9,29 +9,71 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Input } from "antd";
 const { TextArea } = Input;
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 const { Header, Sider, Content } = Layout;
 import "./App.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { getNotesData } from "slices/notesSlice";
+import { getNotesData, updateNote } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Icon from "antd/es/icon";
+import { isEmpty } from "lodash";
 
 const App = (s) => {
-  const [content, setContent] = useState("");
+  // TODO: https://www.npmjs.com/package/use-keyboard-shortcut
+  const [content, setContent] = useState(null);
   const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const { notesData } = useSelector((state) => state.notes);
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
+  const selectedNoteRef = useRef();
+
+  selectedNoteRef.current = { selectedNoteId, content };
 
   const [mainCollapsed, setMainCollapsed] = useState(false);
   const [secondaryCollapsed, setSecondaryCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  // When you navigate away to another category or note, we always want to save the note
+  const saveNote = (noteId, content) => {
+    dispatch(
+      updateNote({
+        noteId,
+        content,
+      })
+    );
+  };
+
+  const saveBeforeExit = () => {
+    if (selectedNoteId) saveNote(selectedNoteId, content);
+  };
+
+  const handleChangeNote = (e) => {
+    saveBeforeExit();
+    setSelectedNoteId(Number(e.key));
+  };
+
+  const handleChangeCategory = (categoryId) => {
+    saveBeforeExit();
+    setSelectedCategoryId(categoryId);
+  };
+
+  // Initialize the autosave feature
+  useEffect(() => {
+    const autoSave = () => {
+      if (selectedNoteRef.current.selectedNoteId) {
+        saveNote(
+          selectedNoteRef.current.selectedNoteId,
+          selectedNoteRef.current.content
+        );
+      }
+    };
+    setInterval(autoSave, 50000);
+  }, []);
 
   useEffect(() => {
     dispatch(getNotesData());
@@ -47,7 +89,10 @@ const App = (s) => {
   useEffect(() => {
     if (selectedNoteId) {
       const currentNote = getCurrentNote();
-      setContent(currentNote.content);
+
+      if (currentNote.content !== null && currentNote.content !== "") {
+        setContent(currentNote.content);
+      }
     }
   }, [selectedNoteId]);
 
@@ -81,7 +126,7 @@ const App = (s) => {
               category.id === selectedCategoryId ? "menu-selected" : ""
             }
         `}
-            onClick={() => setSelectedCategoryId(category.id)}
+            onClick={() => handleChangeCategory(category.id)}
           >
             <div className="parent-menu-title">
               <span>{category.name}</span>
@@ -143,7 +188,6 @@ const App = (s) => {
     if (categoryNotes) {
       return categoryNotes.notes.map((note) => ({
         key: note.id,
-        icon: <UploadOutlined />,
         label: note.title,
       }));
     }
@@ -176,7 +220,7 @@ const App = (s) => {
           defaultSelectedKeys={["3"]}
           items={buildNoteItems()}
           onClick={(e) => {
-            setSelectedNoteId(Number(e.key));
+            handleChangeNote(e);
           }}
         />
       </Sider>

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'logged_in', to: 'home#check_logged_in'
   get 'notes', to: 'home#notes'
 
+  resources :notes, only: [:update, :index]
+
   get '*path', to: "home#index", constraints: ->(request) do
     !request.xhr? && request.format.html?
   end
