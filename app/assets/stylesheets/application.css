@@ -53,34 +53,9 @@ body {
     border-bottom: 1px solid #140c1c;
 }
 
-.ql-editor {
-    background-color: #07030e !important;
-    color: #fff;
-}
-
 ::-webkit-scrollbar {
-    width: 0px;
+    width: 0;
     background: transparent; /* make scrollbar transparent */
-}
-
-.ql-toolbar.ql-snow {
-    background-color: #291e34 !important;
-    border: 0 !important;
-    color: #fff !important;
-    font-family: 'Roboto', sans-serif !important
-}
-
-.ql-container {
-    font-family: 'Roboto', sans-serif !important;
-    font-size: 15px !important;
-}
-
-.ql-container.ql-snow {
-    border: 0 !important;
-}
-
-.ql-snow .ql-picker {
-    color: #fff !important;
 }
 
 .center-screen {

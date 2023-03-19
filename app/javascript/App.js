@@ -130,6 +130,8 @@ const App = (s) => {
   };
 
   const getCurrentlySelectedCategory = () => {
+    if (!notesData) return;
+
     return notesData.find((category) => category.id === selectedCategoryId);
   };
 
@@ -159,7 +161,12 @@ const App = (s) => {
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={mainCollapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={mainCollapsed}
+        style={{ color: "white" }}
+      >
         <ul className="menu">{buildCategories()}</ul>
       </Sider>
       <Sider trigger={null} collapsible collapsed={secondaryCollapsed}>
@@ -173,7 +180,7 @@ const App = (s) => {
           }}
         />
       </Sider>
-      <Layout className="site-layout">
+      <Layout>
         <Header
           style={{
             padding: 0,
@@ -182,7 +189,7 @@ const App = (s) => {
           }}
         >
           <span style={{ fontSize: "32px", marginLeft: 20, color: "#fff" }}>
-            Django Models
+            {getCurrentNote()?.title}
           </span>
         </Header>
         <Content
@@ -192,7 +199,9 @@ const App = (s) => {
             overflowY: "scroll",
           }}
         >
-          <ReactQuill value={content} onChange={setContent} />
+          <div style={{ backgroundColor: "white", color: "black" }}>
+            <ReactQuill value={content} onChange={setContent} />
+          </div>
         </Content>
       </Layout>
     </Layout>
