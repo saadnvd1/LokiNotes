@@ -60,6 +60,11 @@ const App = (s) => {
   const handleChangeCategory = (categoryId) => {
     saveBeforeExit();
     setSelectedCategoryId(categoryId);
+
+    // Always select the first note from that category
+    if (getCategoryById(categoryId).notes[0]) {
+      setSelectedNoteId(getCategoryById(categoryId).notes[0]?.id);
+    }
   };
 
   // Initialize the autosave feature
@@ -90,7 +95,11 @@ const App = (s) => {
     if (selectedNoteId) {
       const currentNote = getCurrentNote();
 
-      if (currentNote.content !== null && currentNote.content !== "") {
+      if (
+        currentNote &&
+        currentNote.content !== null &&
+        currentNote.content !== ""
+      ) {
         setContent(currentNote.content);
       }
     }
@@ -162,7 +171,7 @@ const App = (s) => {
         className={`single-menu-item ${
           category.id === selectedCategoryId ? "menu-selected" : ""
         }`}
-        onClick={() => setSelectedCategoryId(category.id)}
+        onClick={() => handleChangeCategory(category.id)}
       >
         <span>{category.name}</span>
       </li>
@@ -177,7 +186,11 @@ const App = (s) => {
   const getCurrentlySelectedCategory = () => {
     if (!notesData) return;
 
-    return notesData.find((category) => category.id === selectedCategoryId);
+    return getCategoryById(selectedCategoryId);
+  };
+
+  const getCategoryById = (id) => {
+    return notesData.find((category) => category.id === id);
   };
 
   const buildNoteItems = () => {
@@ -200,6 +213,14 @@ const App = (s) => {
 
     if (categoryNotes) {
       return categoryNotes.notes.find((note) => note.id === selectedNoteId);
+    }
+  };
+
+  const getNoteForId = (id) => {
+    const categoryNotes = getCurrentlySelectedCategory();
+
+    if (categoryNotes) {
+      return categoryNotes.notes.find((note) => note.id === id);
     }
   };
 
