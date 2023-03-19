@@ -62,7 +62,7 @@ const App = (s) => {
     setSelectedCategoryId(categoryId);
 
     // Always select the first note from that category
-    if (getCategoryById(categoryId).notes[0]) {
+    if (getCategoryById(categoryId)?.notes[0]) {
       setSelectedNoteId(getCategoryById(categoryId).notes[0]?.id);
     }
   };
@@ -114,8 +114,8 @@ const App = (s) => {
   const setupMenuItems = (categories) => {
     const items = {};
 
-    categories.forEach((category) => {
-      items[category.id] = {
+    Object.keys(categories).forEach((categoryId) => {
+      items[categoryId] = {
         selected: false,
         showSubMenu: false,
       };
@@ -124,36 +124,36 @@ const App = (s) => {
     setMenu(items);
   };
 
-  const buildCategory = (category) => {
-    if (!category) return;
+  const buildCategory = (catId, catData) => {
+    if (!catId) return;
 
-    if (category.subcategories.length > 0) {
+    if (!isEmpty(catData.subcategories)) {
       return (
-        <div key={category.id}>
+        <div key={catId}>
           <li
             className={`single-menu-item parent-menu ${
-              category.id === selectedCategoryId ? "menu-selected" : ""
+              catId === selectedCategoryId ? "menu-selected" : ""
             }
         `}
-            onClick={() => handleChangeCategory(category.id)}
+            onClick={() => handleChangeCategory(catId)}
           >
             <div className="parent-menu-title">
-              <span>{category.name}</span>
-              {!menu[category.id]?.showSubMenu && (
-                <CaretDownFilled onClick={() => toggleSubmenu(category.id)} />
+              <span>{catData.name}</span>
+              {!menu[catId]?.showSubMenu && (
+                <CaretDownFilled onClick={() => toggleSubmenu(catId)} />
               )}
-              {menu[category.id]?.showSubMenu && (
-                <CaretUpFilled onClick={() => toggleSubmenu(category.id)} />
+              {menu[catId]?.showSubMenu && (
+                <CaretUpFilled onClick={() => toggleSubmenu(catId)} />
               )}
             </div>
           </li>
           <ul
             className={`submenu ${
-              !menu[category.id]?.showSubMenu ? "display-none" : ""
+              !menu[catId]?.showSubMenu ? "display-none" : ""
             }`}
           >
-            {category.subcategories.map((subcategory) =>
-              buildCategory(subcategory)
+            {Object.entries(catData.subcategories).map(([subId, subData]) =>
+              buildCategory(subId, subData)
             )}
           </ul>
         </div>
@@ -167,20 +167,23 @@ const App = (s) => {
 
     return (
       <li
-        key={category.id}
+        key={catId}
         className={`single-menu-item ${
-          category.id === selectedCategoryId ? "menu-selected" : ""
+          catId === selectedCategoryId ? "menu-selected" : ""
         }`}
-        onClick={() => handleChangeCategory(category.id)}
+        onClick={() => handleChangeCategory(catId)}
       >
-        <span>{category.name}</span>
+        <span>{catData.name}</span>
       </li>
     );
   };
 
   const buildCategories = () => {
     if (!notesData) return;
-    return notesData.map((noteCategory) => buildCategory(noteCategory));
+    debugger;
+    return Object.entries(notesData).map(([catId, catData]) =>
+      buildCategory(catId, catData)
+    );
   };
 
   const getCurrentlySelectedCategory = () => {
@@ -190,7 +193,7 @@ const App = (s) => {
   };
 
   const getCategoryById = (id) => {
-    return notesData.find((category) => category.id === id);
+    return notesData[id];
   };
 
   const buildNoteItems = () => {

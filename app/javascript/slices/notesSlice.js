@@ -33,6 +33,11 @@ export const notesSlice = createSlice({
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
       // Maybe later I'll use this for something, not sure
+      let note = state.notesData[action.payload.note.category_id].notes.find(
+        (note) => note.id === action.payload.note.id
+      );
+
+      note.content = action.payload.note.content;
       console.log("note successfully saved!");
     });
   },

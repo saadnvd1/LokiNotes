@@ -13,7 +13,11 @@ class HomeController < ApplicationController
   def notes
     # TODO: make sure there's no n+1s here, esp with the ancestry stuff
     @categories = current_user.categories.where(ancestry: nil).includes(:notes)
-    @notes_data =  @categories.map { |category| format_category(category) }
+    @notes_data = {}
+
+    @categories.each do |category|
+      @notes_data[category.id] = format_category(category)
+    end
 
     render json: { notes_data: @notes_data }
   end
@@ -21,12 +25,18 @@ class HomeController < ApplicationController
   def format_category(category)
     return if category.nil?
 
-    {
+    catH = {
         id: category.id,
         name: category.name,
-        subcategories: category.children.includes(:notes).map { |category| format_category(category) },
-        notes: category.notes.map { |note| format_note(note) }
+        notes: category.notes.map { |note| format_note(note) },
+        subcategories: {}
     }
+
+    category.children.includes(:notes).each do |subc|
+      catH[:subcategories][subc.id] = format_category(subc)
+    end
+
+    catH
   end
 
   def format_note(note)
@@ -34,6 +44,7 @@ class HomeController < ApplicationController
       id: note.id,
       title: note.title,
       content: note.content,
+      category_id: note.category_id,
       created_at: note.created_at,
       updated_at: note.updated_at
     }
