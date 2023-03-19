@@ -22,10 +22,8 @@ import { useFocusAndSetRef } from "hooks/useFocusAndSetRef";
 
 const App = (s) => {
   // TODO: https://www.npmjs.com/package/use-keyboard-shortcut
-  let editorRef;
-  editorRef = useFocusAndSetRef(editorRef);
+  let reactQuillRef = useRef();
 
-  console.log("editorRef", editorRef);
   const [content, setContent] = useState(null);
   const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -71,6 +69,13 @@ const App = (s) => {
       setSelectedNoteId(getCategoryById(categoryId).notes[0]?.id);
     }
   };
+
+  // TODO: eventually get this to work >:(
+  // if (reactQuillRef.current) {
+  //   const len = reactQuillRef.current.editor.getLength();
+  //   console.log("len", len);
+  //   reactQuillRef.current.editor.setSelection(0, 90000);
+  // }
 
   // Initialize the autosave feature
   useEffect(() => {
@@ -268,13 +273,10 @@ const App = (s) => {
         >
           <div style={{ backgroundColor: "white", color: "black" }}>
             <ReactQuill
-              ref={editorRef}
+              ref={reactQuillRef}
               value={content}
               onChange={(content, delta, source, editor) => {
                 setContent(content);
-                debugger;
-                console.log("getContents", editor.getContents());
-                console.log("delta", delta);
               }}
               placeholder="Begin something amazing here..."
               scrollingContainer=".editor-container"

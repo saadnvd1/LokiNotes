@@ -3,6 +3,7 @@ import { useCallback } from "react";
 export const useFocusAndSetRef = (ref) => {
   ref = useCallback(
     (node) => {
+      console.log("node", node);
       if (node !== null) {
         ref.current = node;
         const len = node.unprivilegedEditor.getLength();
