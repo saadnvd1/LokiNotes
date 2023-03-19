@@ -11,6 +11,10 @@ module Lokinotes
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # TODO: remove when ready to release
+    config.active_record.encryption.support_unencrypted_data = true
+    config.active_record.encryption.extend_queries = true
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
