@@ -180,7 +180,6 @@ const App = (s) => {
 
   const buildCategories = () => {
     if (!notesData) return;
-    debugger;
     return Object.entries(notesData).map(([catId, catData]) =>
       buildCategory(catId, catData)
     );
