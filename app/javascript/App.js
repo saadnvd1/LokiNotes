@@ -260,7 +260,7 @@ const App = (s) => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["3"]}
+          selectedKeys={[String(selectedNoteId)]}
           items={buildNoteItems()}
           onClick={(e) => {
             handleChangeNote(e);
