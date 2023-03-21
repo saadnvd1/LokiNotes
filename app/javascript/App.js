@@ -230,6 +230,22 @@ const App = (s) => {
     }
   };
 
+  // I think eventually what I want to do instead of always scrolling is to maintain some kind of history of where the user was. It's fine right now to leave it to the top and let the user scroll as normal
+  // const containerRef = useRef(null);
+  // const scrollToBottom = () =>
+  //   setTimeout(() => {
+  //     if (reactQuillRef.current) {
+  //       reactQuillRef.current.focus();
+  //     }
+  //     if (containerRef.current) {
+  //       containerRef.current.scrollTop = containerRef.current.scrollHeight;
+  //     }
+  //   }, 10);
+  //
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [selectedNoteId]);
+
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider
