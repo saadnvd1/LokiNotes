@@ -1,3 +1,5 @@
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -6,6 +8,7 @@ import {
   CaretDownFilled,
   VideoCameraOutlined,
   CaretUpFilled,
+  PlusCircleOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Input } from "antd";
 const { TextArea } = Input;
@@ -22,8 +25,6 @@ import { useFocusAndSetRef } from "hooks/useFocusAndSetRef";
 
 const App = (s) => {
   // TODO: https://www.npmjs.com/package/use-keyboard-shortcut
-  let reactQuillRef = useRef();
-
   const [content, setContent] = useState(null);
   const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -230,21 +231,7 @@ const App = (s) => {
     }
   };
 
-  // I think eventually what I want to do instead of always scrolling is to maintain some kind of history of where the user was. It's fine right now to leave it to the top and let the user scroll as normal
-  // const containerRef = useRef(null);
-  // const scrollToBottom = () =>
-  //   setTimeout(() => {
-  //     if (reactQuillRef.current) {
-  //       reactQuillRef.current.focus();
-  //     }
-  //     if (containerRef.current) {
-  //       containerRef.current.scrollTop = containerRef.current.scrollHeight;
-  //     }
-  //   }, 10);
-  //
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [selectedNoteId]);
+  const handleCreateCategory = () => {};
 
   return (
     <Layout style={{ height: "100vh" }}>
@@ -255,6 +242,9 @@ const App = (s) => {
         style={{ color: "white" }}
       >
         <ul className="menu">{buildCategories()}</ul>
+        <div style={{ marginLeft: 10 }}>
+          <PlusCircleIcon height="24" onClick={handleCreateCategory} />
+        </div>
       </Sider>
       <Sider trigger={null} collapsible collapsed={secondaryCollapsed}>
         <Menu
