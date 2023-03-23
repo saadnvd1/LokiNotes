@@ -65,3 +65,16 @@ body {
   text-align: center;
   min-height: 100vh;
 }
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #959595 !important;
+  opacity: 1 !important; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #959595 !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #959595 !important;
+}

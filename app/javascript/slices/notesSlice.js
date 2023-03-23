@@ -23,6 +23,16 @@ export const updateNote = createAsyncThunk(
   }
 );
 
+export const createCategory = createAsyncThunk(
+  "notes/createCategory",
+  async ({ noteId, content }, thunkAPI) => {
+    const response = await axiosI.patch(`/notes/${noteId}`, {
+      content: content,
+    });
+    return response.data;
+  }
+);
+
 export const notesSlice = createSlice({
   name: "notes",
   initialState,

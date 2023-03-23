@@ -26,6 +26,7 @@
     "shakapacker": "6.6.0",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "5",
+    "use-keyboard-shortcut": "^1.1.6",
     "webpack": "5",
     "webpack-assets-manifest": "5",
     "webpack-cli": "4",

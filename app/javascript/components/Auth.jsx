@@ -30,7 +30,7 @@ const Auth = ({ type }) => {
   }
 
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={{ height: "100vh" }} className="Auth">
       <div className="center-screen signup-form">
         {" "}
         <Form

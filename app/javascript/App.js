@@ -10,7 +10,7 @@ import {
   CaretUpFilled,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme, Input } from "antd";
+import { Layout, Menu, theme, Input, Dropdown } from "antd";
 const { TextArea } = Input;
 import React, { useEffect, useRef, useState } from "react";
 const { Header, Sider, Content } = Layout;
@@ -22,17 +22,32 @@ import { useDispatch, useSelector } from "react-redux";
 import Icon from "antd/es/icon";
 import { isEmpty } from "lodash";
 import { useFocusAndSetRef } from "hooks/useFocusAndSetRef";
+import useKeyboardShortcut from "use-keyboard-shortcut";
+import CategoryCreateModal from "components/CategoryCreateModal";
 
 const App = (s) => {
-  // TODO: https://www.npmjs.com/package/use-keyboard-shortcut
+  const { flushHeldKeys } = useKeyboardShortcut(
+    ["Escape"],
+    (shortcutKeys) => {
+      if (createCategory) {
+        setCreateCategory(false);
+      }
+    },
+    {
+      overrideSystem: false,
+      ignoreInputFields: false,
+      repeatOnHold: false,
+    }
+  );
+
   const [content, setContent] = useState(null);
   const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const { notesData } = useSelector((state) => state.notes);
   const dispatch = useDispatch();
-  const [value, setValue] = useState("");
   const selectedNoteRef = useRef();
+  const [createCategory, setCreateCategory] = useState(false);
 
   selectedNoteRef.current = { selectedNoteId, content };
 
@@ -70,13 +85,6 @@ const App = (s) => {
       setSelectedNoteId(getCategoryById(categoryId).notes[0]?.id);
     }
   };
-
-  // TODO: eventually get this to work >:(
-  // if (reactQuillRef.current) {
-  //   const len = reactQuillRef.current.editor.getLength();
-  //   console.log("len", len);
-  //   reactQuillRef.current.editor.setSelection(0, 90000);
-  // }
 
   // Initialize the autosave feature
   useEffect(() => {
@@ -139,6 +147,14 @@ const App = (s) => {
     if (!catId) return;
 
     if (!isEmpty(catData.subcategories)) {
+      const items = [
+        {
+          label: "Create Subcategory",
+          key: "1",
+          onClick: () => handleCreateCategory(),
+        },
+      ];
+
       return (
         <div key={catId}>
           <li
@@ -148,15 +164,22 @@ const App = (s) => {
         `}
             onClick={() => handleChangeCategory(catId)}
           >
-            <div className="parent-menu-title">
-              <span>{catData.name}</span>
-              {!menu[catId]?.showSubMenu && (
-                <CaretDownFilled onClick={() => toggleSubmenu(catId)} />
-              )}
-              {menu[catId]?.showSubMenu && (
-                <CaretUpFilled onClick={() => toggleSubmenu(catId)} />
-              )}
-            </div>
+            <Dropdown
+              menu={{
+                items,
+              }}
+              trigger={["contextMenu"]}
+            >
+              <div className="parent-menu-title">
+                <span>{catData.name}</span>
+                {!menu[catId]?.showSubMenu && (
+                  <CaretDownFilled onClick={() => toggleSubmenu(catId)} />
+                )}
+                {menu[catId]?.showSubMenu && (
+                  <CaretUpFilled onClick={() => toggleSubmenu(catId)} />
+                )}
+              </div>
+            </Dropdown>
           </li>
           <ul
             className={`submenu ${
@@ -231,10 +254,19 @@ const App = (s) => {
     }
   };
 
-  const handleCreateCategory = () => {};
+  const handleCreateCategory = () => {
+    setCreateCategory(true);
+  };
 
   return (
     <Layout style={{ height: "100vh" }}>
+      <CategoryCreateModal
+        open={createCategory}
+        onCreate={null}
+        onCancel={() => {
+          setCreateCategory(false);
+        }}
+      />
       <Sider
         trigger={null}
         collapsible
@@ -242,9 +274,22 @@ const App = (s) => {
         style={{ color: "white" }}
       >
         <ul className="menu">{buildCategories()}</ul>
-        <div style={{ marginLeft: 10 }}>
-          <PlusCircleIcon height="24" onClick={handleCreateCategory} />
-        </div>
+        {!createCategory && (
+          <div style={{ marginLeft: 10 }}>
+            <PlusCircleIcon height="24" onClick={handleCreateCategory} />
+          </div>
+        )}
+        {createCategory && (
+          <div style={{ marginLeft: 10 }}>
+            <Input
+              autoFocus
+              allowClear
+              placeholder="Name..."
+              bordered={false}
+              onKeyDown={() => console.log("hello")}
+            />
+          </div>
+        )}
       </Sider>
       <Sider trigger={null} collapsible collapsed={secondaryCollapsed}>
         <Menu
