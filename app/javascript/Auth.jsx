@@ -1,6 +1,6 @@
 import { Button, Checkbox, Form, Input, Layout } from "antd";
 import React, { useEffect, useState } from "react";
-import "./Auth.css";
+import "Auth.css";
 import { checkLoggedIn, login, register } from "slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";

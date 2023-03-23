@@ -1,36 +1,22 @@
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  CaretDownFilled,
-  VideoCameraOutlined,
-  CaretUpFilled,
-  PlusCircleOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme, Input, Dropdown } from "antd";
-const { TextArea } = Input;
+import { Layout } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-const { Header, Sider, Content } = Layout;
 import "./App.css";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { getNotesData, updateNote } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Icon from "antd/es/icon";
-import { isEmpty } from "lodash";
-import { useFocusAndSetRef } from "hooks/useFocusAndSetRef";
 import useKeyboardShortcut from "use-keyboard-shortcut";
-import CategoryCreateModal from "components/CategoryCreateModal";
+import CategoryCreateModal from "CategoryCreateModal";
+import Editor from "Editor";
+import EditorHeader from "EditorHeader";
+import NoteSidebar from "NoteSidebar";
+import CategorySidebar from "CategorySidebar";
 
 const App = (s) => {
   const { flushHeldKeys } = useKeyboardShortcut(
     ["Escape"],
     (shortcutKeys) => {
-      if (createCategory) {
-        setCreateCategory(false);
+      if (isCreatingCategory) {
+        setIsCreatingCategory(false);
       }
     },
     {
@@ -40,6 +26,7 @@ const App = (s) => {
     }
   );
 
+  // -- STATE
   const [content, setContent] = useState(null);
   const [menu, setMenu] = useState({});
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -47,47 +34,15 @@ const App = (s) => {
   const { notesData } = useSelector((state) => state.notes);
   const dispatch = useDispatch();
   const selectedNoteRef = useRef();
-  const [createCategory, setCreateCategory] = useState(false);
+  const [isCreatingCategory, setIsCreatingCategory] = useState(false);
 
   selectedNoteRef.current = { selectedNoteId, content };
 
-  const [mainCollapsed, setMainCollapsed] = useState(false);
-  const [secondaryCollapsed, setSecondaryCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-  // When you navigate away to another category or note, we always want to save the note
-  const saveNote = (noteId, content) => {
-    dispatch(
-      updateNote({
-        noteId,
-        content,
-      })
-    );
-  };
-
-  const saveBeforeExit = () => {
-    if (selectedNoteId) saveNote(selectedNoteId, content);
-  };
-
-  const handleChangeNote = (e) => {
-    saveBeforeExit();
-    setSelectedNoteId(Number(e.key));
-  };
-
-  const handleChangeCategory = (categoryId) => {
-    saveBeforeExit();
-    setSelectedCategoryId(categoryId);
-
-    // Always select the first note from that category
-    if (getCategoryById(categoryId)?.notes[0]) {
-      setSelectedNoteId(getCategoryById(categoryId).notes[0]?.id);
-    }
-  };
-
-  // Initialize the autosave feature
+  // -- UseEffects
+  // Initialization
   useEffect(() => {
+    dispatch(getNotesData());
+
     const autoSave = () => {
       if (selectedNoteRef.current.selectedNoteId) {
         saveNote(
@@ -97,10 +52,6 @@ const App = (s) => {
       }
     };
     setInterval(autoSave, 50000);
-  }, []);
-
-  useEffect(() => {
-    dispatch(getNotesData());
   }, []);
 
   // Setup Menu State
@@ -124,6 +75,7 @@ const App = (s) => {
     }
   }, [selectedNoteId]);
 
+  // -- Menu Related Functions
   const toggleSubmenu = (categoryId) => {
     const menuCopy = menu;
     menuCopy[categoryId].showSubMenu = !menuCopy[categoryId].showSubMenu;
@@ -143,74 +95,15 @@ const App = (s) => {
     setMenu(items);
   };
 
-  const buildCategory = (catId, catData) => {
-    if (!catId) return;
+  // -- Category Related Functions
+  const handleChangeCategory = (categoryId) => {
+    saveBeforeExit();
+    setSelectedCategoryId(categoryId);
 
-    if (!isEmpty(catData.subcategories)) {
-      const items = [
-        {
-          label: "Create Subcategory",
-          key: "1",
-          onClick: () => handleCreateCategory(),
-        },
-      ];
-
-      return (
-        <div key={catId}>
-          <li
-            className={`single-menu-item parent-menu ${
-              catId === selectedCategoryId ? "menu-selected" : ""
-            }
-        `}
-            onClick={() => handleChangeCategory(catId)}
-          >
-            <Dropdown
-              menu={{
-                items,
-              }}
-              trigger={["contextMenu"]}
-            >
-              <div className="parent-menu-title">
-                <span>{catData.name}</span>
-                {!menu[catId]?.showSubMenu && (
-                  <CaretDownFilled onClick={() => toggleSubmenu(catId)} />
-                )}
-                {menu[catId]?.showSubMenu && (
-                  <CaretUpFilled onClick={() => toggleSubmenu(catId)} />
-                )}
-              </div>
-            </Dropdown>
-          </li>
-          <ul
-            className={`submenu ${
-              !menu[catId]?.showSubMenu ? "display-none" : ""
-            }`}
-          >
-            {Object.entries(catData.subcategories).map(([subId, subData]) =>
-              buildCategory(subId, subData)
-            )}
-          </ul>
-        </div>
-      );
+    // Always select the first note from that category
+    if (getCategoryById(categoryId)?.notes[0]) {
+      setSelectedNoteId(getCategoryById(categoryId).notes[0]?.id);
     }
-    return (
-      <li
-        key={catId}
-        className={`single-menu-item ${
-          catId === selectedCategoryId ? "menu-selected" : ""
-        }`}
-        onClick={() => handleChangeCategory(catId)}
-      >
-        <span>{catData.name}</span>
-      </li>
-    );
-  };
-
-  const buildCategories = () => {
-    if (!notesData) return;
-    return Object.entries(notesData).map(([catId, catData]) =>
-      buildCategory(catId, catData)
-    );
   };
 
   const getCurrentlySelectedCategory = () => {
@@ -223,12 +116,26 @@ const App = (s) => {
     return notesData[id];
   };
 
-  const buildNoteItems = () => {
-    if (!notesData || !selectedCategoryId) return;
+  const handleCreateCategory = () => {
+    setIsCreatingCategory(true);
+  };
+
+  // -- Note specific functions
+  const getCurrentNote = () => {
+    const categoryNotes = getCurrentlySelectedCategory();
+
+    if (categoryNotes) {
+      return categoryNotes.notes.find((note) => note.id === selectedNoteId);
+    }
+  };
+
+  const getNotesForSelectedCategory = () => {
+    if (!notesData || !selectedCategoryId) return [];
 
     const categoryNotes = getCurrentlySelectedCategory();
 
     if (categoryNotes) {
+      debugger;
       return categoryNotes.notes.map((note) => ({
         key: note.id,
         label: note.title,
@@ -238,110 +145,57 @@ const App = (s) => {
     return [];
   };
 
-  const getCurrentNote = () => {
-    const categoryNotes = getCurrentlySelectedCategory();
-
-    if (categoryNotes) {
-      return categoryNotes.notes.find((note) => note.id === selectedNoteId);
-    }
+  // When you navigate away to another category or note, we always want to save the note
+  const saveNote = (noteId, content) => {
+    dispatch(
+      updateNote({
+        noteId,
+        content,
+      })
+    );
   };
 
-  const getNoteForId = (id) => {
-    const categoryNotes = getCurrentlySelectedCategory();
-
-    if (categoryNotes) {
-      return categoryNotes.notes.find((note) => note.id === id);
-    }
+  const saveBeforeExit = () => {
+    if (selectedNoteId) saveNote(selectedNoteId, content);
   };
 
-  const handleCreateCategory = () => {
-    setCreateCategory(true);
+  const handleChangeNote = (e) => {
+    saveBeforeExit();
+    setSelectedNoteId(Number(e.key));
   };
 
   return (
     <Layout style={{ height: "100vh" }}>
       <CategoryCreateModal
-        open={createCategory}
+        open={isCreatingCategory}
         onCreate={null}
         onCancel={() => {
-          setCreateCategory(false);
+          setIsCreatingCategory(false);
         }}
       />
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={mainCollapsed}
-        style={{ color: "white" }}
-      >
-        <ul className="menu">{buildCategories()}</ul>
-        {!createCategory && (
-          <div style={{ marginLeft: 10 }}>
-            <PlusCircleIcon height="24" onClick={handleCreateCategory} />
-          </div>
-        )}
-        {createCategory && (
-          <div style={{ marginLeft: 10 }}>
-            <Input
-              autoFocus
-              allowClear
-              placeholder="Name..."
-              bordered={false}
-              onKeyDown={() => console.log("hello")}
-            />
-          </div>
-        )}
-      </Sider>
-      <Sider trigger={null} collapsible collapsed={secondaryCollapsed}>
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={[String(selectedNoteId)]}
-          items={buildNoteItems()}
-          onClick={(e) => {
-            handleChangeNote(e);
-          }}
+      {notesData && (
+        <CategorySidebar
+          selectedCategoryId={selectedCategoryId}
+          isCreatingCategory={isCreatingCategory}
+          handleCreateCategory={handleCreateCategory}
+          toggleSubmenu={toggleSubmenu}
+          notesData={notesData}
+          handleChangeCategory={handleChangeCategory}
+          menu={menu}
         />
-      </Sider>
+      )}
+      <NoteSidebar
+        selectedNoteId={selectedNoteId}
+        handleChangeNote={handleChangeNote}
+        notes={getNotesForSelectedCategory()}
+      />
       <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-            display: "flex",
-          }}
-        >
-          <span style={{ fontSize: "32px", marginLeft: 20, color: "#fff" }}>
-            {getCurrentNote()?.title}
-          </span>
-        </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: "0px",
-            overflowY: "scroll",
-          }}
-          className="editor-container" // prevents scrolling jump issue for quill.js
-        >
-          <div style={{ backgroundColor: "white", color: "black" }}>
-            <ReactQuill
-              ref={(node) => {
-                // Oh my God, this took forever to figure out, but the reason wasn't that this code was wrong, but because the "key" wasn't set to a unique key, so it kept re-using the old DOM's value I think. After setting a key, this code finally ended up working. thank GOD!
-                if (node != null) {
-                  const len = node.unprivilegedEditor.getLength();
-                  const selection = { index: len, length: len };
-                  node.setEditorSelection(node.editor, selection);
-                }
-              }}
-              key={selectedNoteId}
-              value={content}
-              onChange={(content, delta, source, editor) => {
-                setContent(content);
-              }}
-              placeholder="Begin something amazing here..."
-              scrollingContainer=".editor-container"
-            />
-          </div>
-        </Content>
+        <EditorHeader currentNote={getCurrentNote()} />
+        <Editor
+          content={content}
+          selectedNoteId={selectedNoteId}
+          setContent={setContent}
+        />
       </Layout>
     </Layout>
   );
