@@ -19,6 +19,14 @@ const App = () => {
   // Initialization
   useEffect(() => {
     dispatch(getNotesData());
+
+    // TODO: fix this, because right now it seems to be bugging out
+    // const autoSave = () => {
+    //     if (selectedNoteRef.current.selectedNoteId) {
+    //       saveCurrentNote();
+    //     }
+    //   };
+    //   setInterval(autoSave, 50000);
   }, []);
 
   return (

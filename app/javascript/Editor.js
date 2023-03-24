@@ -15,13 +15,6 @@ const Editor = () => {
 
   useEffect(() => {
     if (selectedNoteId) {
-      const autoSave = () => {
-        if (selectedNoteRef.current.selectedNoteId) {
-          saveCurrentNote();
-        }
-      };
-      setInterval(autoSave, 5000);
-
       if (
         currentNote &&
         currentNote.content !== null &&
@@ -31,6 +24,8 @@ const Editor = () => {
       }
     }
   }, [selectedNoteId]);
+
+  console.log("selectedNoteId", selectedNoteId);
 
   return (
     <Content
@@ -46,11 +41,14 @@ const Editor = () => {
           ref={(node) => {
             // Oh my God, this took forever to figure out, but the reason wasn't that this code was wrong, but because the "key" wasn't set to a unique key, so it kept re-using the old DOM's value I think. After setting a key, this code finally ended up working. thank GOD!
             if (node != null) {
+              debugger;
               const len = node.unprivilegedEditor.getLength();
               const selection = { index: len, length: len };
               node.setEditorSelection(node.editor, selection);
             }
           }}
+          // TODO: fix bug where this isn't working with the new flow now
+          // I think it's because `selectedNoteId` on the second render isn't unique...
           key={selectedNoteId}
           value={content}
           onChange={(content, delta, source, editor) => {
