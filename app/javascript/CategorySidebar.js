@@ -1,19 +1,68 @@
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { Dropdown, Input } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { isEmpty } from "lodash";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
+import {
+  toggleIsCreatingCategory,
+  updateSelectedCategoryId,
+  updateSelectedNoteId,
+} from "slices/notesSlice";
+import useNotes from "hooks/useNotes";
+import { useDispatch } from "react-redux";
 
-const CategorySidebar = ({
-  notesData,
-  handleCreateCategory,
-  handleChangeCategory,
-  toggleSubmenu,
-  selectedCategoryId,
-  isCreatingCategory,
-  menu,
-}) => {
+const CategorySidebar = ({ isCreatingCategory }) => {
+  const dispatch = useDispatch();
+  const [menu, setMenu] = useState({});
+  const {
+    saveCurrentNoteBeforeExit,
+    getCategoryById,
+    selectedCategoryId,
+    notesData,
+  } = useNotes();
+
+  const handleCreateCategory = () => {
+    dispatch(toggleIsCreatingCategory());
+  };
+
+  const handleChangeCategory = (categoryId) => {
+    saveCurrentNoteBeforeExit();
+    dispatch(updateSelectedCategoryId(categoryId));
+
+    // Always select the first note from that category
+    if (getCategoryById(categoryId)?.notes[0]) {
+      dispatch(updateSelectedNoteId(getCategoryById(categoryId).notes[0]?.id));
+    }
+  };
+
+  // Setup Menu State
+  useEffect(() => {
+    if (notesData) {
+      setupMenuItems(notesData);
+    }
+  }, []);
+
+  // -- Menu Related Functions
+  const toggleSubmenu = (categoryId) => {
+    const menuCopy = menu;
+    menuCopy[categoryId].showSubMenu = !menuCopy[categoryId].showSubMenu;
+    setMenu({ ...menuCopy });
+  };
+
+  const setupMenuItems = (categories) => {
+    const items = {};
+
+    Object.keys(categories).forEach((categoryId) => {
+      items[categoryId] = {
+        selected: false,
+        showSubMenu: false,
+      };
+    });
+
+    setMenu(items);
+  };
+
   const buildCategories = () => {
     return Object.entries(notesData).map(([catId, catData]) =>
       buildCategory(catId, catData)
@@ -82,6 +131,8 @@ const CategorySidebar = ({
       </li>
     );
   };
+
+  if (!notesData) return null;
 
   return (
     <Sider trigger={null} collapsible style={{ color: "white" }}>

@@ -1,8 +1,41 @@
 import ReactQuill from "react-quill";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Content } from "antd/es/layout/layout";
+import useNotes from "hooks/useNotes";
+import { updateContent } from "slices/notesSlice";
+import { useDispatch } from "react-redux";
 
-const Editor = ({ selectedNoteId, content, setContent }) => {
+const Editor = () => {
+  const dispatch = useDispatch();
+  const { selectedNoteId, content, currentNote, saveCurrentNoteBeforeExit } =
+    useNotes();
+
+  const selectedNoteRef = useRef();
+
+  selectedNoteRef.current = { selectedNoteId, content };
+
+  // Initialization
+  useEffect(() => {
+    const autoSave = () => {
+      if (selectedNoteRef.current.selectedNoteId) {
+        saveCurrentNoteBeforeExit();
+      }
+    };
+    setInterval(autoSave, 50000);
+  }, []);
+
+  useEffect(() => {
+    if (selectedNoteId) {
+      if (
+        currentNote &&
+        currentNote.content !== null &&
+        currentNote.content !== ""
+      ) {
+        dispatch(updateContent(currentNote.content));
+      }
+    }
+  }, [selectedNoteId]);
+
   return (
     <Content
       style={{
@@ -25,7 +58,7 @@ const Editor = ({ selectedNoteId, content, setContent }) => {
           key={selectedNoteId}
           value={content}
           onChange={(content, delta, source, editor) => {
-            setContent(content);
+            dispatch(updateContent(content));
           }}
           placeholder="Begin something amazing here..."
           scrollingContainer=".editor-container"

@@ -3,6 +3,10 @@ import axiosI from "axiosInstance";
 
 const initialState = {
   notesData: null,
+  selectedNoteId: null,
+  selectedCategoryId: null,
+  isCreatingCategory: null,
+  content: null,
 };
 
 export const getNotesData = createAsyncThunk(
@@ -36,7 +40,20 @@ export const createCategory = createAsyncThunk(
 export const notesSlice = createSlice({
   name: "notes",
   initialState,
-  reducers: {},
+  reducers: {
+    updateSelectedNoteId: (state, action) => {
+      state.selectedNoteId = action.payload;
+    },
+    updateSelectedCategoryId: (state, action) => {
+      state.selectedCategoryId = action.payload;
+    },
+    updateContent: (state, action) => {
+      state.content = action.payload;
+    },
+    toggleIsCreatingCategory: (state) => {
+      state.isCreatingCategory = !state.isCreatingCategory;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getNotesData.fulfilled, (state, action) => {
       state.notesData = action.payload.notes_data;
@@ -54,6 +71,11 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {} = notesSlice.actions;
+export const {
+  toggleIsCreatingCategory,
+  updateContent,
+  updateSelectedCategoryId,
+  updateSelectedNoteId,
+} = notesSlice.actions;
 
 export default notesSlice.reducer;
