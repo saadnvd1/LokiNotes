@@ -11,6 +11,7 @@ const useNotes = () => {
   // -- Not Related Functions
   // When you navigate away to another category or note, we always want to save the note
   const saveNote = (noteId, content) => {
+    debugger;
     dispatch(
       updateNote({
         noteId,
@@ -19,8 +20,8 @@ const useNotes = () => {
     );
   };
 
-  const saveCurrentNoteBeforeExit = () => {
-    saveNote(selectedNoteId, content);
+  const saveCurrentNote = () => {
+    if (selectedNoteId) saveNote(selectedNoteId, content);
   };
 
   const getCurrentNote = () => {
@@ -64,7 +65,7 @@ const useNotes = () => {
     selectedNoteId,
     selectedCategoryId,
     content,
-    saveCurrentNoteBeforeExit,
+    saveCurrentNote,
     getCategoryById,
     notesData,
   };

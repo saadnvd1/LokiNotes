@@ -65,6 +65,7 @@ export const notesSlice = createSlice({
       );
 
       note.content = action.payload.note.content;
+      debugger;
       console.log("note successfully saved!");
     });
   },

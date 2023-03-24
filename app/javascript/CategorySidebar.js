@@ -15,19 +15,15 @@ import { useDispatch } from "react-redux";
 const CategorySidebar = ({ isCreatingCategory }) => {
   const dispatch = useDispatch();
   const [menu, setMenu] = useState({});
-  const {
-    saveCurrentNoteBeforeExit,
-    getCategoryById,
-    selectedCategoryId,
-    notesData,
-  } = useNotes();
+  const { saveCurrentNote, getCategoryById, selectedCategoryId, notesData } =
+    useNotes();
 
   const handleCreateCategory = () => {
     dispatch(toggleIsCreatingCategory());
   };
 
   const handleChangeCategory = (categoryId) => {
-    saveCurrentNoteBeforeExit();
+    saveCurrentNote();
     dispatch(updateSelectedCategoryId(categoryId));
 
     // Always select the first note from that category

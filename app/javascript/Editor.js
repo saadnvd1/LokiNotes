@@ -7,8 +7,7 @@ import { useDispatch } from "react-redux";
 
 const Editor = () => {
   const dispatch = useDispatch();
-  const { selectedNoteId, content, currentNote, saveCurrentNoteBeforeExit } =
-    useNotes();
+  const { selectedNoteId, content, currentNote, saveCurrentNote } = useNotes();
 
   const selectedNoteRef = useRef();
 
@@ -16,12 +15,13 @@ const Editor = () => {
 
   // Initialization
   useEffect(() => {
+    debugger;
     const autoSave = () => {
       if (selectedNoteRef.current.selectedNoteId) {
-        saveCurrentNoteBeforeExit();
+        saveCurrentNote();
       }
     };
-    setInterval(autoSave, 50000);
+    setInterval(autoSave, 5000);
   }, []);
 
   useEffect(() => {

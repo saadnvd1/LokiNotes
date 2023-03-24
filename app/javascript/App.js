@@ -11,7 +11,9 @@ import NoteSidebar from "NoteSidebar";
 import CategorySidebar from "CategorySidebar";
 
 const App = () => {
-  const { isCreatingCategory } = useSelector((state) => state.notes);
+  const { isCreatingCategory, selectedNoteId } = useSelector(
+    (state) => state.notes
+  );
   const dispatch = useDispatch();
 
   // Initialization
