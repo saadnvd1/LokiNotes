@@ -13,19 +13,15 @@ const Editor = () => {
 
   selectedNoteRef.current = { selectedNoteId, content };
 
-  // Initialization
-  useEffect(() => {
-    debugger;
-    const autoSave = () => {
-      if (selectedNoteRef.current.selectedNoteId) {
-        saveCurrentNote();
-      }
-    };
-    setInterval(autoSave, 5000);
-  }, []);
-
   useEffect(() => {
     if (selectedNoteId) {
+      const autoSave = () => {
+        if (selectedNoteRef.current.selectedNoteId) {
+          saveCurrentNote();
+        }
+      };
+      setInterval(autoSave, 5000);
+
       if (
         currentNote &&
         currentNote.content !== null &&
