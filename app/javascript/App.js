@@ -16,10 +16,11 @@ const App = () => {
   );
   const dispatch = useDispatch();
 
+  debugger;
+
   // Initialization
   useEffect(() => {
-    dispatch(getNotesData());
-
+    // dispatch(getNotesData());
     // TODO: fix this, because right now it seems to be bugging out
     // const autoSave = () => {
     //     if (selectedNoteRef.current.selectedNoteId) {
@@ -31,13 +32,6 @@ const App = () => {
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <CategoryCreateModal
-        open={isCreatingCategory}
-        onCreate={null}
-        onCancel={() => {
-          dispatch(toggleIsCreatingCategory());
-        }}
-      />
       <CategorySidebar />
       <NoteSidebar />
       <Layout>
