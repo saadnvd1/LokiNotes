@@ -23,7 +23,7 @@ const CategorySidebar = ({ isCreatingCategory }) => {
   };
 
   const handleChangeCategory = (categoryId) => {
-    saveCurrentNote();
+    // saveCurrentNote();
     dispatch(updateSelectedCategoryId(categoryId));
   };
 

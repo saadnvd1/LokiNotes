@@ -43,6 +43,15 @@ export const notesSlice = createSlice({
   reducers: {
     updateSelectedNoteId: (state, action) => {
       state.selectedNoteId = action.payload;
+
+      let note = state.notesData[state.selectedCategoryId]?.notes.find(
+        (note) => note.id === action.payload
+      );
+
+      // Make sure to update content when we change a note
+      if (note) {
+        state.content = note.content;
+      }
     },
     updateSelectedCategoryId: (state, action) => {
       state.selectedCategoryId = action.payload;
