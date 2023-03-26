@@ -10,8 +10,7 @@ const NoteSidebar = () => {
   const { selectedNoteId, selectedCategoryNotes, saveCurrentNote } = useNotes();
 
   const handleChangeNote = (e) => {
-    // saveCurrentNote();
-    dispatch(updateSelectedNoteId(Number(e.key)));
+    dispatch(updateSelectedNoteId({ noteId: Number(e.key) }));
   };
 
   return (

@@ -27,19 +27,35 @@ export const updateNote = createAsyncThunk(
   }
 );
 
+// This is an internal function that will setup and dispatch the actual action to update a note
+// It's meant to be used within other async thunks in case we want to save the current note
+// before doing something else
+const _saveCurrentNote = (thunkAPI) => {
+  const notesState = thunkAPI.getState().notes;
+  const selectedNoteId = notesState.selectedNoteId;
+  const content = notesState.content;
+
+  // Once the note is updated, then we change categories
+  if (selectedNoteId) {
+    return thunkAPI.dispatch(updateNote({ noteId: selectedNoteId, content }));
+  }
+};
+
 export const updateSelectedCategoryId = createAsyncThunk(
   "notes/updateSelectedCategoryId",
   async ({ categoryId }, thunkAPI) => {
-    const notesState = thunkAPI.getState().notes;
-    const selectedNoteId = notesState.selectedNoteId;
-    const content = notesState.content;
-
-    // Once the note is updated, then we change categories
-    if (selectedNoteId) {
-      thunkAPI.dispatch(updateNote({ noteId: selectedNoteId, content }));
-    }
+    await _saveCurrentNote(thunkAPI);
 
     return categoryId;
+  }
+);
+
+export const updateSelectedNoteId = createAsyncThunk(
+  "notes/updateSelectedNoteId",
+  async ({ noteId }, thunkAPI) => {
+    await _saveCurrentNote(thunkAPI);
+
+    return noteId;
   }
 );
 
@@ -57,27 +73,16 @@ export const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    updateSelectedNoteId: (state, action) => {
-      state.selectedNoteId = action.payload;
-
-      let note = state.notesData[state.selectedCategoryId]?.notes.find(
-        (note) => note.id === action.payload
-      );
-
-      // Make sure to update content when we change a note
-      if (note) {
-        state.content = note.content;
-      }
-    },
-    // updateSelectedCategoryId: (state, action) => {
-    //   state.selectedCategoryId = action.payload;
+    // updateSelectedNoteId: (state, action) => {
+    //   state.selectedNoteId = action.payload;
     //
-    //   // By default we should select the first note in that category
-    //   // Always select the first note from that category
-    //   let firstNote = state.notesData[action.payload]?.notes[0];
-    //   if (firstNote) {
-    //     state.selectedNoteId = firstNote.id;
-    //     state.content = firstNote.content;
+    //   let note = state.notesData[state.selectedCategoryId]?.notes.find(
+    //     (note) => note.id === action.payload
+    //   );
+    //
+    //   // Make sure to update content when we change a note
+    //   if (note) {
+    //     state.content = note.content;
     //   }
     // },
     updateContent: (state, action) => {
@@ -88,6 +93,19 @@ export const notesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
+      debugger;
+      state.selectedNoteId = action.payload;
+
+      let note = state.notesData[state.selectedCategoryId]?.notes.find(
+        (note) => note.id === action.payload
+      );
+
+      // Make sure to update content when we change a note
+      if (note) {
+        state.content = note.content;
+      }
+    });
     builder.addCase(updateSelectedCategoryId.fulfilled, (state, action) => {
       state.selectedCategoryId = action.payload;
 
@@ -115,7 +133,6 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleIsCreatingCategory, updateContent, updateSelectedNoteId } =
-  notesSlice.actions;
+export const { toggleIsCreatingCategory, updateContent } = notesSlice.actions;
 
 export default notesSlice.reducer;
