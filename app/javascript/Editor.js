@@ -13,8 +13,6 @@ const Editor = () => {
 
   selectedNoteRef.current = { selectedNoteId, content };
 
-  console.log("selectedNoteId", selectedNoteId);
-
   return (
     <Content
       style={{

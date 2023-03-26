@@ -127,7 +127,6 @@ export const notesSlice = createSlice({
       );
 
       note.content = action.payload.note.content;
-      console.log("note successfully saved!");
     });
   },
 });
