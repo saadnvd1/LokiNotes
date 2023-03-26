@@ -25,11 +25,6 @@ const CategorySidebar = ({ isCreatingCategory }) => {
   const handleChangeCategory = (categoryId) => {
     saveCurrentNote();
     dispatch(updateSelectedCategoryId(categoryId));
-
-    // Always select the first note from that category
-    if (getCategoryById(categoryId)?.notes[0]) {
-      dispatch(updateSelectedNoteId(getCategoryById(categoryId).notes[0]?.id));
-    }
   };
 
   // Setup Menu State

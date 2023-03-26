@@ -11,7 +11,6 @@ const useNotes = () => {
   // -- Not Related Functions
   // When you navigate away to another category or note, we always want to save the note
   const saveNote = (noteId, content) => {
-    debugger;
     dispatch(
       updateNote({
         noteId,

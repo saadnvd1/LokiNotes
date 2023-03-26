@@ -46,6 +46,14 @@ export const notesSlice = createSlice({
     },
     updateSelectedCategoryId: (state, action) => {
       state.selectedCategoryId = action.payload;
+
+      // By default we should select the first note in that category
+      // Always select the first note from that category
+      let firstNote = state.notesData[action.payload]?.notes[0];
+      if (firstNote) {
+        state.selectedNoteId = firstNote.id;
+        state.content = firstNote.content;
+      }
     },
     updateContent: (state, action) => {
       state.content = action.payload;
@@ -65,7 +73,6 @@ export const notesSlice = createSlice({
       );
 
       note.content = action.payload.note.content;
-      debugger;
       console.log("note successfully saved!");
     });
   },
