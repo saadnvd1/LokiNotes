@@ -13,7 +13,6 @@ import Editor from "Editor";
 import EditorHeader from "EditorHeader";
 import NoteSidebar from "NoteSidebar";
 import CategorySidebar from "CategorySidebar";
-import { useTraceUpdate } from "hooks/useTraceUpdate";
 
 const App = () => {
   const { isCreatingCategory, selectedNoteId, content } = useSelector(

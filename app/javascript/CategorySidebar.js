@@ -1,16 +1,17 @@
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { Dropdown, Input } from "antd";
+import { Input } from "antd";
 import React, { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
-import { isEmpty } from "lodash";
-import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
+import { isEmpty, isEqual } from "lodash";
 import {
   toggleIsCreatingCategory,
   updateSelectedCategoryId,
-  updateSelectedNoteId,
 } from "slices/notesSlice";
 import useNotes from "hooks/useNotes";
 import { useDispatch } from "react-redux";
+import ParentRowNoSubCats from "CategorySidebar/ParentRowNoSubCats";
+import ParentRowWithSubs from "CategorySidebar/ParentRowWithSubs";
+import SubcategoryRow from "CategorySidebar/SubcategoryRow";
 
 const CategorySidebar = ({ isCreatingCategory }) => {
   const dispatch = useDispatch();
@@ -28,9 +29,10 @@ const CategorySidebar = ({ isCreatingCategory }) => {
   // Setup Menu State
   useEffect(() => {
     if (notesData) {
+      console.log("calling useeffect setup menu items");
       setupMenuItems(notesData);
     }
-  }, []);
+  }, [notesData]);
 
   // -- Menu Related Functions
   const toggleSubmenu = (categoryId) => {
@@ -41,6 +43,11 @@ const CategorySidebar = ({ isCreatingCategory }) => {
 
   const setupMenuItems = (categories) => {
     const items = {};
+    const categoryIDs = Object.keys(categories);
+
+    // Don't update our menu items if our category IDs have not changed
+    // This is necessary since any update to `notesData` i.e. updating a note will cause this function to get hit from the `useEffect` above
+    if (isEqual(categoryIDs, Object.keys(menu))) return;
 
     Object.keys(categories).forEach((categoryId) => {
       items[categoryId] = {
@@ -61,6 +68,20 @@ const CategorySidebar = ({ isCreatingCategory }) => {
   const buildCategory = (catId, catData) => {
     if (!catId) return;
 
+    const sharedClassNames = [
+      "single-menu-item",
+      catId === selectedCategoryId ? "menu-selected" : "",
+    ];
+
+    let classNames = sharedClassNames.join(" ");
+
+    const sharedParentProps = {
+      handleChangeCategory,
+      catId,
+      classNames,
+      catData,
+    };
+
     if (!isEmpty(catData.subcategories)) {
       const items = [
         {
@@ -72,52 +93,28 @@ const CategorySidebar = ({ isCreatingCategory }) => {
 
       return (
         <div key={catId}>
-          <li
-            className={`single-menu-item parent-menu ${
-              catId === selectedCategoryId ? "menu-selected" : ""
-            }
-        `}
-            onClick={() => handleChangeCategory(catId)}
-          >
-            <Dropdown
-              menu={{
-                items,
-              }}
-              trigger={["contextMenu"]}
-            >
-              <div className="parent-menu-title">
-                <span>{catData.name}</span>
-                {!menu[catId]?.showSubMenu && (
-                  <CaretDownFilled onClick={() => toggleSubmenu(catId)} />
-                )}
-                {menu[catId]?.showSubMenu && (
-                  <CaretUpFilled onClick={() => toggleSubmenu(catId)} />
-                )}
-              </div>
-            </Dropdown>
-          </li>
-          <ul
-            className={`submenu ${
-              !menu[catId]?.showSubMenu ? "display-none" : ""
-            }`}
-          >
-            {Object.entries(catData.subcategories).map(([subId, subData]) =>
-              buildCategory(subId, subData)
-            )}
-          </ul>
+          <ParentRowWithSubs
+            {...sharedParentProps}
+            items={items}
+            menu={menu}
+            toggleSubmenu={toggleSubmenu}
+          />
+          <SubcategoryRow
+            catId={catId}
+            catData={catData}
+            menu={menu}
+            buildCategory={buildCategory}
+          />
         </div>
       );
     }
+
     return (
-      <li
+      <ParentRowNoSubCats
+        {...sharedParentProps}
         key={catId}
-        className={`single-menu-item ${
-          catId === selectedCategoryId ? "menu-selected" : ""
-        }`}
-        onClick={() => handleChangeCategory(catId)}
-      >
-        <span>{catData.name}</span>
-      </li>
+        selectedCategoryId={selectedCategoryId}
+      />
     );
   };
 
