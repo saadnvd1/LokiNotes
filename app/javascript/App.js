@@ -12,7 +12,7 @@ import CategoryCreateModal from "CategoryCreateModal";
 import Editor from "Editor";
 import EditorHeader from "EditorHeader";
 import NoteSidebar from "NoteSidebar";
-import CategorySidebar from "CategorySidebar";
+import CategorySidebar from "CategorySidebar/CategorySidebar";
 
 const App = () => {
   const { isCreatingCategory, selectedNoteId, content } = useSelector(

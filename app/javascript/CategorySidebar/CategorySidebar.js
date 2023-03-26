@@ -29,7 +29,6 @@ const CategorySidebar = ({ isCreatingCategory }) => {
   // Setup Menu State
   useEffect(() => {
     if (notesData) {
-      console.log("calling useeffect setup menu items");
       setupMenuItems(notesData);
     }
   }, [notesData]);
