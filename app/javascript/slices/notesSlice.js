@@ -27,6 +27,22 @@ export const updateNote = createAsyncThunk(
   }
 );
 
+export const updateSelectedCategoryId = createAsyncThunk(
+  "notes/updateSelectedCategoryId",
+  async ({ categoryId }, thunkAPI) => {
+    const notesState = thunkAPI.getState().notes;
+    const selectedNoteId = notesState.selectedNoteId;
+    const content = notesState.content;
+
+    // Once the note is updated, then we change categories
+    if (selectedNoteId) {
+      thunkAPI.dispatch(updateNote({ noteId: selectedNoteId, content }));
+    }
+
+    return categoryId;
+  }
+);
+
 export const createCategory = createAsyncThunk(
   "notes/createCategory",
   async ({ noteId, content }, thunkAPI) => {
@@ -53,7 +69,26 @@ export const notesSlice = createSlice({
         state.content = note.content;
       }
     },
-    updateSelectedCategoryId: (state, action) => {
+    // updateSelectedCategoryId: (state, action) => {
+    //   state.selectedCategoryId = action.payload;
+    //
+    //   // By default we should select the first note in that category
+    //   // Always select the first note from that category
+    //   let firstNote = state.notesData[action.payload]?.notes[0];
+    //   if (firstNote) {
+    //     state.selectedNoteId = firstNote.id;
+    //     state.content = firstNote.content;
+    //   }
+    // },
+    updateContent: (state, action) => {
+      state.content = action.payload;
+    },
+    toggleIsCreatingCategory: (state) => {
+      state.isCreatingCategory = !state.isCreatingCategory;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(updateSelectedCategoryId.fulfilled, (state, action) => {
       state.selectedCategoryId = action.payload;
 
       // By default we should select the first note in that category
@@ -63,15 +98,7 @@ export const notesSlice = createSlice({
         state.selectedNoteId = firstNote.id;
         state.content = firstNote.content;
       }
-    },
-    updateContent: (state, action) => {
-      state.content = action.payload;
-    },
-    toggleIsCreatingCategory: (state) => {
-      state.isCreatingCategory = !state.isCreatingCategory;
-    },
-  },
-  extraReducers: (builder) => {
+    });
     builder.addCase(getNotesData.fulfilled, (state, action) => {
       state.notesData = action.payload.notes_data;
     });
@@ -88,11 +115,7 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  toggleIsCreatingCategory,
-  updateContent,
-  updateSelectedCategoryId,
-  updateSelectedNoteId,
-} = notesSlice.actions;
+export const { toggleIsCreatingCategory, updateContent, updateSelectedNoteId } =
+  notesSlice.actions;
 
 export default notesSlice.reducer;
