@@ -20,12 +20,32 @@ export const getNotesData = createAsyncThunk(
 export const updateNote = createAsyncThunk(
   "notes/updateNote",
   async ({ noteId, content }, thunkAPI) => {
+    if (!_shouldSaveNote(thunkAPI, noteId)) return thunkAPI.rejectWithValue({});
+
     const response = await axiosI.patch(`/notes/${noteId}`, {
       content: content,
     });
     return response.data;
   }
 );
+
+// Business logic for whether we want to save the note to the database or not
+// In most cases, we just shouldn't save a note at all if it hasn't changed
+const _shouldSaveNote = (thunkAPI, noteId) => {
+  const notesState = thunkAPI.getState().notes;
+  const content = notesState.content;
+
+  let note = _findNoteInCategory(
+    notesState,
+    notesState.selectedCategoryId,
+    noteId
+  );
+
+  // Do not save the note if content hasn't changed
+  if (note && note.content === content) return false;
+
+  return true;
+};
 
 // This is an internal function that will setup and dispatch the actual action to update a note
 // It's meant to be used within other async thunks in case we want to save the current note
@@ -39,6 +59,10 @@ const _saveCurrentNote = (thunkAPI) => {
   if (selectedNoteId) {
     return thunkAPI.dispatch(updateNote({ noteId: selectedNoteId, content }));
   }
+};
+
+const _findNoteInCategory = (state, categoryId, noteId) => {
+  return state.notesData[categoryId]?.notes?.find((note) => note.id === noteId);
 };
 
 export const updateSelectedCategoryId = createAsyncThunk(
@@ -73,18 +97,6 @@ export const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    // updateSelectedNoteId: (state, action) => {
-    //   state.selectedNoteId = action.payload;
-    //
-    //   let note = state.notesData[state.selectedCategoryId]?.notes.find(
-    //     (note) => note.id === action.payload
-    //   );
-    //
-    //   // Make sure to update content when we change a note
-    //   if (note) {
-    //     state.content = note.content;
-    //   }
-    // },
     updateContent: (state, action) => {
       state.content = action.payload;
     },
@@ -94,17 +106,18 @@ export const notesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
-      debugger;
       state.selectedNoteId = action.payload;
 
-      let note = state.notesData[state.selectedCategoryId]?.notes.find(
-        (note) => note.id === action.payload
+      let note = _findNoteInCategory(
+        state,
+        state.selectedCategoryId,
+        action.payload
       );
 
-      // Make sure to update content when we change a note
-      if (note) {
-        state.content = note.content;
-      }
+      if (!note) return;
+
+      // Make sure to update content when we change to another note
+      state.content = note.content;
     });
     builder.addCase(updateSelectedCategoryId.fulfilled, (state, action) => {
       state.selectedCategoryId = action.payload;
@@ -121,10 +134,13 @@ export const notesSlice = createSlice({
       state.notesData = action.payload.notes_data;
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
-      // Maybe later I'll use this for something, not sure
-      let note = state.notesData[action.payload.note.category_id].notes.find(
-        (note) => note.id === action.payload.note.id
+      let note = _findNoteInCategory(
+        state,
+        action.payload.note.category_id,
+        action.payload.note.id
       );
+
+      if (!note) return;
 
       note.content = action.payload.note.content;
     });
