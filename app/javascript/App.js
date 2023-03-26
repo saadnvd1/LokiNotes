@@ -43,6 +43,13 @@ const App = () => {
 
   return (
     <Layout style={{ height: "100vh" }}>
+      <CategoryCreateModal
+        open={isCreatingCategory}
+        onCreate={null}
+        onCancel={() => {
+          dispatch(toggleIsCreatingCategory());
+        }}
+      />
       <CategorySidebar />
       <NoteSidebar />
       <Layout>
