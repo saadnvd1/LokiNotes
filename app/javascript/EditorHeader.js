@@ -1,7 +1,10 @@
 import React from "react";
 import { Header } from "antd/es/layout/layout";
+import useNotes from "hooks/useNotes";
 
-const EditorHeader = ({ currentNote }) => {
+const EditorHeader = () => {
+  const { currentNote } = useNotes();
+
   return (
     <Header
       style={{

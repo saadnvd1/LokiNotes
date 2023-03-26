@@ -7,7 +7,7 @@ import useNotes from "hooks/useNotes";
 
 const NoteSidebar = () => {
   const dispatch = useDispatch();
-  const { selectedNoteId, selectedCategoryNotes, saveCurrentNote } = useNotes();
+  const { selectedNoteId, selectedCategoryNotes } = useNotes();
 
   const handleChangeNote = (e) => {
     dispatch(updateSelectedNoteId({ noteId: Number(e.key) }));

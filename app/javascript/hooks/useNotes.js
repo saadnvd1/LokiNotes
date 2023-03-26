@@ -8,21 +8,6 @@ const useNotes = () => {
   const { notesData, selectedNoteId, selectedCategoryId, content } =
     useSelector((state) => state.notes);
 
-  // -- Not Related Functions
-  // When you navigate away to another category or note, we always want to save the note
-  const saveNote = (noteId, content) => {
-    dispatch(
-      updateNote({
-        noteId,
-        content,
-      })
-    );
-  };
-
-  const saveCurrentNote = () => {
-    if (selectedNoteId) saveNote(selectedNoteId, content);
-  };
-
   const getCurrentNote = () => {
     const categoryNotes = getCurrentlySelectedCategory();
 
@@ -59,12 +44,10 @@ const useNotes = () => {
 
   return {
     currentNote: getCurrentNote(),
-    saveNote,
     selectedCategoryNotes: getNotesForSelectedCategory(),
     selectedNoteId,
     selectedCategoryId,
     content,
-    saveCurrentNote,
     getCategoryById,
     notesData,
   };

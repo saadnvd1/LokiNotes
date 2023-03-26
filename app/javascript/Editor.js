@@ -7,11 +7,7 @@ import { useDispatch } from "react-redux";
 
 const Editor = () => {
   const dispatch = useDispatch();
-  const { selectedNoteId, content, currentNote, saveCurrentNote } = useNotes();
-
-  const selectedNoteRef = useRef();
-
-  selectedNoteRef.current = { selectedNoteId, content };
+  const { selectedNoteId, content } = useNotes();
 
   return (
     <Content

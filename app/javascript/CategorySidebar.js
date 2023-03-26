@@ -15,8 +15,7 @@ import { useDispatch } from "react-redux";
 const CategorySidebar = ({ isCreatingCategory }) => {
   const dispatch = useDispatch();
   const [menu, setMenu] = useState({});
-  const { saveCurrentNote, getCategoryById, selectedCategoryId, notesData } =
-    useNotes();
+  const { selectedCategoryId, notesData } = useNotes();
 
   const handleCreateCategory = () => {
     dispatch(toggleIsCreatingCategory());
