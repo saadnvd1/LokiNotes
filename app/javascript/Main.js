@@ -9,7 +9,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <RequireAuth redirect="/">
+      <RequireAuth>
+        <App />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "categories/:categoryId/notes?/:noteId?",
+    element: (
+      <RequireAuth>
         <App />
       </RequireAuth>
     ),

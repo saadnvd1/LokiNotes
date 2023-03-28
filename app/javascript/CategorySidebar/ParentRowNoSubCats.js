@@ -2,7 +2,6 @@ import React from "react";
 
 const ParentRowNoSubCats = ({
   catId,
-  selectedCategoryId,
   handleChangeCategory,
   catData,
   classNames,

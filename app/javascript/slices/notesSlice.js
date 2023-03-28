@@ -128,6 +128,10 @@ export const notesSlice = createSlice({
       if (firstNote) {
         state.selectedNoteId = firstNote.id;
         state.content = firstNote.content;
+      } else {
+        // When we have no notes in the existing category yet
+        state.selectedNoteId = null;
+        state.content = null;
       }
     });
     builder.addCase(getNotesData.fulfilled, (state, action) => {
