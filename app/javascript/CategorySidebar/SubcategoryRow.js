@@ -6,7 +6,7 @@ const SubcategoryRow = ({ buildCategory, catData, menu, catId }) => {
       className={`submenu ${!menu[catId]?.showSubMenu ? "display-none" : ""}`}
     >
       {Object.entries(catData.subcategories).map(([subId, subData]) =>
-        buildCategory(subId, subData)
+        buildCategory(Number(subId), subData)
       )}
     </ul>
   );
