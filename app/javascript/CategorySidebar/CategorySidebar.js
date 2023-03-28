@@ -23,7 +23,7 @@ const CategorySidebar = ({ isCreatingCategory }) => {
   };
 
   const handleChangeCategory = (categoryId) => {
-    dispatch(updateSelectedCategoryId({ categoryId }));
+    dispatch(updateSelectedCategoryId({ categoryId: Number(categoryId) }));
   };
 
   // Setup Menu State
@@ -60,7 +60,7 @@ const CategorySidebar = ({ isCreatingCategory }) => {
 
   const buildCategories = () => {
     return Object.entries(notesData).map(([catId, catData]) =>
-      buildCategory(catId, catData)
+      buildCategory(Number(catId), catData)
     );
   };
 
