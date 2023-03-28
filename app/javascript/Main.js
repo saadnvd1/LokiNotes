@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "categories/:categoryId/notes?/:noteId?",
+    path: "notebooks/:notebookId/notes?/:noteId?",
     element: (
       <RequireAuth>
         <App />

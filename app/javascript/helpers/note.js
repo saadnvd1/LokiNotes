@@ -1,10 +1,10 @@
-export const getRedirectUrl = (noteId, categoryId) => {
-  const categoryIdPath = `/categories/${categoryId}`;
+export const getRedirectUrl = (noteId, notebookId) => {
+  const notebookIdPath = `/notebooks/${notebookId}`;
   const noteIdPath = `/notes/${noteId}`;
   let redirectUrl = "/";
 
-  if (categoryId) {
-    redirectUrl = categoryIdPath;
+  if (notebookId) {
+    redirectUrl = notebookIdPath;
   }
 
   if (noteId) {

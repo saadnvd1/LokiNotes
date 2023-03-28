@@ -1,4 +1,4 @@
-class Category < ApplicationRecord
+class Notebook < ApplicationRecord
   has_ancestry
   belongs_to :user
   has_many :notes

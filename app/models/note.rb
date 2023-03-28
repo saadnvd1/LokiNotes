@@ -1,5 +1,5 @@
 class Note < ApplicationRecord
-  belongs_to :category
+  belongs_to :notebook
 
   encrypts :content, :title
 end

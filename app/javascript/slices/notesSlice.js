@@ -4,11 +4,12 @@ import axiosI from "axiosInstance";
 const initialState = {
   notesData: null,
   selectedNoteId: null,
-  selectedCategoryId: null,
-  isCreatingCategory: null,
+  selectedNotebookId: null,
+  isCreatingNotebook: null,
   content: null,
 };
 
+// -- Notes Related Functionality
 export const getNotesData = createAsyncThunk(
   "notes/getNotesData",
   async (thunkAPI) => {
@@ -29,15 +30,24 @@ export const updateNote = createAsyncThunk(
   }
 );
 
+export const updateSelectedNoteId = createAsyncThunk(
+  "notes/updateSelectedNoteId",
+  async ({ noteId }, thunkAPI) => {
+    await _saveCurrentNote(thunkAPI);
+
+    return noteId;
+  }
+);
+
 // Business logic for whether we want to save the note to the database or not
 // In most cases, we just shouldn't save a note at all if it hasn't changed
 const _shouldSaveNote = (thunkAPI, noteId) => {
   const notesState = thunkAPI.getState().notes;
   const content = notesState.content;
 
-  let note = _findNoteInCategory(
+  let note = _findNoteInNotebook(
     notesState,
-    notesState.selectedCategoryId,
+    notesState.selectedNotebookId,
     noteId
   );
 
@@ -55,39 +65,32 @@ const _saveCurrentNote = (thunkAPI) => {
   const selectedNoteId = notesState.selectedNoteId;
   const content = notesState.content;
 
-  // Once the note is updated, then we change categories
+  // Once the note is updated, then we change notebooks
   if (selectedNoteId) {
     return thunkAPI.dispatch(updateNote({ noteId: selectedNoteId, content }));
   }
 };
 
-const _findNoteInCategory = (state, categoryId, noteId) => {
-  return state.notesData[categoryId]?.notes?.find((note) => note.id === noteId);
+// -- Notebooks Related Functionality
+const _findNoteInNotebook = (state, notebookId, noteId) => {
+  return state.notesData[notebookId]?.notes?.find((note) => note.id === noteId);
 };
 
-export const updateSelectedCategoryId = createAsyncThunk(
-  "notes/updateSelectedCategoryId",
-  async ({ categoryId }, thunkAPI) => {
+export const updateSelectedNotebookId = createAsyncThunk(
+  "notes/updateSelectedNotebookId",
+  async ({ notebookId }, thunkAPI) => {
     await _saveCurrentNote(thunkAPI);
 
-    return categoryId;
+    return notebookId;
   }
 );
 
-export const updateSelectedNoteId = createAsyncThunk(
-  "notes/updateSelectedNoteId",
-  async ({ noteId }, thunkAPI) => {
-    await _saveCurrentNote(thunkAPI);
-
-    return noteId;
-  }
-);
-
-export const createCategory = createAsyncThunk(
-  "notes/createCategory",
-  async ({ noteId, content }, thunkAPI) => {
-    const response = await axiosI.patch(`/notes/${noteId}`, {
-      content: content,
+export const createNotebook = createAsyncThunk(
+  "notes/createNotebook",
+  async ({ name, parentId }, thunkAPI) => {
+    const response = await axiosI.post(`/notebooks`, {
+      name,
+      parent_id: parentId,
     });
     return response.data;
   }
@@ -100,17 +103,17 @@ export const notesSlice = createSlice({
     updateContent: (state, action) => {
       state.content = action.payload;
     },
-    toggleIsCreatingCategory: (state) => {
-      state.isCreatingCategory = !state.isCreatingCategory;
+    toggleIsCreatingNotebook: (state) => {
+      state.isCreatingNotebook = !state.isCreatingNotebook;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
       state.selectedNoteId = action.payload;
 
-      let note = _findNoteInCategory(
+      let note = _findNoteInNotebook(
         state,
-        state.selectedCategoryId,
+        state.selectedNotebookId,
         action.payload
       );
 
@@ -119,17 +122,17 @@ export const notesSlice = createSlice({
       // Make sure to update content when we change to another note
       state.content = note.content;
     });
-    builder.addCase(updateSelectedCategoryId.fulfilled, (state, action) => {
-      state.selectedCategoryId = action.payload;
+    builder.addCase(updateSelectedNotebookId.fulfilled, (state, action) => {
+      state.selectedNotebookId = action.payload;
 
-      // By default we should select the first note in that category
-      // Always select the first note from that category
+      // By default we should select the first note in that notebook
+      // Always select the first note from that notebook
       let firstNote = state.notesData[action.payload]?.notes[0];
       if (firstNote) {
         state.selectedNoteId = firstNote.id;
         state.content = firstNote.content;
       } else {
-        // When we have no notes in the existing category yet
+        // When we have no notes in the existing notebook yet
         state.selectedNoteId = null;
         state.content = null;
       }
@@ -138,9 +141,9 @@ export const notesSlice = createSlice({
       state.notesData = action.payload.notes_data;
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
-      let note = _findNoteInCategory(
+      let note = _findNoteInNotebook(
         state,
-        action.payload.note.category_id,
+        action.payload.note.notebook_id,
         action.payload.note.id
       );
 
@@ -152,6 +155,6 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleIsCreatingCategory, updateContent } = notesSlice.actions;
+export const { toggleIsCreatingNotebook, updateContent } = notesSlice.actions;
 
 export default notesSlice.reducer;

@@ -5,7 +5,7 @@ import { checkLoggedIn } from "slices/userSlice";
 function RequireAuth({ children }) {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const { categoryId, noteId } = useParams();
+  const { notebookId, noteId } = useParams();
 
   useEffect(() => {
     if (user) return;
@@ -18,7 +18,7 @@ function RequireAuth({ children }) {
   return user ? (
     children
   ) : (
-    <Navigate to="/login" state={{ categoryId, noteId }} />
+    <Navigate to="/login" state={{ notebookId, noteId }} />
   );
 }
 

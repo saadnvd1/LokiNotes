@@ -11,7 +11,7 @@ const Auth = ({ type }) => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { state } = useLocation();
-  const { noteId, categoryId } = state; // Read values passed on state
+  const { noteId, notebookId } = state; // Read values passed on state
 
   useEffect(() => {
     if (user) return;
@@ -31,7 +31,7 @@ const Auth = ({ type }) => {
   if (user) {
     // TODO: see if there's a better way to do this -- while this might work, I worry that it may complicate things in the future if we want to have other routes
 
-    return <Navigate to={getRedirectUrl(noteId, categoryId)} replace />;
+    return <Navigate to={getRedirectUrl(noteId, notebookId)} replace />;
   }
 
   return (

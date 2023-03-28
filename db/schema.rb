@@ -10,27 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_16_123731) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_28_135223) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "categories", force: :cascade do |t|
+  create_table "notebooks", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
     t.string "ancestry"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ancestry"], name: "index_categories_on_ancestry"
-    t.index ["user_id"], name: "index_categories_on_user_id"
+    t.index ["ancestry"], name: "index_notebooks_on_ancestry"
+    t.index ["user_id"], name: "index_notebooks_on_user_id"
   end
 
   create_table "notes", force: :cascade do |t|
-    t.bigint "category_id"
+    t.bigint "notebook_id"
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title", limit: 200
-    t.index ["category_id"], name: "index_notes_on_category_id"
+    t.index ["notebook_id"], name: "index_notes_on_notebook_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -47,6 +47,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_123731) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "categories", "users"
-  add_foreign_key "notes", "categories"
+  add_foreign_key "notebooks", "users"
+  add_foreign_key "notes", "notebooks"
 end

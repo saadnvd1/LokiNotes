@@ -4,17 +4,17 @@ import React from "react";
 
 const ParentRowWithSubs = ({
   classNames,
-  handleChangeCategory,
-  catId,
+  handleChangeNotebook,
+  notebookId,
   items,
-  catData,
+  notebookData,
   toggleSubmenu,
   menu,
 }) => {
   return (
     <li
       className={classNames + " parent-menu"}
-      onClick={() => handleChangeCategory(catId)}
+      onClick={() => handleChangeNotebook(notebookId)}
     >
       <Dropdown
         menu={{
@@ -23,12 +23,12 @@ const ParentRowWithSubs = ({
         trigger={["contextMenu"]}
       >
         <div className="parent-menu-title">
-          <span>{catData.name}</span>
-          {!menu[catId]?.showSubMenu && (
-            <CaretDownFilled onClick={() => toggleSubmenu(catId)} />
+          <span>{notebookData.name}</span>
+          {!menu[notebookId]?.showSubMenu && (
+            <CaretDownFilled onClick={() => toggleSubmenu(notebookId)} />
           )}
-          {menu[catId]?.showSubMenu && (
-            <CaretUpFilled onClick={() => toggleSubmenu(catId)} />
+          {menu[notebookId]?.showSubMenu && (
+            <CaretUpFilled onClick={() => toggleSubmenu(notebookId)} />
           )}
         </div>
       </Dropdown>

@@ -5,24 +5,24 @@ import { updateNote } from "slices/notesSlice";
 const useNotes = () => {
   const dispatch = useDispatch();
 
-  const { notesData, selectedNoteId, selectedCategoryId, content } =
+  const { notesData, selectedNoteId, selectedNotebookId, content } =
     useSelector((state) => state.notes);
 
   const getCurrentNote = () => {
-    const categoryNotes = getCurrentlySelectedCategory();
+    const notebookNotes = getCurrentlySelectedNotebook();
 
-    if (categoryNotes) {
-      return categoryNotes.notes.find((note) => note.id === selectedNoteId);
+    if (notebookNotes) {
+      return notebookNotes.notes.find((note) => note.id === selectedNoteId);
     }
   };
 
-  const getNotesForSelectedCategory = () => {
-    if (!notesData || !selectedCategoryId) return [];
+  const getNotesForSelectedNotebook = () => {
+    if (!notesData || !selectedNotebookId) return [];
 
-    const categoryNotes = getCurrentlySelectedCategory();
+    const notebookNotes = getCurrentlySelectedNotebook();
 
-    if (categoryNotes) {
-      return categoryNotes.notes.map((note) => ({
+    if (notebookNotes) {
+      return notebookNotes.notes.map((note) => ({
         key: note.id,
         label: note.title,
       }));
@@ -31,24 +31,24 @@ const useNotes = () => {
     return [];
   };
 
-  // -- Category Related Functions
-  const getCurrentlySelectedCategory = () => {
+  // -- Notebook Related Functions
+  const getCurrentlySelectedNotebook = () => {
     if (!notesData) return;
 
-    return getCategoryById(selectedCategoryId);
+    return getNotebookById(selectedNotebookId);
   };
 
-  const getCategoryById = (id) => {
+  const getNotebookById = (id) => {
     return notesData[id];
   };
 
   return {
     currentNote: getCurrentNote(),
-    selectedCategoryNotes: getNotesForSelectedCategory(),
+    selectedNotebookNotes: getNotesForSelectedNotebook(),
     selectedNoteId,
-    selectedCategoryId,
+    selectedNotebookId,
     content,
-    getCategoryById,
+    getNotebookById,
     notesData,
   };
 };

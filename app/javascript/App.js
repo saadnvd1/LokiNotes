@@ -4,25 +4,25 @@ import "./App.css";
 import "react-quill/dist/quill.snow.css";
 import {
   getNotesData,
-  toggleIsCreatingCategory,
+  toggleIsCreatingNotebook,
   updateNote,
-  updateSelectedCategoryId,
+  updateSelectedNotebookId,
   updateSelectedNoteId,
 } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import CategoryCreateModal from "CategoryCreateModal";
+import NotebookCreateModal from "NotebookCreateModal";
 import Editor from "Editor";
 import EditorHeader from "EditorHeader";
 import NoteSidebar from "NoteSidebar";
-import CategorySidebar from "CategorySidebar/CategorySidebar";
+import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";
 import { getRedirectUrl } from "helpers/note";
 
 const App = () => {
-  const { categoryId, noteId } = useParams();
+  const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
 
-  const { isCreatingCategory, selectedNoteId, content, selectedCategoryId } =
+  const { isCreatingNotebook, selectedNoteId, content, selectedNotebookId } =
     useSelector((state) => state.notes);
   const dispatch = useDispatch();
   const selectedNoteRef = useRef(null);
@@ -33,9 +33,9 @@ const App = () => {
   useEffect(() => {
     // This causes the component `App.js` and then all of its children to re-render
     dispatch(getNotesData()).then(() => {
-      if (categoryId && noteId) {
+      if (notebookId && noteId) {
         dispatch(
-          updateSelectedCategoryId({ categoryId: Number(categoryId) })
+          updateSelectedNotebookId({ notebookId: Number(notebookId) })
         ).then(() =>
           dispatch(updateSelectedNoteId({ noteId: Number(noteId) }))
         );
@@ -57,19 +57,19 @@ const App = () => {
   // This useEffect is for when we update our notes, we want to make sure the URL reflects that so that if the user wants to save that to bookmarks, they can easily access it again
   useEffect(() => {
     // Again, I think this might be too early to decide whether this will scale or not, but it works for now so I'll keep it. I don't see what other routes I might have right now
-    navigate(getRedirectUrl(selectedNoteId, selectedCategoryId));
-  }, [selectedNoteId, selectedCategoryId]);
+    navigate(getRedirectUrl(selectedNoteId, selectedNotebookId));
+  }, [selectedNoteId, selectedNotebookId]);
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <CategoryCreateModal
-        open={isCreatingCategory}
+      <NotebookCreateModal
+        open={isCreatingNotebook}
         onCreate={null}
         onCancel={() => {
-          dispatch(toggleIsCreatingCategory());
+          dispatch(toggleIsCreatingNotebook());
         }}
       />
-      <CategorySidebar />
+      <NotebookSidebar />
       <NoteSidebar />
       <Layout>
         <EditorHeader />

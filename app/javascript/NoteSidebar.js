@@ -7,7 +7,7 @@ import useNotes from "hooks/useNotes";
 
 const NoteSidebar = () => {
   const dispatch = useDispatch();
-  const { selectedNoteId, selectedCategoryNotes } = useNotes();
+  const { selectedNoteId, selectedNotebookNotes } = useNotes();
 
   const handleChangeNote = (e) => {
     dispatch(updateSelectedNoteId({ noteId: Number(e.key) }));
@@ -19,7 +19,7 @@ const NoteSidebar = () => {
         theme="dark"
         mode="inline"
         selectedKeys={[String(selectedNoteId)]}
-        items={selectedCategoryNotes}
+        items={selectedNotebookNotes}
         onClick={(e) => {
           handleChangeNote(e);
         }}
