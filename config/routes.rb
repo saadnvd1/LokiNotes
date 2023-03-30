@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'notes', to: 'home#notes'
 
   resources :notes, only: [:update, :index]
+  resources :notebooks, only: [:create]
 
   get '*path', to: "home#index", constraints: ->(request) do
     !request.xhr? && request.format.html?

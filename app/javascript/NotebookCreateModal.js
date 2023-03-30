@@ -30,7 +30,7 @@ const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
   return (
     <Modal
       open={open}
-      title="Create a New Notebook"
+      title="Create a Notebook"
       okText="Create"
       cancelText="Cancel"
       onCancel={onCancel}
@@ -39,10 +39,9 @@ const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
           .validateFields()
           .then((values) => {
             form.resetFields();
-            console.log("values", values);
-            // dispatch(
-            //   createNotebook({ name: values.name, parentId: values.parentId })
-            // );
+            dispatch(
+              createNotebook({ name: values.name, parentId: values.parent_id })
+            ).then(() => onCancel());
           })
           .catch((info) => {
             console.log("Validate Failed:", info);
@@ -58,7 +57,7 @@ const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
         }}
       >
         <Form.Item
-          name="notebook"
+          name="name"
           label="Notebook Name"
           rules={[
             {

@@ -57,6 +57,10 @@ const _shouldSaveNote = (thunkAPI, noteId) => {
   return true;
 };
 
+const _findNoteInNotebook = (state, notebookId, noteId) => {
+  return state.notesData[notebookId]?.notes?.find((note) => note.id === noteId);
+};
+
 // This is an internal function that will setup and dispatch the actual action to update a note
 // It's meant to be used within other async thunks in case we want to save the current note
 // before doing something else
@@ -72,8 +76,8 @@ const _saveCurrentNote = (thunkAPI) => {
 };
 
 // -- Notebooks Related Functionality
-const _findNoteInNotebook = (state, notebookId, noteId) => {
-  return state.notesData[notebookId]?.notes?.find((note) => note.id === noteId);
+const _findNotebook = (state, notebookId) => {
+  return state.notesData[notebookId];
 };
 
 export const updateSelectedNotebookId = createAsyncThunk(
@@ -150,6 +154,23 @@ export const notesSlice = createSlice({
       if (!note) return;
 
       note.content = action.payload.note.content;
+    });
+    builder.addCase(createNotebook.fulfilled, (state, action) => {
+      // Add new notebook to notesData
+      const parentId = action.meta.arg.parentId;
+
+      if (parentId) {
+        // subnotebook
+        const parentNotebook = _findNotebook(state, parentId);
+        parentNotebook.subnotebooks[action.payload.id] = { ...action.payload };
+      } else {
+        // main notebook
+        state.notesData[action.payload.id] = { ...action.payload };
+      }
+
+      state.selectedNotebookId = action.payload.id;
+      state.selectedNoteId = null;
+      state.content = null;
     });
   },
 });

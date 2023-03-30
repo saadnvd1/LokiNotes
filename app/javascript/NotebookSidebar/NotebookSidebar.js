@@ -2,7 +2,7 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { Input } from "antd";
 import React, { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
-import { isEmpty, isEqual } from "lodash";
+import { isEmpty, isEqual, difference } from "lodash";
 import {
   toggleIsCreatingNotebook,
   updateSelectedNotebookId,
@@ -48,9 +48,11 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
     // This is necessary since any update to `notesData` i.e. updating a note will cause this function to get hit from the `useEffect` above
     if (isEqual(notebookIDs, Object.keys(menu))) return;
 
-    Object.keys(notebooks).forEach((notebookId) => {
+    const changeNotebookIds = difference(notebookIDs, Object.keys(menu));
+
+    changeNotebookIds.forEach((notebookId) => {
       items[notebookId] = {
-        selected: false,
+        selected: selectedNotebookId === notebookId,
         showSubMenu: false,
       };
     });

@@ -3,6 +3,17 @@ class NotebooksController < ApplicationController
   end
 
   def create
-    Notebook
+    notebook = Notebook.create!(
+      name: params[:name],
+      user: current_user,
+      parent_id: params[:parent_id]
+    )
+
+    render json: {
+        id: notebook.id,
+        name: notebook.name,
+        notes: [],
+        subnotebooks: {},
+    }
   end
 end
