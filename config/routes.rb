@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'logged_in', to: 'home#check_logged_in'
   get 'notes', to: 'home#notes'
 
-  resources :notes, only: [:update, :index]
+  resources :notes, only: [:update, :index, :create]
   resources :notebooks, only: [:create]
 
   get '*path', to: "home#index", constraints: ->(request) do

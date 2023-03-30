@@ -42,7 +42,6 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
   };
 
   const setupMenuItems = (notebooks) => {
-    debugger;
     const items = {};
     const notebookIDs = Object.keys(notebooks);
 
@@ -122,7 +121,7 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
     <Sider trigger={null} collapsible style={{ color: "white" }}>
       <ul className="menu">{buildNotebooks()}</ul>
       {!isCreatingNotebook && (
-        <div style={{ marginLeft: 10 }}>
+        <div style={{ marginLeft: 10, cursor: "pointer" }}>
           <PlusCircleIcon height="24" onClick={handlecreateNotebook} />
         </div>
       )}

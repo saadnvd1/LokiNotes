@@ -3,11 +3,14 @@ class NotebooksController < ApplicationController
   end
 
   def create
-    notebook = Notebook.create!(
+    @notebook = Notebook.new(
       name: params[:name],
       user: current_user,
       parent_id: params[:parent_id]
     )
+
+    authorize! :create, @notebook
+    @notebook.save!
 
     render json: {
         id: notebook.id,

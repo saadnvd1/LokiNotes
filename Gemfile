@@ -9,6 +9,7 @@ gem 'ancestry'
 gem 'active_interaction', '~> 5.2'
 gem 'rabl'
 gem 'oj'
+gem 'cancancan'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.2"

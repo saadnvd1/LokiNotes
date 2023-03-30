@@ -1,6 +1,7 @@
 import React from "react";
 import { Header } from "antd/es/layout/layout";
 import useNotes from "hooks/useNotes";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
 const EditorHeader = () => {
   const { currentNote } = useNotes();
@@ -8,13 +9,22 @@ const EditorHeader = () => {
   return (
     <Header
       style={{
-        padding: 0,
         display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingRight: "25px",
+        paddingLeft: "25px",
+        alignItems: "center",
       }}
     >
-      <span style={{ fontSize: "32px", marginLeft: 20, color: "#fff" }}>
-        {currentNote?.title}
-      </span>
+      <div>
+        <span style={{ fontSize: "32px", color: "#fff" }}>
+          {currentNote?.title}
+        </span>
+      </div>
+      <div style={{ marginTop: "10px", color: "#fff", cursor: "pointer" }}>
+        <PencilSquareIcon height="32px" />
+      </div>
     </Header>
   );
 };
