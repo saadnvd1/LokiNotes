@@ -19,6 +19,14 @@ export const getNotesData = createAsyncThunk(
   }
 );
 
+export const createNote = createAsyncThunk(
+  "notes/createNote",
+  async ({ notebookId }, thunkAPI) => {
+    const response = await axiosI.post(`/notes`, { notebook_id: notebookId });
+    return response.data;
+  }
+);
+
 export const updateNote = createAsyncThunk(
   "notes/updateNote",
   async ({ noteId, content }, thunkAPI) => {
@@ -77,7 +85,12 @@ const _saveCurrentNote = (thunkAPI) => {
 };
 
 // -- Notebooks Related Functionality
-const _findNotebook = (state, notebookId) => {
+const _findNotebook = (state, notebookId, parentNotebookId = null) => {
+  debugger;
+  if (parentNotebookId) {
+    return state.notesData[parentNotebookId].subnotebooks[notebookId];
+  }
+
   return state.notesData[notebookId];
 };
 
@@ -155,6 +168,19 @@ export const notesSlice = createSlice({
       if (!note) return;
 
       note.content = action.payload.note.content;
+    });
+    builder.addCase(createNote.fulfilled, (state, action) => {
+      const noteId = action.payload.note.id;
+
+      const notebook = _findNotebook(
+        state,
+        action.payload.note.notebook_id,
+        action.payload.parent_notebook_id
+      );
+
+      notebook.notes.push(action.payload.note);
+      state.content = null;
+      state.selectedNoteId = noteId;
     });
     builder.addCase(createNotebook.fulfilled, (state, action) => {
       // Add new notebook to notesData

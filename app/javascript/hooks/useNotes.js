@@ -24,7 +24,7 @@ const useNotes = () => {
     if (notebookNotes) {
       return notebookNotes.notes.map((note) => ({
         key: note.id,
-        label: note.title,
+        label: note.title || "Untitled",
       }));
     }
 

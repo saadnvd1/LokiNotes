@@ -2,9 +2,16 @@ import React from "react";
 import { Header } from "antd/es/layout/layout";
 import useNotes from "hooks/useNotes";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
+import { useDispatch } from "react-redux";
+import { createNote } from "slices/notesSlice";
 
 const EditorHeader = () => {
-  const { currentNote } = useNotes();
+  const { currentNote, selectedNotebookId } = useNotes();
+  const dispatch = useDispatch();
+
+  const handleCreateNote = () => {
+    dispatch(createNote({ notebookId: selectedNotebookId }));
+  };
 
   return (
     <Header
@@ -19,11 +26,11 @@ const EditorHeader = () => {
     >
       <div>
         <span style={{ fontSize: "32px", color: "#fff" }}>
-          {currentNote?.title}
+          {currentNote?.title || "Untitled"}
         </span>
       </div>
       <div style={{ marginTop: "10px", color: "#fff", cursor: "pointer" }}>
-        <PencilSquareIcon height="32px" />
+        <PencilSquareIcon height="32px" onClick={handleCreateNote} />
       </div>
     </Header>
   );
