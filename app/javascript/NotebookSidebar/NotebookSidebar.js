@@ -32,7 +32,7 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
     if (notesData) {
       setupMenuItems(notesData);
     }
-  }, [notesData]);
+  }, [notesData, selectedParentNotebookId]);
 
   // -- Menu Related Functions
   const toggleSubmenu = (notebookId) => {
@@ -47,11 +47,16 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
 
     // There might be a more efficient way to do this, but I'm going to leave alone for now since this won't be a lot of updates to make. Will keep a lookout for any slowness though
     notebookIDs.forEach((notebookId) => {
+      notebookId = Number(notebookId);
+
+      debugger;
       items[notebookId] = {
         selected: selectedNotebookId === notebookId,
         showSubMenu: selectedParentNotebookId === notebookId,
       };
     });
+
+    console.log("items", items);
 
     setMenu(items);
   };
@@ -69,6 +74,9 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
       "single-menu-item",
       notebookId === selectedNotebookId ? "menu-selected" : "",
     ];
+
+    console.log("notebookId", notebookId);
+    console.log("selectedNotebookId", selectedNotebookId);
 
     let classNames = sharedClassNames.join(" ");
 

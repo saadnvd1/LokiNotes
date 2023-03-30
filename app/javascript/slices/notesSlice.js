@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axiosI from "axiosInstance";
 
 const initialState = {
@@ -86,12 +86,24 @@ const _saveCurrentNote = (thunkAPI) => {
 
 // -- Notebooks Related Functionality
 const _findNotebook = (state, notebookId, parentNotebookId = null) => {
-  debugger;
   if (parentNotebookId) {
     return state.notesData[parentNotebookId].subnotebooks[notebookId];
   }
 
   return state.notesData[notebookId];
+};
+
+const _findParentNotebookId = (state, notebookId) => {
+  if (state.notesData[notebookId]) {
+    return null; // not a subnotebook
+  }
+
+  for (const [parentId, data] of Object.entries(state.notesData)) {
+    const parentNotebookId = Number(parentId);
+    if (data.subnotebooks[notebookId]) {
+      return parentNotebookId;
+    }
+  }
 };
 
 export const updateSelectedNotebookId = createAsyncThunk(
@@ -141,11 +153,14 @@ export const notesSlice = createSlice({
       state.content = note.content;
     });
     builder.addCase(updateSelectedNotebookId.fulfilled, (state, action) => {
-      state.selectedNotebookId = action.payload;
+      const notebookId = action.payload;
+      state.selectedNotebookId = notebookId;
+
+      // Also make sure we keep track of the parent notebook ID
+      state.selectedParentNotebookId = _findParentNotebookId(state, notebookId);
 
       // By default we should select the first note in that notebook
-      // Always select the first note from that notebook
-      let firstNote = state.notesData[action.payload]?.notes[0];
+      let firstNote = state.notesData[notebookId]?.notes[0];
       if (firstNote) {
         state.selectedNoteId = firstNote.id;
         state.content = firstNote.content;

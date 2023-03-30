@@ -5,8 +5,13 @@ import { updateNote } from "slices/notesSlice";
 const useNotes = () => {
   const dispatch = useDispatch();
 
-  const { notesData, selectedNoteId, selectedNotebookId, content } =
-    useSelector((state) => state.notes);
+  const {
+    notesData,
+    selectedNoteId,
+    selectedNotebookId,
+    selectedParentNotebookId,
+    content,
+  } = useSelector((state) => state.notes);
 
   const getCurrentNote = () => {
     const notebookNotes = getCurrentlySelectedNotebook();
@@ -20,6 +25,8 @@ const useNotes = () => {
     if (!notesData || !selectedNotebookId) return [];
 
     const notebookNotes = getCurrentlySelectedNotebook();
+
+    console.log("notebookNotes", notebookNotes);
 
     if (notebookNotes) {
       return notebookNotes.notes.map((note) => ({
@@ -39,6 +46,10 @@ const useNotes = () => {
   };
 
   const getNotebookById = (id) => {
+    if (selectedParentNotebookId) {
+      return notesData[selectedParentNotebookId].subnotebooks[id];
+    }
+
     return notesData[id];
   };
 
