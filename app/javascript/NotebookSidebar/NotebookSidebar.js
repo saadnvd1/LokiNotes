@@ -8,7 +8,7 @@ import {
   updateSelectedNotebookId,
 } from "slices/notesSlice";
 import useNotes from "hooks/useNotes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ParentRowNoSubs from "NotebookSidebar/ParentRowNoSubs";
 import ParentRowWithSubs from "NotebookSidebar/ParentRowWithSubs";
 import SubnotebookRow from "NotebookSidebar/SubnotebookRow";
@@ -17,6 +17,7 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
   const dispatch = useDispatch();
   const [menu, setMenu] = useState({});
   const { selectedNotebookId, notesData } = useNotes();
+  const { selectedParentNotebookId } = useSelector((state) => state.notes);
 
   const handlecreateNotebook = () => {
     dispatch(toggleIsCreatingNotebook());
@@ -41,19 +42,15 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
   };
 
   const setupMenuItems = (notebooks) => {
+    debugger;
     const items = {};
     const notebookIDs = Object.keys(notebooks);
 
-    // Don't update our menu items if our notebook IDs have not changed
-    // This is necessary since any update to `notesData` i.e. updating a note will cause this function to get hit from the `useEffect` above
-    if (isEqual(notebookIDs, Object.keys(menu))) return;
-
-    const changeNotebookIds = difference(notebookIDs, Object.keys(menu));
-
-    changeNotebookIds.forEach((notebookId) => {
+    // There might be a more efficient way to do this, but I'm going to leave alone for now since this won't be a lot of updates to make. Will keep a lookout for any slowness though
+    notebookIDs.forEach((notebookId) => {
       items[notebookId] = {
         selected: selectedNotebookId === notebookId,
-        showSubMenu: false,
+        showSubMenu: selectedParentNotebookId === notebookId,
       };
     });
 

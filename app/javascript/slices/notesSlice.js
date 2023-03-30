@@ -7,6 +7,7 @@ const initialState = {
   selectedNotebookId: null,
   isCreatingNotebook: null,
   content: null,
+  selectedParentNotebookId: null,
 };
 
 // -- Notes Related Functionality
@@ -163,9 +164,11 @@ export const notesSlice = createSlice({
         // subnotebook
         const parentNotebook = _findNotebook(state, parentId);
         parentNotebook.subnotebooks[action.payload.id] = { ...action.payload };
+        state.selectedParentNotebookId = parentId;
       } else {
         // main notebook
         state.notesData[action.payload.id] = { ...action.payload };
+        state.selectedParentNotebookId = null;
       }
 
       state.selectedNotebookId = action.payload.id;
