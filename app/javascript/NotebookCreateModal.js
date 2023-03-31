@@ -52,7 +52,6 @@ const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
     >
       <Form
         onKeyDown={(event) => {
-          console.log(event.key);
           if (event.key === "Enter") {
             handleSubmit();
           }

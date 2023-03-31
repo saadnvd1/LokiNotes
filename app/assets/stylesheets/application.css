@@ -38,8 +38,20 @@ body {
 }
 
 .ant-layout-sider-dark {
-    background-color: #291e34 !important;
+    background: linear-gradient(to bottom, #291e34, #332547) !important;
     border-right: 1px solid #140c1c;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
+    border-right: none;
+}
+
+.ant-menu-item {
+  padding: 12px 24px;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ant-menu-item:hover {
+  background-color: #594165;
 }
 
 .ant-menu {
