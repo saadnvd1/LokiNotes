@@ -23,8 +23,6 @@ function LIcon({
 }) {
   const IconComponent = ICONS[iconName];
 
-  console.log("tooltipText", tooltipText);
-
   return (
     <Tooltip title={tooltipText} mouseEnterDelay={0.8} style={{ zIndex: 999 }}>
       <button

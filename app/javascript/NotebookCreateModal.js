@@ -27,6 +27,20 @@ const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
     });
   };
 
+  const handleSubmit = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        dispatch(
+          createNotebook({ name: values.name, parentId: values.parent_id })
+        ).then(() => onCancel());
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
+  };
+
   return (
     <Modal
       open={open}
@@ -34,21 +48,15 @@ const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
       okText="Create"
       cancelText="Cancel"
       onCancel={onCancel}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            dispatch(
-              createNotebook({ name: values.name, parentId: values.parent_id })
-            ).then(() => onCancel());
-          })
-          .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
-      }}
+      onOk={handleSubmit}
     >
       <Form
+        onKeyDown={(event) => {
+          console.log(event.key);
+          if (event.key === "Enter") {
+            handleSubmit();
+          }
+        }}
         form={form}
         layout="vertical"
         name="form_in_modal"
