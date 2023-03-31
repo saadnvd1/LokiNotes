@@ -1,9 +1,9 @@
 import React from "react";
 import { Header } from "antd/es/layout/layout";
 import useNotes from "hooks/useNotes";
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useDispatch } from "react-redux";
 import { createNote } from "slices/notesSlice";
+import LIcon from "components/LIcon/LIcon";
 
 const EditorHeader = () => {
   const { currentNote, selectedNotebookId } = useNotes();
@@ -29,11 +29,11 @@ const EditorHeader = () => {
           {currentNote?.title || "Untitled"}
         </span>
       </div>
-      <div style={{ marginTop: "10px", color: "#fff", cursor: "pointer" }}>
-        <PencilSquareIcon
-          height="32px"
+      <div style={{ color: "#fff", cursor: "pointer" }}>
+        <LIcon
           onClick={handleCreateNote}
-          className="icon-white"
+          iconName="pencilSquareIcon"
+          tooltipText="Create Note"
         />
       </div>
     </Header>

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ParentRowNoSubs from "NotebookSidebar/ParentRowNoSubs";
 import ParentRowWithSubs from "NotebookSidebar/ParentRowWithSubs";
 import SubnotebookRow from "NotebookSidebar/SubnotebookRow";
+import LIcon from "components/LIcon/LIcon";
 
 const NotebookSidebar = ({ isCreatingNotebook }) => {
   const dispatch = useDispatch();
@@ -126,27 +127,14 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
       style={{ color: "white" }}
       className="hide-sidebar"
     >
+      <div className="center-div" style={{ marginTop: "8px" }}>
+        <LIcon
+          onClick={handlecreateNotebook}
+          iconName="plusCircleIcon"
+          tooltipText="Create Notebook"
+        />
+      </div>
       <ul className="menu">{buildNotebooks()}</ul>
-      {!isCreatingNotebook && (
-        <div style={{ marginLeft: 10, cursor: "pointer" }}>
-          <PlusCircleIcon
-            height="24"
-            onClick={handlecreateNotebook}
-            className="icon-white"
-          />
-        </div>
-      )}
-      {isCreatingNotebook && (
-        <div style={{ marginLeft: 10 }}>
-          <Input
-            autoFocus
-            allowClear
-            placeholder="Name..."
-            bordered={false}
-            onKeyDown={() => console.log("hello")}
-          />
-        </div>
-      )}
     </Sider>
   );
 };

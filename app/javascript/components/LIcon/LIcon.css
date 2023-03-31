@@ -1,0 +1,19 @@
+.lokinotes-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #171a1c;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+  border: 1px solid #171a1c;
+  cursor: pointer;
+}
+
+.lokinotes-icon:hover {
+  transform: scale(1.1);
+}

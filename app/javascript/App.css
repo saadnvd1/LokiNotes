@@ -76,3 +76,8 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.ant-layout-sider .center-div {
+  display: flex;
+  justify-content: center;
+}
