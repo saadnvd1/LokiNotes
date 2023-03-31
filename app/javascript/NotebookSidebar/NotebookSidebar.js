@@ -49,14 +49,11 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
     notebookIDs.forEach((notebookId) => {
       notebookId = Number(notebookId);
 
-      debugger;
       items[notebookId] = {
         selected: selectedNotebookId === notebookId,
         showSubMenu: selectedParentNotebookId === notebookId,
       };
     });
-
-    console.log("items", items);
 
     setMenu(items);
   };
@@ -74,9 +71,6 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
       "single-menu-item",
       notebookId === selectedNotebookId ? "menu-selected" : "",
     ];
-
-    console.log("notebookId", notebookId);
-    console.log("selectedNotebookId", selectedNotebookId);
 
     let classNames = sharedClassNames.join(" ");
 
@@ -130,7 +124,11 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
       <ul className="menu">{buildNotebooks()}</ul>
       {!isCreatingNotebook && (
         <div style={{ marginLeft: 10, cursor: "pointer" }}>
-          <PlusCircleIcon height="24" onClick={handlecreateNotebook} />
+          <PlusCircleIcon
+            height="24"
+            onClick={handlecreateNotebook}
+            className="icon-white"
+          />
         </div>
       )}
       {isCreatingNotebook && (

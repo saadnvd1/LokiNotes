@@ -26,8 +26,6 @@ const useNotes = () => {
 
     const notebookNotes = getCurrentlySelectedNotebook();
 
-    console.log("notebookNotes", notebookNotes);
-
     if (notebookNotes) {
       return notebookNotes.notes.map((note) => ({
         key: note.id,

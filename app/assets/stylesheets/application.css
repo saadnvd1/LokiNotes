@@ -48,7 +48,7 @@ body {
 }
 
 .ant-layout {
-    background-color: #181818 !important;
+    background-color: #252525 !important;
     color: #fff;
 }
 
@@ -81,4 +81,32 @@ body {
 
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: #959595 !important;
+}
+
+.icon-white:hover {
+    color: #bbbbbb;
+}
+
+/* Quill.js Placeholder */
+.ql-editor.ql-blank::before {
+  color: #aba8a8 !important;
+}
+
+.ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
+    background-color: #fff !important;
+    color: #fff !important;
+}
+
+.ql-snow .ql-picker {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.ql-toolbar.ql-snow {
+    background-color: #291e34 !important;
+    border: 1px solid #140c1c !important;
+}
+
+.ql-container.ql-snow {
+    border-color: #140c1c !important;
 }

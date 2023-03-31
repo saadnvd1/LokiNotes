@@ -30,7 +30,11 @@ const EditorHeader = () => {
         </span>
       </div>
       <div style={{ marginTop: "10px", color: "#fff", cursor: "pointer" }}>
-        <PencilSquareIcon height="32px" onClick={handleCreateNote} />
+        <PencilSquareIcon
+          height="32px"
+          onClick={handleCreateNote}
+          className="icon-white"
+        />
       </div>
     </Header>
   );

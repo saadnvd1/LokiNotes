@@ -67,6 +67,12 @@ const _shouldSaveNote = (thunkAPI, noteId) => {
 };
 
 const _findNoteInNotebook = (state, notebookId, noteId) => {
+  if (state.selectedParentNotebookId) {
+    return state.notesData[state.selectedParentNotebookId].subnotebooks[
+      state.selectedNotebookId
+    ].notes.find((note) => note.id === noteId);
+  }
+
   return state.notesData[notebookId]?.notes?.find((note) => note.id === noteId);
 };
 
