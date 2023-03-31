@@ -1,5 +1,5 @@
 import { Layout } from "antd";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -17,10 +17,12 @@ import NoteSidebar from "NoteSidebar";
 import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";
 import { getRedirectUrl } from "helpers/note";
+import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
 
 const App = () => {
   const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
+  const [isZenMode, setIsZenMode] = useState(false);
 
   const { isCreatingNotebook, selectedNoteId, content, selectedNotebookId } =
     useSelector((state) => state.notes);
@@ -69,12 +71,17 @@ const App = () => {
           dispatch(toggleIsCreatingNotebook());
         }}
       />
-      <NotebookSidebar />
-      <NoteSidebar />
+      {!isZenMode && (
+        <>
+          <NotebookSidebar />
+          <NoteSidebar />
+        </>
+      )}
       <Layout>
         <EditorHeader />
         <Editor />
       </Layout>
+      <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />
     </Layout>
   );
 };

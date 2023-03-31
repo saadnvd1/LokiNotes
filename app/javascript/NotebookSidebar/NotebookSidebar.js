@@ -120,7 +120,12 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
   if (!notesData) return null;
 
   return (
-    <Sider trigger={null} collapsible style={{ color: "white" }}>
+    <Sider
+      trigger={null}
+      collapsible
+      style={{ color: "white" }}
+      className="hide-sidebar"
+    >
       <ul className="menu">{buildNotebooks()}</ul>
       {!isCreatingNotebook && (
         <div style={{ marginLeft: 10, cursor: "pointer" }}>

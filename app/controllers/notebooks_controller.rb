@@ -13,8 +13,8 @@ class NotebooksController < ApplicationController
     @notebook.save!
 
     render json: {
-        id: notebook.id,
-        name: notebook.name,
+        id: @notebook.id,
+        name: @notebook.name,
         notes: [],
         subnotebooks: {},
     }

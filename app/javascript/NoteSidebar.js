@@ -14,7 +14,12 @@ const NoteSidebar = () => {
   };
 
   return (
-    <Sider trigger={null} collapsible style={{ color: "white" }}>
+    <Sider
+      trigger={null}
+      collapsible
+      style={{ color: "white" }}
+      className="hide-sidebar"
+    >
       <Menu
         theme="dark"
         mode="inline"
