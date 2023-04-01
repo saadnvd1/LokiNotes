@@ -15,6 +15,7 @@ const EditorHeader = () => {
 
   return (
     <Header
+      className="EditorHeader"
       style={{
         display: "flex",
         flexDirection: "row",
