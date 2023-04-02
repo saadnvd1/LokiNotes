@@ -26,6 +26,7 @@ const App = () => {
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
 
+  const { billingModalIsOpen } = useSelector((state) => state.billing);
   const { isCreatingNotebook, selectedNoteId, content, selectedNotebookId } =
     useSelector((state) => state.notes);
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const App = () => {
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <UpgradeModal isOpen />
+      <UpgradeModal isOpen={billingModalIsOpen} />
       <NotebookCreateModal
         open={isCreatingNotebook}
         onCreate={null}

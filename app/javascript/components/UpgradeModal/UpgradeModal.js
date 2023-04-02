@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Col, Modal, Row, Spin, Switch, Typography } from "antd";
+import { Col, Modal, Row, Spin, Switch, Tooltip, Typography } from "antd";
 import { createSessionCheckout } from "slices/billingSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const UpgradeModal = ({ isOpen, onClose }) => {
   const [monthly, setMonthly] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { prices } = useSelector((state) => state.billing);
   const dispatch = useDispatch();
 
   const handleCheckout = () => {
-    dispatch(createSessionCheckout({ priceId: getPrice().id }))
+    setIsLoading(true);
+    dispatch(createSessionCheckout({ priceId: getPrice().stripe_price_id }))
       .unwrap()
       .then((res) => {
         console.log(res);
@@ -42,8 +45,9 @@ const UpgradeModal = ({ isOpen, onClose }) => {
       onClose={onClose}
       okText="Upgrade"
       onOk={handleCheckout}
+      okButtonProps={{ disabled: isLoading }}
     >
-      <Spin />
+      {isLoading && <Spin />}
       <Row justify="space-between" align="middle">
         <Col>
           <Title level={3}>LokiNotes Pro</Title>
@@ -60,7 +64,14 @@ const UpgradeModal = ({ isOpen, onClose }) => {
           </ul>
           <Title level={2}>{getPriceText()}</Title>
           <Switch defaultChecked={monthly} onChange={setMonthly} />{" "}
-          {monthly ? <span>Monthly</span> : <span>Yearly</span>}
+          {monthly ? (
+            <span>Monthly</span>
+          ) : (
+            <>
+              <span>Yearly</span>
+              <Text type="success"> (16% Savings)</Text>
+            </>
+          )}
         </Col>
       </Row>
     </Modal>

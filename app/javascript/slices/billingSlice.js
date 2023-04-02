@@ -4,6 +4,7 @@ import axiosInstance from "axiosInstance";
 
 const initialState = {
   prices: [],
+  billingModalIsOpen: true,
 };
 
 export const getBillingData = createAsyncThunk(
@@ -28,7 +29,11 @@ export const createSessionCheckout = createAsyncThunk(
 export const billingSlice = createSlice({
   name: "billing",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleBillingModal: (state) => {
+      state.billingModalIsOpen = !state.billingModalIsOpen;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getBillingData.fulfilled, (state, action) => {
       state.prices = action.payload.prices;
@@ -43,6 +48,6 @@ export const billingSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {} = billingSlice.actions;
+export const { toggleBillingModal } = billingSlice.actions;
 
 export default billingSlice.reducer;
