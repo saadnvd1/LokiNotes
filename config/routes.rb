@@ -10,6 +10,12 @@ Rails.application.routes.draw do
   resources :notes, only: [:update, :index, :create]
   resources :notebooks, only: [:create]
 
+  resources :billing, only: [:index] do
+    collection do
+      post 'create_session_checkout'
+    end
+  end
+
   get '*path', to: "home#index", constraints: ->(request) do
     !request.xhr? && request.format.html?
   end

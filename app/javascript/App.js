@@ -18,6 +18,8 @@ import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";
 import { getRedirectUrl } from "helpers/note";
 import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
+import UpgradeModal from "components/UpgradeModal/UpgradeModal";
+import { getBillingData } from "slices/billingSlice";
 
 const App = () => {
   const { notebookId, noteId } = useParams();
@@ -34,6 +36,7 @@ const App = () => {
   // Initialization
   useEffect(() => {
     // This causes the component `App.js` and then all of its children to re-render
+    dispatch(getBillingData());
     dispatch(getNotesData()).then(() => {
       if (notebookId && noteId) {
         dispatch(
@@ -64,6 +67,7 @@ const App = () => {
 
   return (
     <Layout style={{ height: "100vh" }}>
+      <UpgradeModal isOpen />
       <NotebookCreateModal
         open={isCreatingNotebook}
         onCreate={null}
@@ -79,14 +83,6 @@ const App = () => {
       )}
       <Layout>
         <EditorHeader />
-        <form action="/create-checkout-session" method="POST">
-          <input
-            type="hidden"
-            name="priceId"
-            value="price_1MsUxxFX51BBY2GUXXx2oX81"
-          />
-          <button type="submit">Checkout</button>
-        </form>
         <Editor />
       </Layout>
       <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />

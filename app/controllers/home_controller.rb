@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :check_logged_in]
-  def index
-  end
 
   # If someone hits this endpoint and they don't have a valid JWT token, then
   # this endpoint will simply return an error, otherwise we just return the
