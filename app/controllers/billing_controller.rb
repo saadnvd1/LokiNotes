@@ -59,6 +59,9 @@ class BillingController < ApplicationController
       )
     end
 
+    # TODO: Send email to user that they have successfully subscribed to a plan
+    # TODO: also we'll have to update the frontend to show the user that they have successfully subscribed to a plan eventually
+
     render json: :ok
   end
 
