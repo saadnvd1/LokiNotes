@@ -43,6 +43,7 @@ const UpgradeModal = ({ isOpen, onClose }) => {
     <Modal
       open={isOpen}
       onClose={onClose}
+      onCancel={onClose}
       okText="Upgrade"
       onOk={handleCheckout}
       okButtonProps={{ disabled: isLoading }}
@@ -69,7 +70,9 @@ const UpgradeModal = ({ isOpen, onClose }) => {
           ) : (
             <>
               <span>Yearly</span>
-              <Text type="success"> (16% Savings)</Text>
+              <Text style={{ color: "#291E34F" }}>
+                <b> (16% Savings)</b>
+              </Text>
             </>
           )}
         </Col>

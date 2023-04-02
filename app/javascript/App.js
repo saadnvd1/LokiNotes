@@ -19,7 +19,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getRedirectUrl } from "helpers/note";
 import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
 import UpgradeModal from "components/UpgradeModal/UpgradeModal";
-import { getBillingData } from "slices/billingSlice";
+import { getBillingData, toggleBillingModal } from "slices/billingSlice";
 
 const App = () => {
   const { notebookId, noteId } = useParams();
@@ -68,7 +68,10 @@ const App = () => {
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <UpgradeModal isOpen={billingModalIsOpen} />
+      <UpgradeModal
+        isOpen={billingModalIsOpen}
+        onClose={() => dispatch(toggleBillingModal())}
+      />
       <NotebookCreateModal
         open={isCreatingNotebook}
         onCreate={null}
