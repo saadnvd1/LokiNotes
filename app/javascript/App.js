@@ -79,6 +79,14 @@ const App = () => {
       )}
       <Layout>
         <EditorHeader />
+        <form action="/create-checkout-session" method="POST">
+          <input
+            type="hidden"
+            name="priceId"
+            value="price_1MsUxxFX51BBY2GUXXx2oX81"
+          />
+          <button type="submit">Checkout</button>
+        </form>
         <Editor />
       </Layout>
       <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />
