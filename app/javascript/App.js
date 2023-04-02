@@ -20,13 +20,13 @@ import { getRedirectUrl } from "helpers/note";
 import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
 import UpgradeModal from "components/UpgradeModal/UpgradeModal";
 import { getBillingData, toggleBillingModal } from "slices/billingSlice";
+import UpgradeModalSuccess from "components/UpgradeModalSuccess/UpgradeModalSuccess";
 
 const App = () => {
   const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
 
-  const { billingModalIsOpen } = useSelector((state) => state.billing);
   const { isCreatingNotebook, selectedNoteId, content, selectedNotebookId } =
     useSelector((state) => state.notes);
   const dispatch = useDispatch();
@@ -63,15 +63,15 @@ const App = () => {
   // This useEffect is for when we update our notes, we want to make sure the URL reflects that so that if the user wants to save that to bookmarks, they can easily access it again
   useEffect(() => {
     // Again, I think this might be too early to decide whether this will scale or not, but it works for now so I'll keep it. I don't see what other routes I might have right now
-    navigate(getRedirectUrl(selectedNoteId, selectedNotebookId));
+    if (selectedNoteId || selectedNotebookId) {
+      navigate(getRedirectUrl(selectedNoteId, selectedNotebookId));
+    }
   }, [selectedNoteId, selectedNotebookId]);
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <UpgradeModal
-        isOpen={billingModalIsOpen}
-        onClose={() => dispatch(toggleBillingModal())}
-      />
+      <UpgradeModal />
+      <UpgradeModalSuccess />
       <NotebookCreateModal
         open={isCreatingNotebook}
         onCreate={null}
@@ -87,6 +87,7 @@ const App = () => {
       )}
       <Layout>
         <EditorHeader />
+        <button onClick={() => dispatch(toggleBillingModal())}>Upgrade</button>
         <Editor />
       </Layout>
       <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :billing, only: [:index] do
     collection do
       post 'create_session_checkout'
+      post 'success'
     end
   end
 

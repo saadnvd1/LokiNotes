@@ -1,17 +1,17 @@
 import { Button, Checkbox, Form, Input, Layout } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "Auth.css";
 import { checkLoggedIn, login, register } from "slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import useToast from "hooks/useToast";
-import { getRedirectUrl } from "helpers/note";
+
 const Auth = ({ type }) => {
   const { toastError } = useToast();
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { state } = useLocation();
-  const { noteId, notebookId } = state; // Read values passed on state
+  const { from } = state;
 
   useEffect(() => {
     if (user) return;
@@ -29,9 +29,7 @@ const Auth = ({ type }) => {
   };
 
   if (user) {
-    // TODO: see if there's a better way to do this -- while this might work, I worry that it may complicate things in the future if we want to have other routes
-
-    return <Navigate to={getRedirectUrl(noteId, notebookId)} replace />;
+    return <Navigate to={from} replace />;
   }
 
   return (

@@ -27,8 +27,10 @@ class BillingController < ApplicationController
   def create_session_checkout
     price_id = create_session_params[:price_id]
 
+    Stripe::Checkout::Session
+
     session = Stripe::Checkout::Session.create({
-      success_url: 'http://localhost:3000',
+      success_url: 'http://localhost:3000/billing/success/{CHECKOUT_SESSION_ID}',
       cancel_url: 'http://localhost:3000',
       mode: 'subscription',
       line_items: [{
@@ -40,7 +42,31 @@ class BillingController < ApplicationController
     render json: { url: session.url }
   end
 
+  def success
+    if current_user.subscription.blank?
+      session = Stripe::Checkout::Session.retrieve(success_params[:checkout_session_id])
+      subscription = Stripe::Subscription.retrieve(session.subscription)
+      customer = Stripe::Customer.retrieve(subscription.customer)
+      price_id = subscription.items.data[0].price.id
+      price = Stripe::Price.retrieve(price_id)
+      product_id = price.product
+
+      Subscription.create!(
+        stripe_customer_id: customer.id,
+        stripe_subscription_id: subscription.id,
+        user: current_user,
+        plan: Plan.find_by(stripe_product_id: product_id),
+      )
+    end
+
+    render json: :ok
+  end
+
   private
+
+  def success_params
+    params.permit(:checkout_session_id)
+  end
 
   def create_session_params
     params.permit(:price_id)

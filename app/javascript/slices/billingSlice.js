@@ -4,7 +4,8 @@ import axiosInstance from "axiosInstance";
 
 const initialState = {
   prices: [],
-  billingModalIsOpen: true,
+  billingModalIsOpen: false,
+  billingSuccessModalIsOpen: false,
 };
 
 export const getBillingData = createAsyncThunk(
@@ -26,6 +27,16 @@ export const createSessionCheckout = createAsyncThunk(
   }
 );
 
+export const createSubscription = createAsyncThunk(
+  "billing/createSubscription",
+  async ({ checkoutSessionId }, thunkAPI) => {
+    const response = await axiosI.post("/billing/success", {
+      checkout_session_id: checkoutSessionId,
+    });
+    return response.data;
+  }
+);
+
 export const billingSlice = createSlice({
   name: "billing",
   initialState,
@@ -33,11 +44,17 @@ export const billingSlice = createSlice({
     toggleBillingModal: (state) => {
       state.billingModalIsOpen = !state.billingModalIsOpen;
     },
+    toggleBillingSuccessModal: (state) => {
+      state.billingSuccessModalIsOpen = !state.billingSuccessModalIsOpen;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getBillingData.fulfilled, (state, action) => {
       state.prices = action.payload.prices;
     });
+    // builder.addCase(createSubscription.fulfilled, (state, action) => {
+    //   state.prices = action.payload.prices;
+    // });
     // builder.addCase(login.fulfilled, (state, action) => {
     //   handleUserAuthSuccess(state, action);
     // });
@@ -48,6 +65,7 @@ export const billingSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleBillingModal } = billingSlice.actions;
+export const { toggleBillingModal, toggleBillingSuccessModal } =
+  billingSlice.actions;
 
 export default billingSlice.reducer;

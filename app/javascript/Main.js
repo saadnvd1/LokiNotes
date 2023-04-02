@@ -23,6 +23,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "billing/success/:checkoutSessionId",
+    element: (
+      <RequireAuth>
+        <App />
+      </RequireAuth>
+    ),
+  },
+  {
     path: "signup",
     element: <Signup />,
   },
