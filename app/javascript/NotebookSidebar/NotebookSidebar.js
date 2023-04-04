@@ -13,6 +13,7 @@ import ParentRowNoSubs from "NotebookSidebar/ParentRowNoSubs";
 import ParentRowWithSubs from "NotebookSidebar/ParentRowWithSubs";
 import SubnotebookRow from "NotebookSidebar/SubnotebookRow";
 import LIcon from "components/LIcon/LIcon";
+import BottomMenu from "NotebookSidebar/BottomMenu";
 
 const NotebookSidebar = ({ isCreatingNotebook }) => {
   const dispatch = useDispatch();
@@ -136,6 +137,7 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
         />
       </div>
       <ul className="menu">{buildNotebooks()}</ul>
+      <BottomMenu />
     </Sider>
   );
 };

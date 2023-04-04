@@ -1,0 +1,6 @@
+.bottom-menu-item {
+  position: absolute;
+  bottom: 0;
+  left: 0; /* or right: 0; to align the item to the right side */
+  width: 100%;
+}
