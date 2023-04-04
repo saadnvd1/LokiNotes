@@ -53,8 +53,8 @@ const UpgradeModalSuccess = () => {
         <Col>
           <Title level={3}>Thank You!</Title>
           <Paragraph style={{ marginTop: 10 }}>
-            Thanks so much for upgrading! Here are all the features you've now
-            unlocked:
+            // TODO: update the copy of this before releasing Thanks so much for
+            upgrading! Here are all the features you've now unlocked:
           </Paragraph>
           <b>Pro Features:</b>
           <ul>

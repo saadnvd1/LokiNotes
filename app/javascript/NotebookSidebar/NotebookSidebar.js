@@ -65,7 +65,7 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
     );
   };
 
-  const buildNotebook = (notebookId, notebookData) => {
+  const buildNotebook = (notebookId, notebookData, isSubNotebook = false) => {
     if (!notebookId) return;
 
     const sharedClassNames = [
@@ -114,6 +114,7 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
         {...sharedParentProps}
         key={notebookId}
         selectedNotebookId={selectedNotebookId}
+        isSubNotebook={isSubNotebook}
       />
     );
   };

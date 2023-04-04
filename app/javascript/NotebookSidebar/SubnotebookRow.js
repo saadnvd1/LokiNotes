@@ -8,7 +8,7 @@ const SubnotebookRow = ({ buildNotebook, notebookData, menu, notebookId }) => {
       }`}
     >
       {Object.entries(notebookData.subnotebooks).map(([subId, subData]) =>
-        buildNotebook(Number(subId), subData)
+        buildNotebook(Number(subId), subData, true)
       )}
     </ul>
   );

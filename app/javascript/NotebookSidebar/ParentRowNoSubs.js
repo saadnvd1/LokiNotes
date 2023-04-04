@@ -1,10 +1,12 @@
 import React from "react";
+import RowName from "NotebookSidebar/RowText";
 
 const ParentRowNoSubs = ({
   notebookId,
   handleChangeNotebook,
   notebookData,
   classNames,
+  isSubNotebook,
 }) => {
   return (
     <li
@@ -12,7 +14,7 @@ const ParentRowNoSubs = ({
       onClick={() => handleChangeNotebook(notebookId)}
       className={classNames}
     >
-      <span>{notebookData.name}</span>
+      <RowName name={notebookData.name} isSubnotebook={isSubNotebook} />
     </li>
   );
 };

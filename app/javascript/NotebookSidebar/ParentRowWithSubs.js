@@ -1,6 +1,7 @@
 import { Dropdown } from "antd";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
 import React from "react";
+import RowText from "NotebookSidebar/RowText";
 
 const ParentRowWithSubs = ({
   classNames,
@@ -23,7 +24,7 @@ const ParentRowWithSubs = ({
         trigger={["contextMenu"]}
       >
         <div className="parent-menu-title">
-          <span>{notebookData.name}</span>
+          <RowText isSubnotebook={false} name={notebookData.name} />
           {!menu[notebookId]?.showSubMenu && (
             <CaretDownFilled onClick={() => toggleSubmenu(notebookId)} />
           )}

@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNote } from "slices/notesSlice";
+import { DocumentIcon } from "@heroicons/react/24/solid";
 
 const useNotes = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const useNotes = () => {
       return notebookNotes.notes.map((note) => ({
         key: note.id,
         label: note.title || "Untitled",
+        icon: <DocumentIcon height="16px" />,
       }));
     }
 
