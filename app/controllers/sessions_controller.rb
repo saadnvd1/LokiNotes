@@ -1,5 +1,6 @@
 class SessionsController < Devise::SessionsController
-
+    clear_respond_to
+    respond_to :json
   # POST /v1/login
   def create
     @user = User.find_by_email(user_params[:email])
@@ -13,10 +14,11 @@ class SessionsController < Devise::SessionsController
     end
   end
 
-  def destroy
-    sign_out(@user)
-    render :json=> {:success=>true}
-  end
+  # This isn't even being used, so I'm commenting it out for now
+  # def destroy
+  #   sign_out(@user)
+  #   render :json=> {:success=>true}
+  # end
 
   private
 

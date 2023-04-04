@@ -28,6 +28,11 @@ export const register = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk("users/logout", async (thunkAPI) => {
+  const response = await axiosI.delete("/users/sign_out.json");
+  return response.data;
+});
+
 const handleUserAuthSuccess = (state, action) => {
   state.user = action.payload.user;
   localStorage.setItem("lnt", action.payload.token);
@@ -37,7 +42,11 @@ const handleUserAuthSuccess = (state, action) => {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleAccountModal: (state) => {
+      state.accountModalIsOpen = !state.accountModalIsOpen;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(checkLoggedIn.fulfilled, (state, action) => {
       state.user = action.payload.user;
@@ -48,10 +57,15 @@ export const userSlice = createSlice({
     builder.addCase(register.fulfilled, (state, action) => {
       handleUserAuthSuccess(state, action);
     });
+    builder.addCase(logout.fulfilled, (state, action) => {
+      state.user = null;
+      localStorage.removeItem("lnt");
+      axiosInstance.defaults.headers.Authorization = null;
+    });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = userSlice.actions;
+export const { toggleAccountModal } = userSlice.actions;
 
 export default userSlice.reducer;

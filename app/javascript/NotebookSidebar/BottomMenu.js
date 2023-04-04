@@ -6,8 +6,16 @@ import {
   UserIcon,
   CommandLineIcon,
 } from "@heroicons/react/24/solid";
+import { useDispatch } from "react-redux";
+import { logout, toggleAccountModal } from "slices/userSlice";
 
 const BottomMenu = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <div className="bottom-menu-item">
       <Menu
@@ -24,11 +32,15 @@ const BottomMenu = () => {
             key: "account",
             label: "My Account",
             icon: <UserIcon height="16px" />,
+            onClick: () => {
+              dispatch(toggleAccountModal());
+            },
           },
           {
             key: "logout",
             label: "Log Out",
             icon: <ArrowRightOnRectangleIcon height="16px" />,
+            onClick: handleLogout,
           },
         ]}
       />

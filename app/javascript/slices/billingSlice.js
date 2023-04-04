@@ -12,7 +12,6 @@ export const getBillingData = createAsyncThunk(
   "modals/getBillingData",
   async (thunkAPI) => {
     const response = await axiosI.get("/billing");
-    console.log(response.data);
     return response.data;
   }
 );

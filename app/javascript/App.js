@@ -4,7 +4,6 @@ import "./App.css";
 import "react-quill/dist/quill.snow.css";
 import {
   getNotesData,
-  toggleIsCreatingNotebook,
   updateNote,
   updateSelectedNotebookId,
   updateSelectedNoteId,
