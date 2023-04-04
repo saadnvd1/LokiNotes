@@ -1,10 +1,10 @@
 import { Button, Form, Input, Modal, Radio, Select } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNotebook } from "slices/notesSlice";
+import { createNotebook, toggleIsCreatingNotebook } from "slices/notesSlice";
 
-const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
-  const { notesData } = useSelector((state) => state.notes);
+const NotebookCreateModal = () => {
+  const { notesData, isCreatingNotebook } = useSelector((state) => state.notes);
   const dispatch = useDispatch();
 
   const [form] = Form.useForm();
@@ -43,11 +43,11 @@ const NotebookCreateModal = ({ open, onCreate, onCancel }) => {
 
   return (
     <Modal
-      open={open}
+      open={isCreatingNotebook}
       title="Create a Notebook"
       okText="Create"
       cancelText="Cancel"
-      onCancel={onCancel}
+      onCancel={() => dispatch(toggleIsCreatingNotebook())}
       onOk={handleSubmit}
     >
       <Form

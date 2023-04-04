@@ -18,17 +18,17 @@ import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";
 import { getRedirectUrl } from "helpers/note";
 import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
-import UpgradeModal from "components/UpgradeModal/UpgradeModal";
 import { getBillingData, toggleBillingModal } from "slices/billingSlice";
-import UpgradeModalSuccess from "components/UpgradeModalSuccess/UpgradeModalSuccess";
+import GlobalComponents from "GlobalComponents";
 
 const App = () => {
   const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
 
-  const { isCreatingNotebook, selectedNoteId, content, selectedNotebookId } =
-    useSelector((state) => state.notes);
+  const { selectedNoteId, content, selectedNotebookId } = useSelector(
+    (state) => state.notes
+  );
   const dispatch = useDispatch();
   const selectedNoteRef = useRef(null);
 
@@ -70,15 +70,7 @@ const App = () => {
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <UpgradeModal />
-      <UpgradeModalSuccess />
-      <NotebookCreateModal
-        open={isCreatingNotebook}
-        onCreate={null}
-        onCancel={() => {
-          dispatch(toggleIsCreatingNotebook());
-        }}
-      />
+      <GlobalComponents />
       {!isZenMode && (
         <>
           <NotebookSidebar />

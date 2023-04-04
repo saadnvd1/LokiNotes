@@ -4,6 +4,7 @@ import axiosInstance from "axiosInstance";
 
 const initialState = {
   user: null,
+  accountModalIsOpen: false,
 };
 
 export const checkLoggedIn = createAsyncThunk(
