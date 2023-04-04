@@ -129,6 +129,7 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
       style={{ color: "white" }}
       className="hide-sidebar"
     >
+      <ul className="menu">{buildNotebooks()}</ul>
       <div className="center-div" style={{ marginTop: "8px" }}>
         <LIcon
           onClick={handlecreateNotebook}
@@ -136,7 +137,6 @@ const NotebookSidebar = ({ isCreatingNotebook }) => {
           tooltipText="Create Notebook"
         />
       </div>
-      <ul className="menu">{buildNotebooks()}</ul>
       <BottomMenu />
     </Sider>
   );
