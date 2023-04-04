@@ -6,6 +6,7 @@ const initialState = {
   prices: [],
   billingModalIsOpen: false,
   billingSuccessModalIsOpen: false,
+  isOnTrial: false,
 };
 
 export const getBillingData = createAsyncThunk(
@@ -50,6 +51,7 @@ export const billingSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getBillingData.fulfilled, (state, action) => {
       state.prices = action.payload.prices;
+      state.isOnTrial = action.payload.is_on_trial;
     });
     // builder.addCase(createSubscription.fulfilled, (state, action) => {
     //   state.prices = action.payload.prices;

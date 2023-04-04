@@ -7,8 +7,15 @@ class User < ApplicationRecord
   with_options dependent: :destroy do
     has_many :notebooks
     has_many :notes, through: :notebooks
-    has_one :subscription
+
     has_one :plan, through: :subscription
     has_many :features, through: :plan
+
+    has_one :subscription
+    has_one :trial
+  end
+
+  def on_trial?
+    trial.present? && trial.active?
   end
 end

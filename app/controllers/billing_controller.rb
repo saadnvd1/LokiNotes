@@ -22,7 +22,7 @@ class BillingController < ApplicationController
       }
     end
 
-    render json: { prices: @prices }
+    render json: { prices: @prices, is_on_trial: current_user.on_trial? }
   end
   def create_session_checkout
     price_id = create_session_params[:price_id]
