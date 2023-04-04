@@ -43,23 +43,12 @@ class BillingController < ApplicationController
   end
 
   def success
-    if current_user.subscription.blank?
-      session = Stripe::Checkout::Session.retrieve(success_params[:checkout_session_id])
-      subscription = Stripe::Subscription.retrieve(session.subscription)
-      customer = Stripe::Customer.retrieve(subscription.customer)
-      price_id = subscription.items.data[0].price.id
-      price = Stripe::Price.retrieve(price_id)
-      product_id = price.product
+    # TODO: just verify this still works when you get a chance
+    CreateSubscription.run!(
+      checkout_session_id: success_params[:checkout_session_id],
+      user: current_user
+    )
 
-      Subscription.create!(
-        stripe_customer_id: customer.id,
-        stripe_subscription_id: subscription.id,
-        user: current_user,
-        plan: Plan.find_by(stripe_product_id: product_id),
-      )
-    end
-
-    # TODO: Send email to user that they have successfully subscribed to a plan
     # TODO: also we'll have to update the frontend to show the user that they have successfully subscribed to a plan eventually
 
     render json: :ok
