@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import axiosI from "axiosInstance";
+import axiosI from "helpers/axiosInstance";
 
 const initialState = {
   notesData: null,

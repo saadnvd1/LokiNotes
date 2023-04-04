@@ -1,6 +1,6 @@
-import UpgradeModal from "components/UpgradeModal/UpgradeModal";
-import UpgradeModalSuccess from "components/UpgradeModalSuccess/UpgradeModalSuccess";
-import NotebookCreateModal from "NotebookCreateModal";
+import UpgradeModal from "modals/UpgradeModal/UpgradeModal";
+import UpgradeModalSuccess from "modals/UpgradeModalSuccess/UpgradeModalSuccess";
+import NotebookCreateModal from "modals/NotebookCreateModal/NotebookCreateModal";
 import React from "react";
 
 const GlobalComponents = () => {

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosI from "axiosInstance";
-import axiosInstance from "axiosInstance";
+import axiosI from "helpers/axiosInstance";
+import axiosInstance from "helpers/axiosInstance";
 
 const initialState = {
   prices: [],
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const getBillingData = createAsyncThunk(
-  "billing/getBillingData",
+  "modals/getBillingData",
   async (thunkAPI) => {
     const response = await axiosI.get("/billing");
     console.log(response.data);
@@ -18,7 +18,7 @@ export const getBillingData = createAsyncThunk(
 );
 
 export const createSessionCheckout = createAsyncThunk(
-  "billing/createSessionCheckout",
+  "modals/createSessionCheckout",
   async ({ priceId }, thunkAPI) => {
     const response = await axiosI.post("/billing/create_session_checkout", {
       price_id: priceId,
@@ -28,7 +28,7 @@ export const createSessionCheckout = createAsyncThunk(
 );
 
 export const createSubscription = createAsyncThunk(
-  "billing/createSubscription",
+  "modals/createSubscription",
   async ({ checkoutSessionId }, thunkAPI) => {
     const response = await axiosI.post("/billing/success", {
       checkout_session_id: checkoutSessionId,

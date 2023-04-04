@@ -10,9 +10,8 @@ import {
   updateSelectedNoteId,
 } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import NotebookCreateModal from "NotebookCreateModal";
-import Editor from "Editor";
-import EditorHeader from "EditorHeader";
+import Editor from "EditorView/Editor";
+import EditorHeader from "EditorView/EditorHeader";
 import NoteSidebar from "NoteSidebar";
 import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";

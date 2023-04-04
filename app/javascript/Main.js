@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Signup from "Signup";
+import Signup from "auth/Signup";
 import React from "react";
-import RequireAuth from "RequireAuth";
-import Login from "Login";
+import RequireAuth from "auth/RequireAuth";
+import Login from "auth/Login";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "billing/success/:checkoutSessionId",
+    path: "modals/success/:checkoutSessionId",
     element: (
       <RequireAuth>
         <App />
