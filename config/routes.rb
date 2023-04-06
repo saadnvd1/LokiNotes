@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     collection do
       post 'create_session_checkout'
       post 'success'
+      post 'webhook'
+      get 'check_subscription_status'
     end
   end
 

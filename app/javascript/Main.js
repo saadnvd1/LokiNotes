@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "modals/success/:checkoutSessionId",
+    path: "billing/success",
     element: (
       <RequireAuth>
         <App />

@@ -10,29 +10,43 @@ import {
   Typography,
 } from "antd";
 import {
-  createSubscription,
+  checkSubscriptionStatus,
   toggleBillingSuccessModal,
 } from "slices/billingSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import useInterval from "hooks/useInterval";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Paragraph } = Typography;
 
 const UpgradeModalSuccess = () => {
-  const { checkoutSessionId } = useParams();
+  const { billingSuccessModalIsOpen } = useSelector((state) => state.billing);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { billingSuccessModalIsOpen } = useSelector((state) => state.billing);
-  const dispatch = useDispatch();
+  const checkAndUpdateSubscribed = () => {
+    dispatch(checkSubscriptionStatus()).then((res) => {
+      if (res.payload.status === "active") {
+        setIsSubscribed(true);
+        navigate("/");
+      }
+    });
+  };
 
   useEffect(() => {
-    if (checkoutSessionId) {
+    if (window.location.href.includes("billing/success")) {
       dispatch(toggleBillingSuccessModal());
-      dispatch(createSubscription({ checkoutSessionId })).then(() => {
-        navigate("/");
-      });
+      checkAndUpdateSubscribed();
     }
-  }, [checkoutSessionId]);
+  }, []);
+
+  useInterval(() => {
+    if (billingSuccessModalIsOpen && !isSubscribed) {
+      checkAndUpdateSubscribed();
+    }
+  }, 1000);
 
   const handleClose = () => {
     dispatch(toggleBillingSuccessModal());
@@ -51,21 +65,34 @@ const UpgradeModalSuccess = () => {
     >
       <Row justify="space-between" align="middle">
         <Col>
-          <Title level={3}>Thank You!</Title>
-          <Paragraph style={{ marginTop: 10 }}>
-            // TODO: update the copy of this before releasing Thanks so much for
-            upgrading! Here are all the features you've now unlocked:
-          </Paragraph>
-          <b>Pro Features:</b>
-          <ul>
-            <li>Save Images within Notes</li>
-            <li>Multi-Note Panes</li>
-            <li>Command Modal</li>
-          </ul>
-          <Paragraph style={{ marginTop: 10 }}>
-            Please let us know if you have any questions or feedback. We're
-            always here to help! Contact us directly at help@lokinotes.com
-          </Paragraph>
+          {!isSubscribed && (
+            <>
+              <Title level={3}>Activating LokiNotes Pro!</Title>
+              <Paragraph style={{ marginTop: 10 }}>
+                Please wait, we're activating all your awesome new Pro features!
+                <Spin style={{ marginTop: 10 }} />
+              </Paragraph>
+            </>
+          )}
+          {isSubscribed && (
+            <>
+              <Title level={3}>Thank You!</Title>
+              <Paragraph style={{ marginTop: 10 }}>
+                // TODO: update the copy of this before releasing Thanks so much
+                for upgrading! Here are all the features you've now unlocked:
+              </Paragraph>
+              <b>Pro Features:</b>
+              <ul>
+                <li>Save Images within Notes</li>
+                <li>Multi-Note Panes</li>
+                <li>Command Modal</li>
+              </ul>
+              <Paragraph style={{ marginTop: 10 }}>
+                Please let us know if you have any questions or feedback. We're
+                always here to help! Contact us directly at help@lokinotes.com
+              </Paragraph>
+            </>
+          )}
         </Col>
       </Row>
     </Modal>

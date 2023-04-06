@@ -27,12 +27,10 @@ export const createSessionCheckout = createAsyncThunk(
   }
 );
 
-export const createSubscription = createAsyncThunk(
-  "modals/createSubscription",
-  async ({ checkoutSessionId }, thunkAPI) => {
-    const response = await axiosI.post("/billing/success", {
-      checkout_session_id: checkoutSessionId,
-    });
+export const checkSubscriptionStatus = createAsyncThunk(
+  "modals/checkSubscriptionStatus",
+  async (thunkAPI) => {
+    const response = await axiosI.get("/billing/check_subscription_status");
     return response.data;
   }
 );
@@ -53,7 +51,7 @@ export const billingSlice = createSlice({
       state.prices = action.payload.prices;
       state.isOnTrial = action.payload.is_on_trial;
     });
-    // builder.addCase(createSubscription.fulfilled, (state, action) => {
+    // builder.addCase(checkSubscriptionStatus.fulfilled, (state, action) => {
     //   state.prices = action.payload.prices;
     // });
     // builder.addCase(login.fulfilled, (state, action) => {

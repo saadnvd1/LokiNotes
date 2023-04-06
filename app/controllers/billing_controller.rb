@@ -1,4 +1,5 @@
 class BillingController < ApplicationController
+  skip_before_action :authenticate_user!, only: :webhook
   def index
     # Stripe prices won't change that often, so we can cache them in Redis forever
     # I really don't want to store the price in the database, it just seems like a waste of space
@@ -27,32 +28,60 @@ class BillingController < ApplicationController
   def create_session_checkout
     price_id = create_session_params[:price_id]
 
-    Stripe::Checkout::Session
-
     session = Stripe::Checkout::Session.create({
-      success_url: 'http://localhost:3000/billing/success/{CHECKOUT_SESSION_ID}',
+      success_url: 'http://localhost:3000/billing/success',
       cancel_url: 'http://localhost:3000',
       mode: 'subscription',
       line_items: [{
         quantity: 1,
         price: price_id,
       }],
+      metadata: {
+        user_id: current_user.id
+      }
     })
 
     render json: { url: session.url }
   end
 
-  def success
-    # TODO: just verify this still works when you get a chance
-    CreateSubscription.run!(
-      checkout_session_id: success_params[:checkout_session_id],
-      user: current_user
-    )
+  def create_customer_portal_session
+    session = Stripe::BillingPortal::Session.create({
+      customer: current_user.subscription.stripe_customer_id,
+      return_url: 'http://localhost:3000',
+    })
 
-    # TODO: also we'll have to update the frontend to show the user that they have successfully subscribed to a plan eventually
-
-    render json: :ok
+    render json: { url: session.url }
   end
+
+  def webhook
+    result = HandleStripeWebhooks.run(payload: request.body.read, signature: request.headers['HTTP_STRIPE_SIGNATURE'])
+
+    if result.valid?
+      render json: :ok
+    else
+      render json: { error: result.errors.full_messages }, status: :bad_request
+    end
+  end
+
+  def check_subscription_status
+    if current_user.subscription.nil?
+      render json: { status: "not_subscribed" }
+    else
+      render json: { status: "not_subscribed", subscription: current_user.subscription }
+    end
+  end
+
+  # def success
+  #   # TODO: just verify this still works when you get a chance
+  #   CreateSubscription.run!(
+  #     checkout_session_id: success_params[:checkout_session_id],
+  #     user: current_user
+  #   )
+  #
+  #   # TODO: also we'll have to update the frontend to show the user that they have successfully subscribed to a plan eventually
+  #
+  #   render json: :ok
+  # end
 
   private
 
