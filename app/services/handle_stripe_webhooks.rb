@@ -42,14 +42,20 @@ class HandleStripeWebhooks < ActiveInteraction::Base
         subscription = get_subscription(data_object)
 
         return if subscription.active?
-        subscription.update!(status: 'active')
+        subscription.update!(status: Subscription::STATUSES[:active])
       end
     when 'invoice.payment_failed'
       subscription = get_subscription(data_object)
-      subscription.update!(status: 'past_due')
+      subscription.update!(status: Subscription::STATUSES[:past_due])
+    when 'customer.subscription.deleted'
+      subscription = get_subscription(data_object.id)
+      subscription.update!(status: Subscription::STATUSES[:canceled])
     else
       errors.add(:base, 'Unhandled event type')
     end
+
+    # TODO: handle the event where a user stops their subscription early
+    # maybe we can use it to reach out to see why they stopped their subscription
   end
 
   private
