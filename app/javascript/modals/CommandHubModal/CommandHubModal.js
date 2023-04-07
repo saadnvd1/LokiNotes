@@ -10,7 +10,7 @@ const CommandHubModal = () => {
   const dispatch = useDispatch();
   const { commandHubModalIsOpen } = useSelector((state) => state.modal);
   const [disabled, setDisabled] = useState(false);
-  const [activeTab, setActiveTab] = useState("notebooks");
+  const [activeTab, setActiveTab] = useState("1");
 
   useKeyboardShortcut(
     ["Meta", "P"],
@@ -77,12 +77,12 @@ const CommandHubModal = () => {
 
   const items = [
     {
-      key: "notebooks",
+      key: "1",
       label: `Notebooks`,
       children: `Content of Tab Pane 1`,
     },
     {
-      key: "notes",
+      key: "2",
       label: `Notes`,
       children: "Find All Notes",
     },
