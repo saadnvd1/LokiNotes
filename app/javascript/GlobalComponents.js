@@ -3,6 +3,7 @@ import UpgradeModalSuccess from "modals/UpgradeModalSuccess/UpgradeModalSuccess"
 import NotebookCreateModal from "modals/NotebookCreateModal/NotebookCreateModal";
 import React from "react";
 import MyAccountModal from "modals/MyAccountModal/MyAccountModal";
+import CommandHubModal from "modals/CommandHubModal/CommandHubModal";
 
 const GlobalComponents = () => {
   return (
@@ -11,6 +12,7 @@ const GlobalComponents = () => {
       <UpgradeModalSuccess />
       <NotebookCreateModal />
       <MyAccountModal />
+      <CommandHubModal />
     </>
   );
 };

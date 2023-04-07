@@ -28,6 +28,9 @@ const BottomMenu = () => {
             key: "command-center",
             label: "Command Hub",
             icon: <CommandLineIcon height="16px" />,
+            onClick: () => {
+              dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
+            },
           },
           {
             key: "account",
