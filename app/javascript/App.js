@@ -77,7 +77,6 @@ const App = () => {
       )}
       <Layout>
         <EditorHeader />
-        <button onClick={() => dispatch(toggleBillingModal())}>Upgrade</button>
         <Editor />
       </Layout>
       <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />
