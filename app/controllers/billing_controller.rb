@@ -76,6 +76,15 @@ class BillingController < ApplicationController
     render "billing/subscription"
   end
 
+  def create_customer_portal_session
+    session = Stripe::BillingPortal::Session.create({
+      customer: current_user.subscription.stripe_customer_id,
+      return_url: 'http://localhost:3000',
+    })
+
+    render json: { url: session.url }
+  end
+
   private
 
   def success_params

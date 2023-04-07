@@ -45,6 +45,16 @@ export const getSubscription = createAsyncThunk(
   }
 );
 
+export const createCustomerPortalSession = createAsyncThunk(
+  "billing/createCustomerPortalSession",
+  async (thunkAPI) => {
+    const response = await axiosI.post(
+      "/billing/create_customer_portal_session"
+    );
+    return response.data;
+  }
+);
+
 export const billingSlice = createSlice({
   name: "billing",
   initialState,

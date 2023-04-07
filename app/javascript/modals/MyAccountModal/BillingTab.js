@@ -2,7 +2,10 @@ import React from "react";
 import { Button, Typography } from "antd";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleBillingModal } from "slices/billingSlice";
+import {
+  createCustomerPortalSession,
+  toggleBillingModal,
+} from "slices/billingSlice";
 
 const BillingTab = () => {
   const dispatch = useDispatch();
@@ -26,6 +29,16 @@ const BillingTab = () => {
     return "Free Forever";
   };
 
+  const manageSubscription = () => {
+    dispatch(createCustomerPortalSession())
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        // TODO: before leaving, we shoud save the current note
+        window.location.href = res.url;
+      });
+  };
+
   return (
     <div className="subscription-details">
       <div className="subscription-details__header">
@@ -38,7 +51,12 @@ const BillingTab = () => {
           <p className="subscription-details__item-value">{getPlanPrice()}</p>
         </div>
         {subscription ? (
-          <Button className="subscription-details__button" type="primary" block>
+          <Button
+            className="subscription-details__button"
+            type="primary"
+            block
+            onClick={manageSubscription}
+          >
             Manage Subscription
           </Button>
         ) : (

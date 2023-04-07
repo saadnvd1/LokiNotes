@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       post 'webhook'
       get 'check_subscription_status'
       get 'get_subscription'
+      post 'create_customer_portal_session'
     end
   end
 
