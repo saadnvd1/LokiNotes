@@ -16,7 +16,7 @@ import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";
 import { getRedirectUrl } from "helpers/note";
 import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
-import { getBillingData, toggleBillingModal } from "slices/billingSlice";
+import { getBillingData } from "slices/billingSlice";
 import GlobalComponents from "GlobalComponents";
 
 const App = () => {

@@ -2,10 +2,8 @@ import React from "react";
 import { Button, Typography } from "antd";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createCustomerPortalSession,
-  toggleBillingModal,
-} from "slices/billingSlice";
+import { createCustomerPortalSession } from "slices/billingSlice";
+import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
 
 const BillingTab = () => {
   const dispatch = useDispatch();
@@ -65,7 +63,9 @@ const BillingTab = () => {
             className="subscription-details__button"
             type="primary"
             block
-            onClick={() => dispatch(toggleBillingModal())}
+            onClick={() =>
+              dispatch(toggleModal({ modalName: MODAL_NAMES.BILLING_UPGRADE }))
+            }
           >
             Upgrade to Pro
           </Button>

@@ -1,11 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosI from "helpers/axiosInstance";
-import axiosInstance from "helpers/axiosInstance";
 
 const initialState = {
   prices: [],
-  billingModalIsOpen: false,
-  billingSuccessModalIsOpen: false,
   isOnTrial: false,
   subscription: null,
   premium: null,
@@ -58,14 +55,7 @@ export const createCustomerPortalSession = createAsyncThunk(
 export const billingSlice = createSlice({
   name: "billing",
   initialState,
-  reducers: {
-    toggleBillingModal: (state) => {
-      state.billingModalIsOpen = !state.billingModalIsOpen;
-    },
-    toggleBillingSuccessModal: (state) => {
-      state.billingSuccessModalIsOpen = !state.billingSuccessModalIsOpen;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getBillingData.fulfilled, (state, action) => {
       state.prices = action.payload.prices;
@@ -87,7 +77,6 @@ export const billingSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleBillingModal, toggleBillingSuccessModal } =
-  billingSlice.actions;
+export const {} = billingSlice.actions;
 
 export default billingSlice.reducer;

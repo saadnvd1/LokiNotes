@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Button, Col, Modal, Row, Spin, Switch, Tabs } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleAccountModal } from "slices/userSlice";
 import { getSubscription } from "slices/billingSlice";
 import BillingTab from "modals/MyAccountModal/BillingTab";
+import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
 
 const MyAccountModal = () => {
-  const { accountModalIsOpen } = useSelector((state) => state.user);
+  const { accountModalIsOpen } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const MyAccountModal = () => {
   }, []);
 
   const handleClose = () => {
-    dispatch(toggleAccountModal());
+    dispatch(toggleModal({ modalName: MODAL_NAMES.ACCOUNT }));
   };
 
   const onChange = (key) => {

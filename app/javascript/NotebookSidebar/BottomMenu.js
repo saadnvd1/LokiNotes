@@ -7,7 +7,8 @@ import {
   CommandLineIcon,
 } from "@heroicons/react/24/solid";
 import { useDispatch } from "react-redux";
-import { logout, toggleAccountModal } from "slices/userSlice";
+import { logout } from "slices/userSlice";
+import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
 
 const BottomMenu = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const BottomMenu = () => {
             label: "My Account",
             icon: <UserIcon height="16px" />,
             onClick: () => {
-              dispatch(toggleAccountModal());
+              dispatch(toggleModal({ modalName: MODAL_NAMES.ACCOUNT }));
             },
           },
           {

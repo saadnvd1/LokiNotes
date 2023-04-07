@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Modal, Row, Spin, Switch, Tooltip, Typography } from "antd";
-import { createSessionCheckout, toggleBillingModal } from "slices/billingSlice";
+import { createSessionCheckout } from "slices/billingSlice";
+import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const { Title, Paragraph, Text } = Typography;
@@ -9,7 +10,8 @@ const UpgradeModal = () => {
   const [monthly, setMonthly] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { prices, billingModalIsOpen } = useSelector((state) => state.billing);
+  const { prices } = useSelector((state) => state.billing);
+  const { billingUpgradeModalIsOpen } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
   const handleCheckout = () => {
@@ -38,14 +40,14 @@ const UpgradeModal = () => {
   };
 
   const handleClose = () => {
-    dispatch(toggleBillingModal());
+    dispatch(toggleModal({ modalName: MODAL_NAMES.BILLING_UPGRADE }));
   };
 
   if (!prices) return null;
 
   return (
     <Modal
-      open={billingModalIsOpen}
+      open={billingUpgradeModalIsOpen}
       onClose={handleClose}
       onCancel={handleClose}
       okText="Upgrade"

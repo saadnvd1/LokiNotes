@@ -5,6 +5,7 @@ import axiosInstance from "helpers/axiosInstance";
 const initialState = {
   user: null,
   accountModalIsOpen: false,
+  commandHubModalIsOpen: false,
 };
 
 export const checkLoggedIn = createAsyncThunk(
@@ -42,11 +43,7 @@ const handleUserAuthSuccess = (state, action) => {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    toggleAccountModal: (state) => {
-      state.accountModalIsOpen = !state.accountModalIsOpen;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(checkLoggedIn.fulfilled, (state, action) => {
       state.user = action.payload.user;
@@ -66,6 +63,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleAccountModal } = userSlice.actions;
+export const {} = userSlice.actions;
 
 export default userSlice.reducer;

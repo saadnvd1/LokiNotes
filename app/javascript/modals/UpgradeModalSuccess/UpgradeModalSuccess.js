@@ -9,10 +9,8 @@ import {
   Tooltip,
   Typography,
 } from "antd";
-import {
-  checkSubscriptionStatus,
-  toggleBillingSuccessModal,
-} from "slices/billingSlice";
+import { checkSubscriptionStatus } from "slices/billingSlice";
+import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useInterval from "hooks/useInterval";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 
 const UpgradeModalSuccess = () => {
-  const { billingSuccessModalIsOpen } = useSelector((state) => state.billing);
+  const { billingSuccessModalIsOpen } = useSelector((state) => state.modal);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const dispatch = useDispatch();
@@ -37,7 +35,7 @@ const UpgradeModalSuccess = () => {
 
   useEffect(() => {
     if (window.location.href.includes("billing/success")) {
-      dispatch(toggleBillingSuccessModal());
+      dispatch(toggleModal({ modalName: MODAL_NAMES.BILLING_SUCCESS }));
       checkAndUpdateSubscribed();
     }
   }, []);
@@ -49,7 +47,7 @@ const UpgradeModalSuccess = () => {
   }, 1000);
 
   const handleClose = () => {
-    dispatch(toggleBillingSuccessModal());
+    dispatch(toggleModal({ modalName: MODAL_NAMES.BILLING_SUCCESS }));
   };
 
   return (
