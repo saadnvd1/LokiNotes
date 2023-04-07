@@ -21,4 +21,8 @@ class Subscription < ApplicationRecord
       self.status == status
     end
   end
+
+  def stripe_subscription
+    Stripe::Subscription.retrieve(stripe_subscription_id)
+  end
 end

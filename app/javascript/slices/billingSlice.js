@@ -7,10 +7,12 @@ const initialState = {
   billingModalIsOpen: false,
   billingSuccessModalIsOpen: false,
   isOnTrial: false,
+  subscription: null,
+  premium: null,
 };
 
 export const getBillingData = createAsyncThunk(
-  "modals/getBillingData",
+  "billing/getBillingData",
   async (thunkAPI) => {
     const response = await axiosI.get("/billing");
     return response.data;
@@ -18,7 +20,7 @@ export const getBillingData = createAsyncThunk(
 );
 
 export const createSessionCheckout = createAsyncThunk(
-  "modals/createSessionCheckout",
+  "billing/createSessionCheckout",
   async ({ priceId }, thunkAPI) => {
     const response = await axiosI.post("/billing/create_session_checkout", {
       price_id: priceId,
@@ -28,9 +30,17 @@ export const createSessionCheckout = createAsyncThunk(
 );
 
 export const checkSubscriptionStatus = createAsyncThunk(
-  "modals/checkSubscriptionStatus",
+  "billing/checkSubscriptionStatus",
   async (thunkAPI) => {
     const response = await axiosI.get("/billing/check_subscription_status");
+    return response.data;
+  }
+);
+
+export const getSubscription = createAsyncThunk(
+  "billing/getSubscription",
+  async (thunkAPI) => {
+    const response = await axiosI.get("/billing/get_subscription");
     return response.data;
   }
 );
@@ -49,7 +59,10 @@ export const billingSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getBillingData.fulfilled, (state, action) => {
       state.prices = action.payload.prices;
-      state.isOnTrial = action.payload.is_on_trial;
+      state.premium = action.payload.premium;
+    });
+    builder.addCase(getSubscription.fulfilled, (state, action) => {
+      state.subscription = action.payload.subscription;
     });
     // builder.addCase(checkSubscriptionStatus.fulfilled, (state, action) => {
     //   state.prices = action.payload.prices;

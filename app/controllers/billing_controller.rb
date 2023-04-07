@@ -23,7 +23,7 @@ class BillingController < ApplicationController
       }
     end
 
-    render json: { prices: @prices, is_on_trial: current_user.on_trial? }
+    render :index
   end
   def create_session_checkout
     price_id = create_session_params[:price_id]
@@ -69,6 +69,11 @@ class BillingController < ApplicationController
     else
       render json: { status: "not_subscribed", subscription: current_user.subscription }
     end
+  end
+
+  def get_subscription
+    @subscription = current_user.subscription
+    render "billing/subscription"
   end
 
   private

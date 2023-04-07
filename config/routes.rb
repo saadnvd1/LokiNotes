@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       post 'success'
       post 'webhook'
       get 'check_subscription_status'
+      get 'get_subscription'
     end
   end
 

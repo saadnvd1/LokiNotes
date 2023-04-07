@@ -1,0 +1,51 @@
+.subscription-details {
+  padding: 16px;
+  background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+}
+
+.subscription-details__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.subscription-details__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 8px;
+}
+
+.subscription-details__plan {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.subscription-details__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.subscription-details__item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.subscription-details__item-title {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  margin-right: 8px;
+}
+
+.subscription-details__item-value {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}

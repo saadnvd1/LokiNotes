@@ -15,7 +15,17 @@ class User < ApplicationRecord
     has_one :trial
   end
 
+  # The user actually pays us money
+  def paying?
+    subscription.present? && subscription.active?
+  end
+
   def on_trial?
-    trial.present? && trial.active?
+    trial.present? && trial.active? && subscription.blank?
+  end
+
+  # used to determine if the user has access to premium features or not
+  def premium?
+    paying? || on_trial?
   end
 end
