@@ -5,6 +5,9 @@ import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
 import BillingTab from "modals/MyAccountModal/BillingTab";
 import useKeyboardShortcut from "use-keyboard-shortcut";
 import Draggable from "react-draggable";
+import NotebooksTab from "modals/CommandHubModal/NotebooksTab";
+import { act } from "react-dom/test-utils";
+import NotesTab from "modals/CommandHubModal/NotesTab";
 
 const CommandHubModal = () => {
   const dispatch = useDispatch();
@@ -28,9 +31,12 @@ const CommandHubModal = () => {
     }
   );
 
+  // TODO: check out: https://www.npmjs.com/package/react-hotkeys-hook
+  // This one below is flaky
   useKeyboardShortcut(
     ["Meta", "Shift", "F"],
     (shortcutKeys) => {
+      console.log("shortcutKeys", shortcutKeys);
       setActiveTab("2");
 
       if (!commandHubModalIsOpen) {
@@ -75,16 +81,17 @@ const CommandHubModal = () => {
     setActiveTab(key);
   };
 
+  // TODO: memoize this
   const items = [
     {
       key: "1",
       label: `Notebooks`,
-      children: `Content of Tab Pane 1`,
+      children: <NotebooksTab activeTab={activeTab} />,
     },
     {
       key: "2",
       label: `Notes`,
-      children: "Find All Notes",
+      children: <NotesTab activeTab={activeTab} />,
     },
   ];
 
@@ -134,14 +141,6 @@ const CommandHubModal = () => {
         activeKey={activeTab}
       />
     </Modal>
-    // <Modal
-    //   open={commandHubModalIsOpen}
-    //   onCancel={handleClose}
-    //   footer={null}
-    //   draggable
-    // >
-    //   <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
-    // </Modal>
   );
 };
 

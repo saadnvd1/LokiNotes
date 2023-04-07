@@ -90,7 +90,7 @@ const _saveCurrentNote = (thunkAPI) => {
   }
 };
 
-// -- Notebooks Related Functionality
+// -- NotebooksTab Related Functionality
 const _findNotebook = (state, notebookId, parentNotebookId = null) => {
   if (parentNotebookId) {
     return state.notesData[parentNotebookId].subnotebooks[notebookId];
