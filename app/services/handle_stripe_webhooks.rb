@@ -54,7 +54,8 @@ class HandleStripeWebhooks < ActiveInteraction::Base
       errors.add(:base, 'Unhandled event type')
     end
 
-    # TODO: handle the event where a user stops their subscription early
+    # TODO: handle the event where a user stops their subscription early `
+    # `customer.subscription.updated`
     # maybe we can use it to reach out to see why they stopped their subscription
   end
 

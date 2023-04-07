@@ -71,18 +71,6 @@ class BillingController < ApplicationController
     end
   end
 
-  # def success
-  #   # TODO: just verify this still works when you get a chance
-  #   CreateSubscription.run!(
-  #     checkout_session_id: success_params[:checkout_session_id],
-  #     user: current_user
-  #   )
-  #
-  #   # TODO: also we'll have to update the frontend to show the user that they have successfully subscribed to a plan eventually
-  #
-  #   render json: :ok
-  # end
-
   private
 
   def success_params
