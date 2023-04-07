@@ -11,8 +11,6 @@ const BillingTab = () => {
   const dispatch = useDispatch();
   const { subscription } = useSelector((state) => state.billing);
 
-  console.log("subscription", subscription);
-
   const getPlan = () => {
     if (subscription) {
       return subscription.plan_name;
@@ -50,6 +48,9 @@ const BillingTab = () => {
           <h4 className="subscription-details__item-title">Price:</h4>
           <p className="subscription-details__item-value">{getPlanPrice()}</p>
         </div>
+        {
+          // TODO: add the features that someone gets with their plan} }
+        }
         {subscription ? (
           <Button
             className="subscription-details__button"
