@@ -43,7 +43,7 @@ class HomeController < ApplicationController
       title: note.title,
       content: note.content,
       notebook_id: note.notebook_id,
-      created_at: note.created_at,
+      created_at: note.created_at.strftime("%m/%d/%Y"),
       updated_at: note.updated_at
     }
   end
