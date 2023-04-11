@@ -163,10 +163,17 @@ export const notesSlice = createSlice({
       state.selectedNotebookId = notebookId;
 
       // Also make sure we keep track of the parent notebook ID
-      state.selectedParentNotebookId = _findParentNotebookId(state, notebookId);
+      const parentNotebookId = _findParentNotebookId(state, notebookId);
+      state.selectedParentNotebookId = parentNotebookId;
 
       // By default we should select the first note in that notebook
       let firstNote = state.notesData[notebookId]?.notes[0];
+
+      if (parentNotebookId) {
+        firstNote =
+          state.notesData[parentNotebookId].subnotebooks[notebookId].notes[0];
+      }
+
       if (firstNote) {
         state.selectedNoteId = firstNote.id;
         state.content = firstNote.content;

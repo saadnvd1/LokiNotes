@@ -1,6 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNote } from "slices/notesSlice";
+import {
+  updateNote,
+  updateSelectedNotebookId,
+  updateSelectedNoteId,
+} from "slices/notesSlice";
 import { DocumentIcon } from "@heroicons/react/24/solid";
 
 const useNotes = () => {
@@ -53,6 +57,18 @@ const useNotes = () => {
     return notesData[id];
   };
 
+  const goToNote = (notebookId, noteId) => {
+    if (notebookId) {
+      dispatch(
+        updateSelectedNotebookId({ notebookId: Number(notebookId) })
+      ).then(() => {
+        if (noteId) {
+          dispatch(updateSelectedNoteId({ noteId: Number(noteId) }));
+        }
+      });
+    }
+  };
+
   return {
     currentNote: getCurrentNote(),
     selectedNotebookNotes: getNotesForSelectedNotebook(),
@@ -61,6 +77,7 @@ const useNotes = () => {
     content,
     getNotebookById,
     notesData,
+    goToNote,
   };
 };
 export default useNotes;

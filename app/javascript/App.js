@@ -18,11 +18,13 @@ import { getRedirectUrl } from "helpers/note";
 import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
 import { getBillingData } from "slices/billingSlice";
 import GlobalComponents from "GlobalComponents";
+import useNotes from "hooks/useNotes";
 
 const App = () => {
   const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
+  const { goToNote } = useNotes();
 
   const { selectedNoteId, content, selectedNotebookId } = useSelector(
     (state) => state.notes
@@ -37,13 +39,7 @@ const App = () => {
     // This causes the component `App.js` and then all of its children to re-render
     dispatch(getBillingData());
     dispatch(getNotesData()).then(() => {
-      if (notebookId && noteId) {
-        dispatch(
-          updateSelectedNotebookId({ notebookId: Number(notebookId) })
-        ).then(() =>
-          dispatch(updateSelectedNoteId({ noteId: Number(noteId) }))
-        );
-      }
+      goToNote(notebookId, noteId);
     });
 
     const autoSave = () => {
@@ -60,7 +56,6 @@ const App = () => {
 
   // This useEffect is for when we update our notes, we want to make sure the URL reflects that so that if the user wants to save that to bookmarks, they can easily access it again
   useEffect(() => {
-    // Again, I think this might be too early to decide whether this will scale or not, but it works for now so I'll keep it. I don't see what other routes I might have right now
     if (selectedNoteId || selectedNotebookId) {
       navigate(getRedirectUrl(selectedNoteId, selectedNotebookId));
     }

@@ -5,36 +5,39 @@ import EmptyResults from "modals/CommandHubModal/NotebookTab/EmptyResults";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
+import { getRedirectUrl } from "helpers/note";
+import { updateSelectedNoteId } from "slices/notesSlice";
+import useNotes from "hooks/useNotes";
 
 const isNote = (type) => type === "note";
 const isSubnotebook = (type) => type === "subnotebook";
 const isNotebook = (type) => type === "notebook";
 
+const getDescription = (type) => {
+  if (isNote(type)) {
+    return "Note";
+  } else if (isSubnotebook(type)) {
+    return "Subnotebook";
+  } else if (isNotebook(type)) {
+    return "Notebook";
+  }
+};
+
+const getIcon = (type) => {
+  if (isNotebook(type) || isSubnotebook(type)) {
+    return <FolderIcon height="16" />;
+  } else if (isNote(type)) {
+    return <DocumentIcon height="16px" />;
+  }
+};
+
 const NotebookSearchResults = ({ results }) => {
   const [focusedIndex, setFocusedIndex] = useState(0);
   const focusedIndexRef = useRef(0);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { goToNote } = useNotes();
 
   focusedIndexRef.current = focusedIndex;
-
-  const getDescription = (type) => {
-    if (isNote(type)) {
-      return "Note";
-    } else if (isSubnotebook(type)) {
-      return "Subnotebook";
-    } else if (isNotebook(type)) {
-      return "Notebook";
-    }
-  };
-
-  const getIcon = (type) => {
-    if (isNotebook(type) || isSubnotebook(type)) {
-      return <FolderIcon height="16" />;
-    } else if (isNote(type)) {
-      return <DocumentIcon height="16px" />;
-    }
-  };
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowUp") {
@@ -49,14 +52,14 @@ const NotebookSearchResults = ({ results }) => {
       e.preventDefault();
       const result = results[focusedIndexRef.current];
 
+      console.log("result", result);
+
       dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
 
-      if (isNotebook(result.item.type)) {
-        navigate(`/notebooks/${result.item.id}`);
-      } else if (isSubnotebook(result.item.type)) {
-        // TODO
-      } else if (isNotebook(result.item.type)) {
-        // TODO
+      if (isNotebook(result.item.type) || isSubnotebook(result.item.type)) {
+        goToNote(result.item.id, null);
+      } else if (isNote(result.item.type)) {
+        goToNote(result.item.notebookId, result.item.id);
       }
     }
   };
@@ -77,8 +80,6 @@ const NotebookSearchResults = ({ results }) => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [results]);
-
-  console.log("focusedIndex", focusedIndex);
 
   return (
     <div className="search-results">
