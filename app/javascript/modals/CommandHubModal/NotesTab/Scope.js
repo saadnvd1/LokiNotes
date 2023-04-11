@@ -3,23 +3,33 @@ import { Segmented, Select } from "antd";
 import { useSelector } from "react-redux";
 import { selectAllNotebookNameAndIds } from "selectors/notesSelector";
 
-const Scope = ({}) => {
+const Scope = ({ setFilteredNotes, allNotes }) => {
   const [scope, setScope] = useState("All");
   const notebooks = useSelector(selectAllNotebookNameAndIds);
+  const [selectedNotebook, setSelectedNotebook] = useState(null);
 
-  const onChange = (value) => {
-    // debugger;
-    // if (scope === "Notebook") {
-    //   setFilteredNotes(allNotes.filter((note) => note.notebookId === value));
-    // } else {
-    //   setFilteredNotes(allNotes);
-    // }
-    //
-    // resetToFilteredNotes();
+  const handleNotebookChange = (value) => {
+    if (scope === "Notebook") {
+      setFilteredNotes(allNotes.filter((note) => note.notebookId === value));
+    } else {
+      setFilteredNotes(allNotes);
+    }
+
+    setSelectedNotebook(value);
   };
 
-  const onSearch = (value) => {
-    console.log("search:", value);
+  const handleScopeChange = (value) => {
+    if (value === "All") {
+      setFilteredNotes(allNotes);
+    } else if (value === "Notebook" && selectedNotebook) {
+      setFilteredNotes(
+        allNotes.filter((note) => note.notebookId === selectedNotebook)
+      );
+    } else if (value === "Notebook" && !selectedNotebook) {
+      setFilteredNotes([]);
+    }
+
+    setScope(value);
   };
 
   const generateNotebookScopeOptions = () => {
@@ -41,7 +51,7 @@ const Scope = ({}) => {
       <Segmented
         options={["All", "Notebook"]}
         value={scope}
-        onChange={setScope}
+        onChange={handleScopeChange}
       />
       {scope === "Notebook" && (
         <div style={{ width: "70%" }}>
@@ -51,8 +61,8 @@ const Scope = ({}) => {
             allowClear
             placeholder="Select a notebook to search in"
             optionFilterProp="children"
-            onChange={onChange}
-            onSearch={onSearch}
+            value={selectedNotebook}
+            onChange={handleNotebookChange}
             filterOption={(input, option) =>
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }

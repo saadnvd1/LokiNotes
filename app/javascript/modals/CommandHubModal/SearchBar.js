@@ -39,6 +39,7 @@ const SearchBar = ({ handleSearch, activeTab, placeholder, searchQuery }) => {
         style={{ marginRight: 8 }}
       />
       <Input
+        // allowClear TODO: enable this when ready to fix the styles on it :(
         ref={inputRef}
         value={searchQuery}
         onChange={(e) => handleSearch(e.target.value)}
