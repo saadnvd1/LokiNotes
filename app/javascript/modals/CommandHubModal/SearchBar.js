@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Input } from "antd";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
-const SearchBar = ({ search, setSearch, activeTab, placeholder }) => {
+const SearchBar = ({ handleSearch, activeTab, placeholder }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -26,9 +26,8 @@ const SearchBar = ({ search, setSearch, activeTab, placeholder }) => {
         style={{ marginRight: 8 }}
       />
       <Input
-        value={search}
         ref={inputRef}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => handleSearch(e.target.value)}
         placeholder={placeholder}
       />
     </div>

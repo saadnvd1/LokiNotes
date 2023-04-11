@@ -6,6 +6,8 @@ import Draggable from "react-draggable";
 import NotebooksTab from "modals/CommandHubModal/NotebooksTab";
 import NotesTab from "modals/CommandHubModal/NotesTab";
 import { useHotkeys } from "react-hotkeys-hook";
+import { selectNotebooksSearchIndex } from "selectors/notesSelector";
+import Fuse from "fuse.js";
 
 const CommandHubModal = () => {
   const dispatch = useDispatch();
