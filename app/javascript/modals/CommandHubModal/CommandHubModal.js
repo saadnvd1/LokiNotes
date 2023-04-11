@@ -2,12 +2,10 @@ import React, { useRef, useState } from "react";
 import { Modal, Tabs } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
-import BillingTab from "modals/MyAccountModal/BillingTab";
-import useKeyboardShortcut from "use-keyboard-shortcut";
 import Draggable from "react-draggable";
 import NotebooksTab from "modals/CommandHubModal/NotebooksTab";
-import { act } from "react-dom/test-utils";
 import NotesTab from "modals/CommandHubModal/NotesTab";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const CommandHubModal = () => {
   const dispatch = useDispatch();
@@ -15,39 +13,31 @@ const CommandHubModal = () => {
   const [disabled, setDisabled] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
 
-  useKeyboardShortcut(
-    ["Meta", "P"],
-    (shortcutKeys) => {
+  useHotkeys(
+    "meta+p",
+    () => {
       setActiveTab("1");
 
       if (!commandHubModalIsOpen) {
         dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
       }
     },
-    {
-      overrideSystem: true,
-      ignoreInputFields: false,
-      repeatOnHold: false,
-    }
+    { preventDefault: true, enableOnFormTags: true },
+    [commandHubModalIsOpen, activeTab]
   );
 
-  // TODO: check out: https://www.npmjs.com/package/react-hotkeys-hook
-  // This one below is flaky
-  useKeyboardShortcut(
-    ["Meta", "Shift", "F"],
-    (shortcutKeys) => {
-      console.log("shortcutKeys", shortcutKeys);
+  useHotkeys(
+    "shift+meta+f",
+    () => {
+      console.log("hello");
       setActiveTab("2");
 
       if (!commandHubModalIsOpen) {
         dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
       }
     },
-    {
-      overrideSystem: true,
-      ignoreInputFields: false,
-      repeatOnHold: false,
-    }
+    { preventDefault: true, enableOnFormTags: true },
+    [commandHubModalIsOpen, activeTab]
   );
 
   const [bounds, setBounds] = useState({
