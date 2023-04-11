@@ -16,7 +16,7 @@ const NotebooksTab = ({ activeTab }) => {
 
   const [results, setResults] = useState(allResults);
 
-  console.log("results", results);
+  console.log("notebooksSearchIndex", notebooksSearchIndex);
 
   const fuse = useMemo(
     () =>

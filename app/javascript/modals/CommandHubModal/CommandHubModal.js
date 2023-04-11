@@ -6,8 +6,6 @@ import Draggable from "react-draggable";
 import NotebooksTab from "modals/CommandHubModal/NotebookTab/NotebooksTab";
 import NotesTab from "modals/CommandHubModal/NotesTab/NotesTab";
 import { useHotkeys } from "react-hotkeys-hook";
-import { selectNotebooksSearchIndex } from "selectors/notesSelector";
-import Fuse from "fuse.js";
 
 const CommandHubModal = () => {
   const dispatch = useDispatch();
@@ -31,7 +29,6 @@ const CommandHubModal = () => {
   useHotkeys(
     "shift+meta+f",
     () => {
-      console.log("hello");
       setActiveTab("2");
 
       if (!commandHubModalIsOpen) {

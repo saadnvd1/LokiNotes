@@ -15,6 +15,10 @@
   transition: box-shadow 0.2s ease-in-out;
 }
 
+.search-result.focused {
+  background-color: #e5e7eb;
+}
+
 .search-result:hover {
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
