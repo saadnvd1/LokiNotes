@@ -39,6 +39,21 @@ const NotebookSearchResults = ({ results }) => {
 
   focusedIndexRef.current = focusedIndex;
 
+  const navigateToNote = (result) => {
+    dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
+
+    if (isNotebook(result.item.type) || isSubnotebook(result.item.type)) {
+      goToNote(result.item.id, null);
+    } else if (isNote(result.item.type)) {
+      goToNote(result.item.notebookId, result.item.id);
+    }
+  };
+
+  const handleClick = (index) => {
+    const result = results[index];
+    navigateToNote(result);
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -51,16 +66,7 @@ const NotebookSearchResults = ({ results }) => {
     } else if (e.key === "Enter") {
       e.preventDefault();
       const result = results[focusedIndexRef.current];
-
-      console.log("result", result);
-
-      dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
-
-      if (isNotebook(result.item.type) || isSubnotebook(result.item.type)) {
-        goToNote(result.item.id, null);
-      } else if (isNote(result.item.type)) {
-        goToNote(result.item.notebookId, result.item.id);
-      }
+      navigateToNote(result);
     }
   };
 
@@ -88,6 +94,7 @@ const NotebookSearchResults = ({ results }) => {
         <div
           key={result.item.id}
           className={`search-result ${index === focusedIndex ? "focused" : ""}`}
+          onClick={() => handleClick(index)}
         >
           <div
             style={{
