@@ -1,10 +1,31 @@
 import React from "react";
-import "./styles.css";
+import "modals/CommandHubModal/NotebookTab/styles.css";
 import { DocumentIcon, FolderIcon } from "@heroicons/react/24/solid";
-import EmptyResults from "modals/CommandHubModal/EmptyResults";
+import EmptyResults from "modals/CommandHubModal/NotebookTab/EmptyResults";
+
+const isNote = (type) => type === "note";
+const isSubnotebook = (type) => type === "subnotebook";
+const isNotebook = (type) => type === "notebook";
 
 const NotebookSearchResults = ({ results }) => {
-  console.log("results", results);
+  const getDescription = (type) => {
+    if (isNote(type)) {
+      return "Note";
+    } else if (isSubnotebook(type)) {
+      return "Subnotebook";
+    } else if (isNotebook(type)) {
+      return "Notebook";
+    }
+  };
+
+  const getIcon = (type) => {
+    if (isNotebook(type) || isSubnotebook(type)) {
+      return <FolderIcon height="16" />;
+    } else if (isNote(type)) {
+      return <DocumentIcon height="16px" />;
+    }
+  };
+
   return (
     <div className="search-results">
       {results.length === 0 && <EmptyResults />}
@@ -26,15 +47,11 @@ const NotebookSearchResults = ({ results }) => {
                 alignItems: "center",
               }}
             >
-              {(result.item.type === "subnotebook" ||
-                result.item.type === "notebook") && <FolderIcon height="16" />}
-              {result.item.type === "note" && <DocumentIcon height="16px" />}
+              {getIcon(result.item.type)}
               <span className="search-result-name">{result.item.name}</span>
             </div>
             <p className="search-result-info">
-              {result.item.type === "note" && `Note`}
-              {result.item.type === "subnotebook" && `Subnotebook`}
-              {result.item.type === "notebook" && `Notebook`}
+              {getDescription(result.item.type)}
             </p>
           </div>
         </div>

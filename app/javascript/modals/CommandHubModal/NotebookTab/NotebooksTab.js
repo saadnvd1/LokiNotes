@@ -1,11 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Input } from "antd";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import React, { useMemo, useState } from "react";
 import SearchBar from "modals/CommandHubModal/SearchBar";
 import { useSelector } from "react-redux";
 import { selectNotebooksSearchIndex } from "selectors/notesSelector";
 import Fuse from "fuse.js";
-import NotebookSearchResults from "modals/CommandHubModal/NotebookSearchResults";
+import NotebookSearchResults from "modals/CommandHubModal/NotebookTab/NotebookSearchResults";
 
 const NotebooksTab = ({ activeTab }) => {
   const notebooksSearchIndex = useSelector(selectNotebooksSearchIndex);

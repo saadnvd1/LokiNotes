@@ -1,6 +1,6 @@
 import React from "react";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
-import "./EmptyResults.css"; // import your custom CSS file
+import "modals/CommandHubModal/NotebookTab/EmptyResults.css"; // import your custom CSS file
 
 const EmptyResults = () => {
   return (
