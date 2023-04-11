@@ -1,11 +1,13 @@
 import React from "react";
 import "./styles.css";
 import { DocumentIcon, FolderIcon } from "@heroicons/react/24/solid";
+import EmptyResults from "modals/CommandHubModal/EmptyResults";
 
 const NotebookSearchResults = ({ results }) => {
   console.log("results", results);
   return (
     <div className="search-results">
+      {results.length === 0 && <EmptyResults />}
       {results.slice(0, 5).map((result) => (
         <div key={result.item.id} className="search-result">
           <div

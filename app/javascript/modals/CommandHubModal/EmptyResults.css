@@ -1,0 +1,18 @@
+.empty-results {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.empty-results-icon-svg {
+  height: 48px;
+  width: 48px;
+  color: #bbb;
+}
+
+.empty-results-text {
+  font-size: 18px;
+  color: #444;
+  text-align: center;
+}
