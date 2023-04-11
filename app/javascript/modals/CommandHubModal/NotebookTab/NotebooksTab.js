@@ -6,6 +6,7 @@ import Fuse from "fuse.js";
 import NotebookSearchResults from "modals/CommandHubModal/NotebookTab/NotebookSearchResults";
 
 const NotebooksTab = ({ activeTab }) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const notebooksSearchIndex = useSelector(selectNotebooksSearchIndex);
 
   const allResults = useMemo(() => {
@@ -15,8 +16,6 @@ const NotebooksTab = ({ activeTab }) => {
   }, [notebooksSearchIndex]);
 
   const [results, setResults] = useState(allResults);
-
-  console.log("notebooksSearchIndex", notebooksSearchIndex);
 
   const fuse = useMemo(
     () =>
@@ -28,6 +27,8 @@ const NotebooksTab = ({ activeTab }) => {
   );
 
   const handleSearch = (searchQuery) => {
+    setSearchQuery(searchQuery);
+
     if (searchQuery.length > 0) {
       setResults(fuse.search(searchQuery));
     } else {
@@ -39,6 +40,7 @@ const NotebooksTab = ({ activeTab }) => {
     <div>
       <SearchBar
         activeTab={activeTab}
+        searchQuery={searchQuery}
         placeholder="Find in notebooks..."
         handleSearch={handleSearch}
       />

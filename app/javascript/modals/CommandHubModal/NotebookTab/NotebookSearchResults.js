@@ -3,10 +3,7 @@ import "modals/CommandHubModal/NotebookTab/styles.css";
 import { DocumentIcon, FolderIcon } from "@heroicons/react/24/solid";
 import EmptyResults from "modals/CommandHubModal/NotebookTab/EmptyResults";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
-import { getRedirectUrl } from "helpers/note";
-import { updateSelectedNoteId } from "slices/notesSlice";
 import useNotes from "hooks/useNotes";
 
 const isNote = (type) => type === "note";
