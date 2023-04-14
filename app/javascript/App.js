@@ -71,7 +71,7 @@ const App = () => {
         </>
       )}
       <Layout>
-        <EditorHeader />
+        {!isZenMode && <EditorHeader />}
         <Editor />
       </Layout>
       <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />

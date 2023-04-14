@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Modal, Tabs } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
@@ -71,19 +71,22 @@ const CommandHubModal = () => {
     setActiveTab(key);
   };
 
-  // TODO: memoize this
-  const items = [
-    {
-      key: ACTIVE_TABS.notebooks.key,
-      label: ACTIVE_TABS.notebooks.label,
-      children: <NotebooksTab activeTab={activeTab} />,
-    },
-    {
-      key: ACTIVE_TABS.notes.key,
-      label: ACTIVE_TABS.notes.label,
-      children: <NotesTab activeTab={activeTab} />,
-    },
-  ];
+  // TODO: Add tooltips for keyboard shorcuts and a helpful description
+  const items = useMemo(
+    () => [
+      {
+        key: ACTIVE_TABS.notebooks.key,
+        label: ACTIVE_TABS.notebooks.label,
+        children: <NotebooksTab activeTab={activeTab} />,
+      },
+      {
+        key: ACTIVE_TABS.notes.key,
+        label: ACTIVE_TABS.notes.label,
+        children: <NotesTab activeTab={activeTab} />,
+      },
+    ],
+    [activeTab]
+  );
 
   return (
     <Modal
