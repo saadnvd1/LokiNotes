@@ -2,16 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import "modals/CommandHubModal/NotebookTab/styles.css";
 import { DocumentIcon, FolderIcon } from "@heroicons/react/24/solid";
 import EmptyResults from "modals/CommandHubModal/NotebookTab/EmptyResults";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
 import useNotes from "hooks/useNotes";
+import { ACTIVE_TABS } from "modals/CommandHubModal/constants";
 
-const NotebookSearchResults = ({
+const NotesSearchResults = ({
   results,
   setFocusedIndex,
   focusedIndex,
   searchQuery,
+  activeTab,
 }) => {
+  const { commandHubModalIsOpen } = useSelector((state) => state.modal);
   const focusedIndexRef = useRef(0);
   const dispatch = useDispatch();
   const { goToNote } = useNotes();
@@ -28,6 +31,7 @@ const NotebookSearchResults = ({
     setFocusedIndex(index);
   };
 
+  // TODO: Fix this since it's being called for some reason when we're searching for notebooks
   const handleKeyDown = (e) => {
     if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -45,32 +49,34 @@ const NotebookSearchResults = ({
   };
 
   useEffect(() => {
-    const resultsElements = document.querySelectorAll(
-      ".notes-search-result:not(.empty-results)"
-    );
+    // This and "NotebookSearchResults" would collide if we didn't have this here
+    // It seems to work without any issues, so I'm going to stick with it
+    if (commandHubModalIsOpen && activeTab === ACTIVE_TABS.notes.key) {
+      const resultsElements = document.querySelectorAll(
+        ".notes-search-results:not(.empty-results)"
+      );
 
-    resultsElements.forEach((element, index) => {
-      element.setAttribute("tabindex", 0);
-      element.setAttribute("data-index", index);
-    });
+      resultsElements.forEach((element, index) => {
+        element.setAttribute("tabindex", 0);
+        element.setAttribute("data-index", index);
+      });
 
-    document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [results]);
-
-  console.log("focusedIndex", focusedIndex);
-
-  console.log("results", results);
+  }, [results, activeTab, commandHubModalIsOpen]);
 
   return (
     <div className="notes-search-results search-results">
       {searchQuery && results.length === 0 && <EmptyResults />}
       {results.slice(0, 5).map((result, index) => (
         <div
-          key={result.item.id}
+          key={`${result.item.id}-${result.item.type}-notes-search-result`}
           className={`search-result ${index === focusedIndex ? "focused" : ""}`}
           onClick={() => handleClick(index)}
         >
@@ -103,4 +109,4 @@ const NotebookSearchResults = ({
   );
 };
 
-export default NotebookSearchResults;
+export default NotesSearchResults;

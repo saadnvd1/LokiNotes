@@ -64,6 +64,7 @@ const NotesTab = ({ activeTab }) => {
         focusedIndex={focusedIndex}
         setFocusedIndex={setFocusedIndex}
         searchQuery={searchQuery}
+        activeTab={activeTab}
       />
       <Scope setFilteredNotes={setFilteredNotes} allNotes={allNotes} />
       {searchQuery && results.length > 0 && (

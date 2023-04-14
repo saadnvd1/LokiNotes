@@ -6,6 +6,7 @@ import Draggable from "react-draggable";
 import NotebooksTab from "modals/CommandHubModal/NotebookTab/NotebooksTab";
 import NotesTab from "modals/CommandHubModal/NotesTab/NotesTab";
 import { useHotkeys } from "react-hotkeys-hook";
+import { ACTIVE_TABS } from "modals/CommandHubModal/constants";
 
 const CommandHubModal = () => {
   const dispatch = useDispatch();
@@ -73,13 +74,13 @@ const CommandHubModal = () => {
   // TODO: memoize this
   const items = [
     {
-      key: "1",
-      label: `Notebooks`,
+      key: ACTIVE_TABS.notebooks.key,
+      label: ACTIVE_TABS.notebooks.label,
       children: <NotebooksTab activeTab={activeTab} />,
     },
     {
-      key: "2",
-      label: `Notes`,
+      key: ACTIVE_TABS.notes.key,
+      label: ACTIVE_TABS.notes.label,
       children: <NotesTab activeTab={activeTab} />,
     },
   ];

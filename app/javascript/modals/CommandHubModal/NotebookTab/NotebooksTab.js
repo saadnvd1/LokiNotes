@@ -44,7 +44,7 @@ const NotebooksTab = ({ activeTab }) => {
         placeholder="Find in notebooks..."
         handleSearch={handleSearch}
       />
-      <NotebookSearchResults results={results} />
+      <NotebookSearchResults results={results} activeTab={activeTab} />
     </div>
   );
 };
