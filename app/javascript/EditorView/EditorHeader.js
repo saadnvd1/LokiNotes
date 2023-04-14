@@ -38,16 +38,14 @@ const EditorHeader = () => {
 
   useEffect(() => {
     if (currentNote) {
-      setNoteTitle(currentNote.title);
+      setNoteTitle(currentNote.title || "");
+    } else {
+      setNoteTitle("");
     }
   }, [currentNote]);
 
   const handleCreateNote = () => {
     dispatch(createNote({ notebookId: selectedNotebookId }));
-  };
-
-  const handleEdit = () => {
-    setIsEditing(true);
   };
 
   const saveTitle = () => {
@@ -80,13 +78,14 @@ const EditorHeader = () => {
     padding: 0,
     margin: 0,
     minWidth: "unset",
-    width: "300px",
+    width: "100%",
     marginTop: 20,
     cursor: isEditing ? "unset" : "pointer",
   };
 
   return (
     <Header
+      key={currentNote?.id}
       className="EditorHeader"
       style={{
         display: "flex",
@@ -97,7 +96,7 @@ const EditorHeader = () => {
         alignItems: "center",
       }}
     >
-      <div>
+      <div style={{ width: "100%" }}>
         <input
           value={noteTitle}
           onChange={(e) => setNoteTitle(e.target.value)}

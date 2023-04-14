@@ -40,6 +40,8 @@ const NotebookCreateModal = () => {
       });
   };
 
+  // TODO: make sure we focus when this opens
+
   return (
     <Modal
       open={createNotebookModalIsOpen}

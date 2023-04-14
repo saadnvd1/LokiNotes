@@ -93,6 +93,13 @@ body {
   color: #aba8a8 !important;
 }
 
+.ql-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+}
+
 /* Toolbar (Bold, Italics, Underline, etc..) */
 .ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
     color: #fff !important;
