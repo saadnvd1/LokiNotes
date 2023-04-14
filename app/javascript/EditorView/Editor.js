@@ -4,8 +4,23 @@ import { Content } from "antd/es/layout/layout";
 import useNotes from "hooks/useNotes";
 import { updateContent } from "slices/notesSlice";
 import { useDispatch } from "react-redux";
-import { Spin } from "antd";
 import SavingIndicator from "EditorView/SavingIndicator";
+import hljs from "highlight.js";
+import "./dracula.css";
+
+hljs.configure({
+  languages: [
+    "javascript",
+    "ruby",
+    "python",
+    "rust",
+    "css",
+    "pgsql",
+    "txt",
+    "sql",
+    "yaml",
+  ],
+});
 
 const Editor = () => {
   const dispatch = useDispatch();
@@ -30,6 +45,9 @@ const Editor = () => {
       },
       clipboard: {
         matchVisual: false,
+      },
+      syntax: {
+        highlight: (text) => hljs.highlightAuto(text).value,
       },
     }),
     []
