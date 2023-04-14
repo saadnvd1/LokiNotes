@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import SavingIndicator from "EditorView/SavingIndicator";
 import hljs from "highlight.js";
 import "./dracula.css";
-import QuillImageDropAndPaste from "quill-image-drop-and-paste";
+import QuillImageDropAndPaste, { ImageData } from "quill-image-drop-and-paste";
 import { uploadImage } from "slices/imagesSlice";
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
@@ -31,13 +31,9 @@ const Editor = () => {
   const { selectedNoteId, content } = useNotes();
   const quillRef = useRef(null);
 
-  console.log("selectedNoteId", selectedNoteId);
-
   const imageUploader = (dataUrl, type, imageData) => {
     const file = imageData.toFile();
     const formData = new FormData();
-
-    console.log("selectedNoteId", selectedNoteId);
 
     formData.append("file", file);
     formData.append("note_id", selectedNoteId);
@@ -54,11 +50,47 @@ const Editor = () => {
       });
   };
 
+  const clickImageUpload = (clicked) => {
+    if (clicked) {
+      let fileInput = document.querySelector("input.ql-image[type=file]");
+      if (fileInput == null) {
+        fileInput = document.createElement("input");
+        fileInput.setAttribute("type", "file");
+        fileInput.setAttribute(
+          "accept",
+          "image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
+        );
+        fileInput.classList.add("ql-image");
+        fileInput.addEventListener("change", function (e) {
+          const files = e.target.files;
+          let file;
+          if (files.length > 0) {
+            file = files[0];
+            const type = file.type;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              // handle the inserted image
+              const dataUrl = e.target.result;
+              imageUploader(
+                dataUrl,
+                type,
+                new ImageData(dataUrl, type, file.name)
+              );
+              fileInput.value = "";
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+      fileInput.click();
+    }
+  };
+
   const modules = useMemo(
     () => ({
       toolbar: {
         // TODO: implement image upload
-        handlers: { image: imageUploader },
+        handlers: { image: clickImageUpload },
         container: [
           [{ header: [1, 2, false] }],
           ["bold", "italic", "underline", "strike", "blockquote"],
