@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_06_122334) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_14_203743) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "features", force: :cascade do |t|
@@ -20,6 +21,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_122334) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["plan_id"], name: "index_features_on_plan_id"
+  end
+
+  create_table "note_images", force: :cascade do |t|
+    t.string "file"
+    t.bigint "note_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["note_id"], name: "index_note_images_on_note_id"
   end
 
   create_table "notebooks", force: :cascade do |t|
@@ -94,6 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_122334) do
   end
 
   add_foreign_key "features", "plans"
+  add_foreign_key "note_images", "notes"
   add_foreign_key "notebooks", "users"
   add_foreign_key "notes", "notebooks"
   add_foreign_key "prices", "plans"

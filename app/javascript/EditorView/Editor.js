@@ -7,6 +7,9 @@ import { useDispatch } from "react-redux";
 import SavingIndicator from "EditorView/SavingIndicator";
 import hljs from "highlight.js";
 import "./dracula.css";
+import QuillImageDropAndPaste from "quill-image-drop-and-paste";
+
+Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 
 hljs.configure({
   languages: [
@@ -26,15 +29,15 @@ const Editor = () => {
   const dispatch = useDispatch();
   const { selectedNoteId, content } = useNotes();
 
-  // const imageUploader = (file, callback) => {
-  //   console.log("file", file);
-  // };
+  const imageUploader = (dataUrl, type, imageData) => {
+    console.log("test");
+  };
 
   const modules = useMemo(
     () => ({
       toolbar: {
         // TODO: implement image upload
-        handlers: { image: () => console.log("hello") },
+        handlers: { image: imageUploader },
         container: [
           [{ header: [1, 2, false] }],
           ["bold", "italic", "underline", "strike", "blockquote"],
@@ -48,6 +51,9 @@ const Editor = () => {
       },
       syntax: {
         highlight: (text) => hljs.highlightAuto(text).value,
+      },
+      imageDropAndPaste: {
+        handler: imageUploader,
       },
     }),
     []

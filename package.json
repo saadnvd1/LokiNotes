@@ -19,6 +19,7 @@
     "highlight.js": "^11.7.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.3",
+    "quill-image-drop-and-paste": "^1.2.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",

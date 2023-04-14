@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :notes, only: [:update, :index, :create]
   resources :notebooks, only: [:create]
+  resources :images, only: [:create]
 
   resources :billing, only: [:index] do
     collection do
