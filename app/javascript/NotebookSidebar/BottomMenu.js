@@ -1,6 +1,6 @@
 import React from "react";
 import "./BottomMenu.css";
-import { Menu } from "antd";
+import { Menu, Tooltip } from "antd";
 import {
   ArrowRightOnRectangleIcon,
   UserIcon,
@@ -9,6 +9,7 @@ import {
 import { useDispatch } from "react-redux";
 import { logout } from "slices/userSlice";
 import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
+import { isWindows } from "helpers/platform";
 
 const BottomMenu = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,17 @@ const BottomMenu = () => {
         items={[
           {
             key: "command-center",
-            label: "Command Hub",
+            label: (
+              <Tooltip
+                title={`Find all your notes quickly (${
+                  isWindows() ? "Ctrl" : "Cmd"
+                } + P)`}
+                mouseEnterDelay={0.5}
+                style={{ zIndex: 999 }}
+              >
+                Command Hub
+              </Tooltip>
+            ),
             icon: <CommandLineIcon height="16px" />,
             onClick: () => {
               dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
