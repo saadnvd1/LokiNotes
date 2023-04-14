@@ -62,7 +62,7 @@ const _shouldSaveNote = (thunkAPI, data) => {
 
   // Do not save the note if content hasn't changed
   // And check to see whether we're even sending a `content` update
-  if (data.content && note && note.content === content) return false;
+  if ("content" in data && note && note.content === content) return false;
 
   return true;
 };

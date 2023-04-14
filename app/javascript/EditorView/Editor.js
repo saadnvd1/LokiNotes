@@ -25,6 +25,7 @@ const Editor = () => {
           ["bold", "italic", "underline", "strike", "blockquote"],
           ["link", "image"],
           ["clean"],
+          ["code-block"],
         ],
       },
       clipboard: {

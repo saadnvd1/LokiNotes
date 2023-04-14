@@ -37,9 +37,12 @@ const EditorHeader = () => {
   }, [isEditing]);
 
   useEffect(() => {
+    console.log("hitting this useEffect");
     if (currentNote) {
       setNoteTitle(currentNote.title || "");
     } else {
+      console.log("resetting note title");
+      console.log(currentNote);
       setNoteTitle("");
     }
   }, [currentNote]);
@@ -83,6 +86,9 @@ const EditorHeader = () => {
     cursor: isEditing ? "unset" : "pointer",
   };
 
+  // TODO: there's a bug where if you're writing a title and the auto save launches, then it'll empty out the title as you're writing. fix it
+
+  console.log("currentNote", currentNote);
   return (
     <Header
       key={currentNote?.id}
