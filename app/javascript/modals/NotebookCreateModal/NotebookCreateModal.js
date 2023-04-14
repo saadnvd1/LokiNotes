@@ -1,19 +1,18 @@
 import { Button, Form, Input, Modal, Radio, Select } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNotebook, toggleIsCreatingNotebook } from "slices/notesSlice";
+import { createNotebook } from "slices/notesSlice";
+import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
 
 const NotebookCreateModal = () => {
-  const { notesData, isCreatingNotebook } = useSelector((state) => state.notes);
+  const { notesData } = useSelector((state) => state.notes);
+  const { createNotebookModalIsOpen } = useSelector((state) => state.modals);
   const dispatch = useDispatch();
 
   const [form] = Form.useForm();
 
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  const onSearch = (value) => {
-    console.log("search:", value);
+  const handleCloseModal = () => {
+    dispatch(toggleModal({ modalName: MODAL_NAMES.CREATE_NOTEBOOK }));
   };
 
   const generateParentSelectOptions = () => {
@@ -34,7 +33,7 @@ const NotebookCreateModal = () => {
         form.resetFields();
         dispatch(
           createNotebook({ name: values.name, parentId: values.parent_id })
-        ).then(() => onCancel());
+        ).then(() => handleCloseModal());
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -43,11 +42,11 @@ const NotebookCreateModal = () => {
 
   return (
     <Modal
-      open={isCreatingNotebook}
+      open={createNotebookModalIsOpen}
       title="Create a Notebook"
       okText="Create"
       cancelText="Cancel"
-      onCancel={() => dispatch(toggleIsCreatingNotebook())}
+      onCancel={handleCloseModal}
       onOk={handleSubmit}
     >
       <Form
@@ -81,8 +80,6 @@ const NotebookCreateModal = () => {
             allowClear
             placeholder="Select a parent notebook or leave blank"
             optionFilterProp="children"
-            onChange={onChange}
-            onSearch={onSearch}
             filterOption={(input, option) =>
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }

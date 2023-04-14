@@ -10,7 +10,7 @@ import { ACTIVE_TABS } from "modals/CommandHubModal/constants";
 
 const CommandHubModal = () => {
   const dispatch = useDispatch();
-  const { commandHubModalIsOpen } = useSelector((state) => state.modal);
+  const { commandHubModalIsOpen } = useSelector((state) => state.modals);
   const [disabled, setDisabled] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
 

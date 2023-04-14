@@ -3,10 +3,7 @@ import { Input } from "antd";
 import React, { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { isEmpty, isEqual, difference } from "lodash";
-import {
-  toggleIsCreatingNotebook,
-  updateSelectedNotebookId,
-} from "slices/notesSlice";
+import { updateSelectedNotebookId } from "slices/notesSlice";
 import useNotes from "hooks/useNotes";
 import { useDispatch, useSelector } from "react-redux";
 import ParentRowNoSubs from "NotebookSidebar/ParentRowNoSubs";
@@ -14,15 +11,16 @@ import ParentRowWithSubs from "NotebookSidebar/ParentRowWithSubs";
 import SubnotebookRow from "NotebookSidebar/SubnotebookRow";
 import LIcon from "components/LIcon/LIcon";
 import BottomMenu from "NotebookSidebar/BottomMenu";
+import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
 
-const NotebookSidebar = ({ isCreatingNotebook }) => {
+const NotebookSidebar = () => {
   const dispatch = useDispatch();
   const [menu, setMenu] = useState({});
   const { selectedNotebookId, notesData } = useNotes();
   const { selectedParentNotebookId } = useSelector((state) => state.notes);
 
   const handlecreateNotebook = () => {
-    dispatch(toggleIsCreatingNotebook());
+    dispatch(toggleModal({ modalName: MODAL_NAMES.CREATE_NOTEBOOK }));
   };
 
   const handleChangeNotebook = (notebookId) => {

@@ -5,7 +5,6 @@ const initialState = {
   notesData: null,
   selectedNoteId: null,
   selectedNotebookId: null,
-  isCreatingNotebook: null,
   content: null,
   selectedParentNotebookId: null,
   isSavingNote: false,
@@ -30,11 +29,11 @@ export const createNote = createAsyncThunk(
 
 export const updateNote = createAsyncThunk(
   "notes/updateNote",
-  async ({ noteId, content }, thunkAPI) => {
-    if (!_shouldSaveNote(thunkAPI, noteId)) return thunkAPI.rejectWithValue({});
+  async (data, thunkAPI) => {
+    if (!_shouldSaveNote(thunkAPI, data)) return thunkAPI.rejectWithValue({});
 
-    const response = await axiosI.patch(`/notes/${noteId}`, {
-      content: content,
+    const response = await axiosI.patch(`/notes/${data.noteId}`, {
+      ...data,
     });
     return response.data;
   }
@@ -51,18 +50,19 @@ export const updateSelectedNoteId = createAsyncThunk(
 
 // Business logic for whether we want to save the note to the database or not
 // In most cases, we just shouldn't save a note at all if it hasn't changed
-const _shouldSaveNote = (thunkAPI, noteId) => {
+const _shouldSaveNote = (thunkAPI, data) => {
   const notesState = thunkAPI.getState().notes;
   const content = notesState.content;
 
   let note = _findNoteInNotebook(
     notesState,
     notesState.selectedNotebookId,
-    noteId
+    data.noteId
   );
 
   // Do not save the note if content hasn't changed
-  if (note && note.content === content) return false;
+  // And check to see whether we're even sending a `content` update
+  if (data.content && note && note.content === content) return false;
 
   return true;
 };
@@ -140,9 +140,6 @@ export const notesSlice = createSlice({
     updateContent: (state, action) => {
       state.content = action.payload;
     },
-    toggleIsCreatingNotebook: (state) => {
-      state.isCreatingNotebook = !state.isCreatingNotebook;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
@@ -198,6 +195,7 @@ export const notesSlice = createSlice({
       if (!note) return;
 
       note.content = action.payload.note.content;
+      note.title = action.payload.note.title;
     });
     builder.addCase(updateNote.pending, (state, action) => {
       state.isSavingNote = true;
@@ -241,6 +239,6 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleIsCreatingNotebook, updateContent } = notesSlice.actions;
+export const { updateContent } = notesSlice.actions;
 
 export default notesSlice.reducer;

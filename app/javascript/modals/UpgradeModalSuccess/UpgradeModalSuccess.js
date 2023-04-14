@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 
 const UpgradeModalSuccess = () => {
-  const { billingSuccessModalIsOpen } = useSelector((state) => state.modal);
+  const { billingSuccessModalIsOpen } = useSelector((state) => state.modals);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const dispatch = useDispatch();

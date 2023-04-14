@@ -2,12 +2,7 @@ import { Layout } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import "react-quill/dist/quill.snow.css";
-import {
-  getNotesData,
-  updateNote,
-  updateSelectedNotebookId,
-  updateSelectedNoteId,
-} from "slices/notesSlice";
+import { getNotesData, updateNote } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Editor from "EditorView/Editor";
 import EditorHeader from "EditorView/EditorHeader";
@@ -19,8 +14,11 @@ import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
 import { getBillingData } from "slices/billingSlice";
 import GlobalComponents from "GlobalComponents";
 import useNotes from "hooks/useNotes";
+import useGlobalShortcuts from "hooks/useGlobalShortcuts";
 
 const App = () => {
+  useGlobalShortcuts();
+
   const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);

@@ -31,7 +31,7 @@ const getIcon = (type) => {
 
 const NotebookSearchResults = ({ results, activeTab }) => {
   const [focusedIndex, setFocusedIndex] = useState(0);
-  const { commandHubModalIsOpen } = useSelector((state) => state.modal);
+  const { commandHubModalIsOpen } = useSelector((state) => state.modals);
   const focusedIndexRef = useRef(0);
   const dispatch = useDispatch();
   const { goToNote } = useNotes();

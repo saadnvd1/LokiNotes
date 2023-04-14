@@ -5,6 +5,7 @@ export const MODAL_NAMES = {
   COMMAND_HUB: "commandHub",
   BILLING_UPGRADE: "billingUpgrade",
   BILLING_SUCCESS: "billingSuccess",
+  CREATE_NOTEBOOK: "createNotebook",
 };
 
 const initialState = {
@@ -12,10 +13,11 @@ const initialState = {
   commandHubModalIsOpen: false,
   billingUpgradeModalIsOpen: false,
   billingSuccessModalIsOpen: false,
+  createNotebookModalIsOpen: false,
 };
 
 export const modalSlice = createSlice({
-  name: "modal",
+  name: "modals",
   initialState,
   reducers: {
     toggleModal(state, action) {
