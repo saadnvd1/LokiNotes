@@ -4,6 +4,8 @@ import { Content } from "antd/es/layout/layout";
 import useNotes from "hooks/useNotes";
 import { updateContent } from "slices/notesSlice";
 import { useDispatch } from "react-redux";
+import { Spin } from "antd";
+import SavingIndicator from "EditorView/SavingIndicator";
 
 const Editor = () => {
   const dispatch = useDispatch();
@@ -36,12 +38,14 @@ const Editor = () => {
     <Content
       style={{
         margin: "24px 16px",
+        marginTop: 4,
         padding: "0px",
         overflowY: "scroll",
       }}
       className="editor-container" // prevents scrolling jump issue for quill.js
     >
-      <div style={{ backgroundColor: "#181818", color: "white", border: 0 }}>
+      <div style={{ backgroundColor: "#252525", color: "white", border: 0 }}>
+        <SavingIndicator />
         <ReactQuill
           modules={modules}
           key={selectedNoteId}

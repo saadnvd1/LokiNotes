@@ -8,6 +8,7 @@ const initialState = {
   isCreatingNotebook: null,
   content: null,
   selectedParentNotebookId: null,
+  isSavingNote: false,
 };
 
 // -- Notes Related Functionality
@@ -187,6 +188,7 @@ export const notesSlice = createSlice({
       state.notesData = action.payload.notes_data;
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
+      state.isSavingNote = false;
       let note = _findNoteInNotebook(
         state,
         action.payload.note.notebook_id,
@@ -196,6 +198,12 @@ export const notesSlice = createSlice({
       if (!note) return;
 
       note.content = action.payload.note.content;
+    });
+    builder.addCase(updateNote.pending, (state, action) => {
+      state.isSavingNote = true;
+    });
+    builder.addCase(updateNote.rejected, (state, action) => {
+      state.isSavingNote = false;
     });
     builder.addCase(createNote.fulfilled, (state, action) => {
       const noteId = action.payload.note.id;

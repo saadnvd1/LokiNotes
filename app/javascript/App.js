@@ -50,8 +50,7 @@ const App = () => {
         dispatch(updateNote({ noteId: selectedNoteId, content }));
       }
     };
-    // TODO: change this to 10s for production, but lets keep this 50s for dev since it gets annoying
-    setInterval(autoSave, 50000);
+    setInterval(autoSave, 10000);
   }, []);
 
   // This useEffect is for when we update our notes, we want to make sure the URL reflects that so that if the user wants to save that to bookmarks, they can easily access it again
