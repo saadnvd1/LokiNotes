@@ -27,11 +27,14 @@ const NotesSearchResults = ({
   };
 
   const handleClick = (index) => {
-    const result = results[index];
     setFocusedIndex(index);
   };
 
-  // TODO: Fix this since it's being called for some reason when we're searching for notebooks
+  const handleDoubleClick = (index) => {
+    const result = results[index];
+    navigateToNote(result);
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -63,7 +66,7 @@ const NotesSearchResults = ({
 
       document.addEventListener("keydown", handleKeyDown);
     } else {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", navigateToNote);
     }
 
     return () => {
@@ -79,6 +82,7 @@ const NotesSearchResults = ({
           key={`${result.item.id}-${result.item.type}-notes-search-result`}
           className={`search-result ${index === focusedIndex ? "focused" : ""}`}
           onClick={() => handleClick(index)}
+          onDoubleClick={() => handleDoubleClick(index)}
         >
           <div
             style={{
