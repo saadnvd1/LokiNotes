@@ -7,8 +7,11 @@ const initialState = {
 
 export const uploadImage = createAsyncThunk(
   "images/uploadImage",
-  async ({ file, noteId }, thunkAPI) => {
-    const response = await axiosI.post("/images", { file, noteId });
+  async (formData, thunkAPI) => {
+    const response = await axiosI.post("/images", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
     return response.data;
   }
 );

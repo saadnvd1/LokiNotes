@@ -8,6 +8,7 @@ import SavingIndicator from "EditorView/SavingIndicator";
 import hljs from "highlight.js";
 import "./dracula.css";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
+import { uploadImage } from "slices/imagesSlice";
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 
@@ -28,9 +29,29 @@ hljs.configure({
 const Editor = () => {
   const dispatch = useDispatch();
   const { selectedNoteId, content } = useNotes();
+  const quillRef = useRef(null);
+
+  console.log("selectedNoteId", selectedNoteId);
 
   const imageUploader = (dataUrl, type, imageData) => {
-    console.log("test");
+    const file = imageData.toFile();
+    const formData = new FormData();
+
+    console.log("selectedNoteId", selectedNoteId);
+
+    formData.append("file", file);
+    formData.append("note_id", selectedNoteId);
+
+    dispatch(uploadImage(formData))
+      .unwrap()
+      .then((response) => {
+        console.log("response", response);
+        const editor = quillRef.current.getEditor();
+        const range = editor.getSelection();
+        const index = range.index + range.length;
+        editor.insertEmbed(index, "image", response.url);
+        editor.setSelection(index + 1);
+      });
   };
 
   const modules = useMemo(
@@ -56,7 +77,7 @@ const Editor = () => {
         handler: imageUploader,
       },
     }),
-    []
+    [selectedNoteId]
   );
 
   return (
@@ -72,6 +93,7 @@ const Editor = () => {
       <div style={{ backgroundColor: "#252525", color: "white", border: 0 }}>
         <SavingIndicator />
         <ReactQuill
+          ref={quillRef}
           modules={modules}
           key={selectedNoteId}
           value={content}

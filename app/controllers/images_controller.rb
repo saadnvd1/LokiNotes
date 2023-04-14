@@ -17,6 +17,6 @@ class ImagesController < ApplicationController
   private
 
   def image_params
-    params.permit(:image, :note_id)
+    params.permit(:file, :note_id)
   end
 end
