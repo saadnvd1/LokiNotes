@@ -72,7 +72,7 @@ class BillingController < ApplicationController
   end
 
   def get_subscription
-    render json: { subscription: nil } if current_user.subscription.nil?
+    return render json: { subscription: nil } if current_user.subscription.nil?
 
     @subscription = current_user.subscription
     render "billing/subscription"
