@@ -4,7 +4,10 @@ const token = localStorage.getItem("lnt");
 
 const axiosI = axios.create({
   // TODO_PROD: change when launching obviously
-  baseURL: "http://192.168.1.67:3000",
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? "https://lokinotes.com"
+      : "http://localhost:3000",
   timeout: 1000,
   headers: {
     "Content-Type": "application/json",
