@@ -6,7 +6,7 @@ const axiosI = axios.create({
   // TODO_PROD: change when launching obviously
   baseURL:
     process.env.NODE_ENV === "production"
-      ? "https://lokinotes.com"
+      ? "https://app.lokinotes.com"
       : "http://localhost:3000",
   timeout: 1000,
   headers: {
