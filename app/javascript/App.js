@@ -19,11 +19,6 @@ import useGlobalShortcuts from "hooks/useGlobalShortcuts";
 const App = () => {
   useGlobalShortcuts();
 
-  console.log(
-    "just a test for production build",
-    process.env.AUTOSAVE_INTERVAL
-  );
-
   const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
