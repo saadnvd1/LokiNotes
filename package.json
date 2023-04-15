@@ -16,6 +16,7 @@
     "compression-webpack-plugin": "9",
     "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^4.2.2",
+    "dotenv-webpack": "^8.0.1",
     "fuse.js": "^6.6.2",
     "highlight.js": "^11.7.0",
     "lodash": "^4.17.21",

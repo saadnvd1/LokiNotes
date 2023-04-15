@@ -1,5 +1,6 @@
 const { webpackConfig, inliningCss } = require("shakapacker");
 const isDevelopment = process.env.NODE_ENV !== "production";
+const Dotenv = require("dotenv-webpack");
 
 if (isDevelopment && inliningCss) {
   const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
@@ -12,5 +13,7 @@ if (isDevelopment && inliningCss) {
     })
   );
 }
+
+webpackConfig.plugins.push(new Dotenv());
 
 module.exports = webpackConfig;
