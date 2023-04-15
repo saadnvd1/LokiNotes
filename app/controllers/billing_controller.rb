@@ -29,8 +29,8 @@ class BillingController < ApplicationController
     price_id = create_session_params[:price_id]
 
     session = Stripe::Checkout::Session.create({
-      success_url: 'http://localhost:3000/billing/success',
-      cancel_url: 'http://localhost:3000',
+      success_url: ENV.fetch("STRIPE_CHECKOUT_SUCCESS_URL", "http://localhost:3000/billing/success"),
+      cancel_url: ENV.fetch("STRIPE_CHECKOUT_CANCEL_URL", "http://localhost:3000"),
       mode: 'subscription',
       line_items: [{
         quantity: 1,
@@ -39,15 +39,6 @@ class BillingController < ApplicationController
       metadata: {
         user_id: current_user.id
       }
-    })
-
-    render json: { url: session.url }
-  end
-
-  def create_customer_portal_session
-    session = Stripe::BillingPortal::Session.create({
-      customer: current_user.subscription.stripe_customer_id,
-      return_url: 'http://localhost:3000',
     })
 
     render json: { url: session.url }
@@ -81,7 +72,7 @@ class BillingController < ApplicationController
   def create_customer_portal_session
     session = Stripe::BillingPortal::Session.create({
       customer: current_user.subscription.stripe_customer_id,
-      return_url: 'http://localhost:3000',
+      return_url: ENV.fetch("STRIPE_PORTAL_RETURN_URL", "http://localhost:3000"),
     })
 
     render json: { url: session.url }
