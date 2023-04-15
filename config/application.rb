@@ -8,8 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Lokinotes
   class Application < Rails::Application
-    config.web_console.whitelisted_ips = '192.168.1.74'
-
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
