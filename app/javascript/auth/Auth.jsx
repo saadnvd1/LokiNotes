@@ -11,7 +11,7 @@ const Auth = ({ type }) => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { state } = useLocation();
-  const { from } = state;
+  const from = state?.from || "/";
 
   useEffect(() => {
     if (user) return;
