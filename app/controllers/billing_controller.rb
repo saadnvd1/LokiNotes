@@ -7,7 +7,7 @@ class BillingController < ApplicationController
     if $redis.get('prices').nil?
       cached_prices = {}
       Stripe::Price.list.each do |price|
-        cached_prices[price.id] = { amount: price.unit_amount }
+        cached_prices[price.id] = { "amount" => price.unit_amount }
       end
 
       $redis.set('prices', cached_prices.to_json)
@@ -19,7 +19,7 @@ class BillingController < ApplicationController
       {
         name: price.name,
         stripe_price_id: price.stripe_price_id,
-        amount: cached_prices[price.stripe_price_id][:amount]
+        amount: cached_prices[price.stripe_price_id]["amount"]
       }
     end
 
