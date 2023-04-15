@@ -23,6 +23,8 @@ gem "pg", "~> 1.1"
 
 gem 'rack-cors'
 gem 'carrierwave', '>= 3.0.0.beta', '< 4.0'
+gem "sentry-ruby"
+gem "sentry-rails"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
