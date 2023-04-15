@@ -19,7 +19,7 @@ class BillingController < ApplicationController
       {
         name: price.name,
         stripe_price_id: price.stripe_price_id,
-        amount: cached_prices[price.stripe_price_id]["amount"]
+        amount: cached_prices[price.stripe_price_id][:amount]
       }
     end
 
