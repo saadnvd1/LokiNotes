@@ -37,6 +37,9 @@ const EditorHeader = () => {
   }, [isEditing]);
 
   useEffect(() => {
+    // We never want to overwrite the title if the user is currently editing it
+    if (isEditing) return;
+
     if (currentNote) {
       setNoteTitle(currentNote.title || "");
     } else {
