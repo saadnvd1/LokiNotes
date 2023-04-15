@@ -16,12 +16,12 @@ module.exports = function (api) {
       ],
     ].filter(Boolean),
     plugins: [
-      isProductionEnv && [
-        "babel-plugin-transform-react-remove-prop-types",
-        {
-          removeImport: true,
-        },
-      ],
+      // isProductionEnv && [
+      //   "babel-plugin-transform-react-remove-prop-types",
+      //   {
+      //     removeImport: true,
+      //   },
+      // ],
       process.env.WEBPACK_SERVE && "react-refresh/babel",
     ].filter(Boolean),
   };
