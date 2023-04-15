@@ -21,11 +21,19 @@ import { store } from "./store";
 import { ConfigProvider } from "antd";
 import Main from "Main";
 import { ToastContainer } from "react-toastify";
+import * as Sentry from "@sentry/react";
 
 import "react-toastify/dist/ReactToastify.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
+
+Sentry.init({
+  dsn: "https://bb29f06cd0564755aafa3c6c43dfa8a8@o4505018052182016.ingest.sentry.io/4505018052182016",
+  integrations: [new Sentry.BrowserTracing()],
+  tracesSampleRate: 1.0,
+  enabled: process.env.NODE_ENV === "production",
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   root.render(
