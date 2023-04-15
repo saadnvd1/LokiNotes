@@ -25,6 +25,7 @@ gem 'rack-cors'
 gem 'carrierwave', '>= 3.0.0.beta', '< 4.0'
 gem "sentry-ruby"
 gem "sentry-rails"
+gem 'newrelic_rpm'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"

@@ -152,6 +152,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
+    newrelic_rpm (9.1.0)
     nio4r (2.5.8)
     nokogiri (1.14.2-arm64-darwin)
       racc (~> 1.4)
@@ -297,6 +298,7 @@ DEPENDENCIES
   carrierwave (>= 3.0.0.beta, < 4.0)
   devise
   devise-jwt
+  newrelic_rpm
   oj
   pg (~> 1.1)
   pry (~> 0.13.1)
