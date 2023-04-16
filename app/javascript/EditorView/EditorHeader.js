@@ -1,27 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Header } from "antd/es/layout/layout";
-import useNotes from "hooks/useNotes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createNote, updateNote } from "slices/notesSlice";
 import LIcon from "components/LIcon/LIcon";
-import { Input } from "antd";
-
-const inputStyles = {
-  border: "none",
-  outline: "none",
-  fontWeight: "inherit",
-  color: "white",
-  fontSize: 32,
-  background: "transparent",
-  padding: 0,
-  margin: 0,
-  minWidth: "unset",
-  width: "100%",
-};
+import { selectCurrentNoteTitleAndId } from "selectors/notesSelector";
 
 const EditorHeader = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { currentNote, selectedNotebookId } = useNotes();
+  const selectedNotebookId = useSelector(
+    (state) => state.notes.selectedNotebookId
+  );
+  const currentNote = useSelector(selectCurrentNoteTitleAndId);
   const [noteTitle, setNoteTitle] = useState(
     currentNote ? currentNote?.title || "Untitled" : ""
   );

@@ -1,5 +1,8 @@
 import { createSelector } from "reselect";
+import { getNotebookById } from "helpers/notesHelper";
 
+const selectNotesSlice = (state) => state.notes;
+const selectSelectedNoteId = (state) => state.notes.selectedNoteId;
 const selectNotesData = (state) => state.notes.notesData;
 
 const buildNotebookData = (notebook, searchableData, parentId = null) => {
@@ -109,3 +112,28 @@ export const selectAllNotes = createSelector(selectNotesData, (data) => {
 
   return notes;
 });
+
+export const selectCurrentNotebook = createSelector(
+  selectNotesSlice,
+  (data) => {
+    return getNotebookById(
+      data.selectedParentNotebookId,
+      data.notesData,
+      data.selectedNotebookId
+    );
+  }
+);
+
+export const selectCurrentNoteTitleAndId = createSelector(
+  selectCurrentNotebook,
+  selectSelectedNoteId,
+  (notebook, selectedNoteId) => {
+    if (notebook) {
+      const note = notebook.notes.find((note) => note.id === selectedNoteId);
+
+      if (note) {
+        return { title: note.title, id: note.id };
+      }
+    }
+  }
+);

@@ -1,9 +1,8 @@
 import ReactQuill, { Quill } from "react-quill";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Content } from "antd/es/layout/layout";
-import useNotes from "hooks/useNotes";
-import { updateContent } from "slices/notesSlice";
-import { useDispatch } from "react-redux";
+import { updateContent, updateNote } from "slices/notesSlice";
+import { useDispatch, useSelector } from "react-redux";
 import SavingIndicator from "EditorView/SavingIndicator";
 import hljs from "highlight.js";
 import "./dracula.css";
@@ -28,8 +27,24 @@ hljs.configure({
 
 const Editor = () => {
   const dispatch = useDispatch();
-  const { selectedNoteId, content } = useNotes();
+  const content = useSelector((state) => state.notes.content);
+  const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
   const quillRef = useRef(null);
+
+  const selectedNoteRef = useRef(null);
+  selectedNoteRef.current = { selectedNoteId, content };
+
+  useEffect(() => {
+    const autoSave = () => {
+      const selectedNoteId = selectedNoteRef.current.selectedNoteId;
+      const content = selectedNoteRef.current.content;
+
+      if (selectedNoteId) {
+        dispatch(updateNote({ noteId: selectedNoteId, content }));
+      }
+    };
+    setInterval(autoSave, process.env.AUTOSAVE_INTERVAL || 10000);
+  }, []);
 
   const imageUploader = (dataUrl, type, imageData) => {
     const file = imageData.toFile();

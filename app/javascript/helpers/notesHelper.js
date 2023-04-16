@@ -13,3 +13,13 @@ export const getRedirectUrl = (noteId, notebookId) => {
 
   return redirectUrl;
 };
+
+export const getNotebookById = (selectedParentNotebookId, notesData, id) => {
+  if (!notesData) return;
+
+  if (selectedParentNotebookId) {
+    return notesData[selectedParentNotebookId].subnotebooks[id];
+  }
+
+  return notesData[id];
+};

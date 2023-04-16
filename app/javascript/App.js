@@ -2,19 +2,19 @@ import { Layout } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import "react-quill/dist/quill.snow.css";
-import { getNotesData, updateNote } from "slices/notesSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { getNotesData } from "slices/notesSlice";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import Editor from "EditorView/Editor";
 import EditorHeader from "EditorView/EditorHeader";
 import NoteSidebar from "NoteSidebar";
 import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";
-import { getRedirectUrl } from "helpers/note";
+import { getRedirectUrl } from "helpers/notesHelper";
 import ZenModeIcon from "components/ZenModeIcon/ZenModeIcon";
 import { getBillingData } from "slices/billingSlice";
 import GlobalComponents from "GlobalComponents";
-import useNotes from "hooks/useNotes";
 import useGlobalShortcuts from "hooks/useGlobalShortcuts";
+import useGoToNote from "hooks/useGoToNote";
 
 const App = () => {
   useGlobalShortcuts();
@@ -22,15 +22,14 @@ const App = () => {
   const { notebookId, noteId } = useParams();
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
-  const { goToNote } = useNotes();
 
-  const { selectedNoteId, content, selectedNotebookId } = useSelector(
-    (state) => state.notes
+  const [goToNote] = useGoToNote();
+  const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
+  const selectedNotebookId = useSelector(
+    (state) => state.notes.selectedNotebookId
   );
-  const dispatch = useDispatch();
-  const selectedNoteRef = useRef(null);
 
-  selectedNoteRef.current = { selectedNoteId, content };
+  const dispatch = useDispatch();
 
   // Initialization
   useEffect(() => {
@@ -39,16 +38,6 @@ const App = () => {
     dispatch(getNotesData()).then(() => {
       goToNote(notebookId, noteId);
     });
-
-    const autoSave = () => {
-      const selectedNoteId = selectedNoteRef.current.selectedNoteId;
-      const content = selectedNoteRef.current.content;
-
-      if (selectedNoteId) {
-        dispatch(updateNote({ noteId: selectedNoteId, content }));
-      }
-    };
-    setInterval(autoSave, process.env.AUTOSAVE_INTERVAL || 10000);
   }, []);
 
   // This useEffect is for when we update our notes, we want to make sure the URL reflects that so that if the user wants to save that to bookmarks, they can easily access it again
@@ -57,6 +46,8 @@ const App = () => {
       navigate(getRedirectUrl(selectedNoteId, selectedNotebookId));
     }
   }, [selectedNoteId, selectedNotebookId]);
+
+  console.log("re-rendeirng");
 
   return (
     <Layout style={{ height: "100vh" }}>

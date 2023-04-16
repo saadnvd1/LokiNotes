@@ -4,8 +4,8 @@ import { DocumentIcon, FolderIcon } from "@heroicons/react/24/solid";
 import EmptyResults from "modals/CommandHubModal/NotebookTab/EmptyResults";
 import { useDispatch, useSelector } from "react-redux";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
-import useNotes from "hooks/useNotes";
 import { ACTIVE_TABS } from "modals/CommandHubModal/constants";
+import useGoToNote from "hooks/useGoToNote";
 
 const isNote = (type) => type === "note";
 const isSubnotebook = (type) => type === "subnotebook";
@@ -34,7 +34,7 @@ const NotebookSearchResults = ({ results, activeTab }) => {
   const { commandHubModalIsOpen } = useSelector((state) => state.modals);
   const focusedIndexRef = useRef(0);
   const dispatch = useDispatch();
-  const { goToNote } = useNotes();
+  const [goToNote] = useGoToNote();
 
   focusedIndexRef.current = focusedIndex;
 
