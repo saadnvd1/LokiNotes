@@ -5,7 +5,7 @@ import { createNotebook } from "slices/notesSlice";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
 
 const NotebookCreateModal = () => {
-  const { notesData } = useSelector((state) => state.notes);
+  const notesData = useSelector((state) => state.notes.notesData);
   const { createNotebookModalIsOpen } = useSelector((state) => state.modals);
   const dispatch = useDispatch();
 

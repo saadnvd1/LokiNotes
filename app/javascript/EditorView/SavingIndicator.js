@@ -14,7 +14,7 @@ const antIcon = (
 );
 
 const SavingIndicator = () => {
-  const { isSavingNote } = useSelector((state) => state.notes);
+  const isSavingNote = useSelector((state) => state.notes.isSavingNote);
 
   return (
     <div
