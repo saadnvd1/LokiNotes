@@ -14,7 +14,9 @@ const NotesSearchResults = ({
   searchQuery,
   activeTab,
 }) => {
-  const { commandHubModalIsOpen } = useSelector((state) => state.modals);
+  const commandHubModalIsOpen = useSelector(
+    (state) => state.modals.commandHubModalIsOpen
+  );
   const focusedIndexRef = useRef(0);
   const dispatch = useDispatch();
   const [goToNote] = useGoToNote();

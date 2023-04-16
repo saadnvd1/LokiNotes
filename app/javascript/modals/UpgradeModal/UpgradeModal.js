@@ -10,8 +10,10 @@ const UpgradeModal = () => {
   const [monthly, setMonthly] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { prices } = useSelector((state) => state.billing);
-  const { billingUpgradeModalIsOpen } = useSelector((state) => state.modals);
+  const prices = useSelector((state) => state.billing.prices);
+  const billingUpgradeModalIsOpen = useSelector(
+    (state) => state.modals.billingUpgradeModalIsOpen
+  );
   const dispatch = useDispatch();
 
   const handleCheckout = () => {

@@ -6,7 +6,9 @@ import BillingTab from "modals/MyAccountModal/BillingTab";
 import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
 
 const MyAccountModal = () => {
-  const { accountModalIsOpen } = useSelector((state) => state.modals);
+  const accountModalIsOpen = useSelector(
+    (state) => state.modals.accountModalIsOpen
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import { Spin } from "antd";
 function RequireAuth({ children }) {
   const [loading, setLoading] = useState(true);
 
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   let location = useLocation();
 

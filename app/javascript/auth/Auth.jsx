@@ -8,7 +8,7 @@ import useToast from "hooks/useToast";
 
 const Auth = ({ type }) => {
   const { toastError } = useToast();
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const { state } = useLocation();
   const from = state?.from || "/";

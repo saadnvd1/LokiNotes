@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 
 const SearchBar = ({ handleSearch, activeTab, placeholder, searchQuery }) => {
   const inputRef = useRef(null);
-  const { commandHubModalIsOpen } = useSelector((state) => state.modals);
+  const commandHubModalIsOpen = useSelector(
+    (state) => state.modals.commandHubModalIsOpen
+  );
 
   useEffect(() => {
     setTimeout(() => {

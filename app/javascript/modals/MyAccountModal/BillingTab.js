@@ -7,7 +7,7 @@ import { toggleModal, MODAL_NAMES } from "slices/modalSlice";
 
 const BillingTab = () => {
   const dispatch = useDispatch();
-  const { subscription } = useSelector((state) => state.billing);
+  const subscription = useSelector((state) => state.billing.subscription);
 
   const getPlan = () => {
     if (subscription) {
