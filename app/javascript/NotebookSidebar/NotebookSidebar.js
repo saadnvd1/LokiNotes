@@ -16,6 +16,8 @@ const NotebookSidebar = () => {
   const selectedNotebookId = useSelector(
     (state) => state.notes.selectedNotebookId
   );
+
+  // TODO: in the future, this component really doesn't need to be subscribed to this entire notesData. I'd like to refactor in the future because right now if we update a note and save something like its content, then this component gets re-rendered even though it really doesn't need to
   const notesData = useSelector((state) => state.notes.notesData);
   const selectedParentNotebookId = useSelector(
     (state) => state.notes.selectedParentNotebookId
