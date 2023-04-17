@@ -6,7 +6,7 @@ const useGlobalShortcuts = () => {
   const dispatch = useDispatch();
 
   useHotkeys(
-    "meta+c",
+    "meta+shift+c",
     () => {
       dispatch(toggleModal({ modalName: MODAL_NAMES.CREATE_NOTEBOOK }));
     },
