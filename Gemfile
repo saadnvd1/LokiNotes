@@ -11,6 +11,7 @@ gem 'rabl'
 gem 'oj'
 gem 'cancancan'
 gem 'stripe'
+gem "fog-aws"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.2"
@@ -76,3 +77,6 @@ group :test do
 end
 
 gem "shakapacker", "= 6.6"
+
+gem "sidekiq", "~> 7.0"
+gem "sidekiq-cron"

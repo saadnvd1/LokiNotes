@@ -13,14 +13,13 @@ const antIcon = (
   />
 );
 
-const SavingIndicator = () => {
-  const isSavingNote = useSelector((state) => state.notes.isSavingNote);
-
+const SavingIndicator = ({ shouldShow, styles }) => {
   return (
     <div
       style={{
-        visibility: isSavingNote ? "visible" : "hidden",
+        visibility: shouldShow ? "visible" : "hidden",
         zIndex: 9999,
+        ...styles,
       }}
     >
       <Spin indicator={antIcon} />

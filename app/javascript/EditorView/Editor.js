@@ -28,6 +28,7 @@ hljs.configure({
 const Editor = () => {
   const dispatch = useDispatch();
   const content = useSelector((state) => state.notes.content);
+  const uploadingImages = useSelector((state) => state.images.uploadingImages);
   const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
   const quillRef = useRef(null);
 
@@ -138,7 +139,6 @@ const Editor = () => {
       className="editor-container" // prevents scrolling jump issue for quill.js
     >
       <div style={{ backgroundColor: "#252525", color: "white", border: 0 }}>
-        {/* Commenting this out for now since it's kinda annoying: <SavingIndicator />*/}
         <ReactQuill
           ref={quillRef}
           modules={modules}
@@ -149,8 +149,13 @@ const Editor = () => {
           }}
           scrollingContainer=".editor-container"
           placeholder="Begin something amazing here..."
+          readOnly={uploadingImages}
         />
       </div>
+      <SavingIndicator
+        shouldShow={uploadingImages}
+        styles={{ marginTop: 13 }}
+      />
     </Content>
   );
 };

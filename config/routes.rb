@@ -1,5 +1,13 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
+
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+    username == Rails.application.credentials.sidekiq[:username] && password == Rails.application.credentials.sidekiq[:password]
+  end
+
+  mount Sidekiq::Web => '/sidekiq'
 
   root 'home#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
