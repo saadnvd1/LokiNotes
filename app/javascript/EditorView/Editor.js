@@ -138,7 +138,7 @@ const Editor = () => {
       className="editor-container" // prevents scrolling jump issue for quill.js
     >
       <div style={{ backgroundColor: "#252525", color: "white", border: 0 }}>
-        <SavingIndicator />
+        {/* Commenting this out for now since it's kinda annoying: <SavingIndicator />*/}
         <ReactQuill
           ref={quillRef}
           modules={modules}
