@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
-import { isEmpty, isEqual, difference } from "lodash";
 import { updateSelectedNotebookId } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import ParentRowNoSubs from "NotebookSidebar/ParentRowNoSubs";
-import ParentRowWithSubs from "NotebookSidebar/ParentRowWithSubs";
-import SubnotebookRow from "NotebookSidebar/SubnotebookRow";
 import LIcon from "components/LIcon/LIcon";
 import BottomMenu from "NotebookSidebar/BottomMenu";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
+import Notebooks from "NotebookSidebar/Notebooks";
 
 const NotebookSidebar = () => {
   const dispatch = useDispatch();
@@ -45,6 +42,12 @@ const NotebookSidebar = () => {
     setMenu({ ...menuCopy });
   };
 
+  const toggleIsEditing = (notebookId) => {
+    const menuCopy = menu;
+    menuCopy[notebookId].isEditing = !menuCopy[notebookId].isEditing;
+    setMenu({ ...menuCopy });
+  };
+
   const setupMenuItems = (notebooks) => {
     const items = {};
     const notebookIDs = Object.keys(notebooks);
@@ -56,70 +59,11 @@ const NotebookSidebar = () => {
       items[notebookId] = {
         selected: selectedNotebookId === notebookId,
         showSubMenu: selectedParentNotebookId === notebookId,
+        isEditing: false,
       };
     });
 
     setMenu(items);
-  };
-
-  const buildNotebooks = () => {
-    return Object.entries(notesData).map(([notebookId, notebookData]) =>
-      buildNotebook(Number(notebookId), notebookData)
-    );
-  };
-
-  const buildNotebook = (notebookId, notebookData, isSubNotebook = false) => {
-    if (!notebookId) return;
-
-    const sharedClassNames = [
-      "single-menu-item",
-      notebookId === selectedNotebookId ? "menu-selected" : "",
-    ];
-
-    let classNames = sharedClassNames.join(" ");
-
-    const sharedParentProps = {
-      handleChangeNotebook,
-      notebookId,
-      classNames,
-      notebookData,
-    };
-
-    if (!isEmpty(notebookData.subnotebooks)) {
-      const items = [
-        {
-          label: "Create Subnotebook",
-          key: "1",
-          onClick: () => handlecreateNotebook(),
-        },
-      ];
-
-      return (
-        <div key={notebookId}>
-          <ParentRowWithSubs
-            {...sharedParentProps}
-            items={items}
-            menu={menu}
-            toggleSubmenu={toggleSubmenu}
-          />
-          <SubnotebookRow
-            notebookId={notebookId}
-            notebookData={notebookData}
-            menu={menu}
-            buildNotebook={buildNotebook}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <ParentRowNoSubs
-        {...sharedParentProps}
-        key={notebookId}
-        selectedNotebookId={selectedNotebookId}
-        isSubNotebook={isSubNotebook}
-      />
-    );
   };
 
   if (!notesData) return null;
@@ -131,7 +75,14 @@ const NotebookSidebar = () => {
       style={{ color: "white" }}
       className="hide-sidebar"
     >
-      <ul className="menu">{buildNotebooks()}</ul>
+      <Notebooks
+        menu={menu}
+        handleChangeNotebook={handleChangeNotebook}
+        selectedNotebookId={selectedNotebookId}
+        toggleIsEditing={toggleIsEditing}
+        toggleSubmenu={toggleSubmenu}
+        notesData={notesData}
+      />
       <div className="center-div" style={{ marginTop: "8px" }}>
         <LIcon
           onClick={handlecreateNotebook}

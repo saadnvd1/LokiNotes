@@ -19,4 +19,17 @@ class NotebooksController < ApplicationController
         subnotebooks: {},
     }
   end
+
+  def update
+    @notebook = Notebook.find(params[:id])
+    authorize! :update, @notebook
+
+    @notebook.update!(name: params[:name])
+
+    render json: {
+        id: @notebook.id,
+        name: @notebook.name,
+        parent_id: @notebook.parent_id,
+    }
+  end
 end

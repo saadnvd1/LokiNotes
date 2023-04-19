@@ -133,6 +133,16 @@ export const createNotebook = createAsyncThunk(
   }
 );
 
+export const updateNotebook = createAsyncThunk(
+  "notes/updateNotebook",
+  async (data, thunkAPI) => {
+    const response = await axiosI.patch(`/notebooks/${data.notebookId}`, {
+      ...data,
+    });
+    return response.data;
+  }
+);
+
 export const notesSlice = createSlice({
   name: "notes",
   initialState,
@@ -234,6 +244,21 @@ export const notesSlice = createSlice({
       state.selectedNotebookId = action.payload.id;
       state.selectedNoteId = null;
       state.content = null;
+    });
+    builder.addCase(updateNotebook.fulfilled, (state, action) => {
+      // Add new notebook to notesData
+      const parentId = action.meta.arg.parentId;
+      const name = action.payload.name;
+
+      // Currently, we're only ever updating the title of the notebook, so don't need to worry about other parameters
+      if (parentId) {
+        // subnotebook
+        const parentNotebook = _findNotebook(state, parentId);
+        parentNotebook.subnotebooks[action.payload.id].name = name;
+      } else {
+        // main notebook
+        state.notesData[action.payload.id].name = name;
+      }
     });
   },
 });
