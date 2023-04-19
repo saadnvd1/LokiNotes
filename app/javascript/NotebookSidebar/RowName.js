@@ -1,6 +1,10 @@
-import { FolderIcon } from "@heroicons/react/24/solid";
+import {
+  FolderIcon,
+  MinusIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/solid";
 import React, { useEffect, useRef, useState } from "react";
-import { updateNote, updateNotebook } from "slices/notesSlice";
+import { updateNotebook } from "slices/notesSlice";
 import { useDispatch } from "react-redux";
 
 const RowName = ({
@@ -27,7 +31,19 @@ const RowName = ({
   };
 
   if (isSubnotebook) {
-    return <span>{nameValue}</span>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <ChevronRightIcon color="white" height="13" />
+        <span>{nameValue}</span>
+      </div>
+    );
   }
 
   const inputStyles = {

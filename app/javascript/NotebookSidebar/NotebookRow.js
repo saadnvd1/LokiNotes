@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import RowName from "NotebookSidebar/RowText";
+import RowName from "NotebookSidebar/RowName";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
 import EditDropdown from "NotebookSidebar/EditDropdown";
 
