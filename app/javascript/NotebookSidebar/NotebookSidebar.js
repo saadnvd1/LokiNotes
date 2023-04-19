@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sider from "antd/es/layout/Sider";
-import { updateSelectedNotebookId } from "slices/notesSlice";
+import { updateNotebook, updateSelectedNotebookId } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import LIcon from "components/LIcon/LIcon";
 import BottomMenu from "NotebookSidebar/BottomMenu";
@@ -38,6 +38,12 @@ const NotebookSidebar = () => {
   // -- Menu Related Functions
   const toggleSubmenu = (notebookId) => {
     const menuCopy = menu;
+    dispatch(
+      updateNotebook({
+        notebookId,
+        meta: { show_sub_menu: !menuCopy[notebookId].showSubMenu },
+      })
+    );
     menuCopy[notebookId].showSubMenu = !menuCopy[notebookId].showSubMenu;
     setMenu({ ...menuCopy });
   };
@@ -48,25 +54,45 @@ const NotebookSidebar = () => {
     setMenu({ ...menuCopy });
   };
 
+  const setupMenuItem = (notebookId, notebookData, isSubnotebook) => {
+    console.log("notebookId", notebookId);
+    console.log("selectedNotebookId", selectedNotebookId);
+    return {
+      selected: selectedNotebookId === notebookId,
+      showSubMenu:
+        selectedParentNotebookId === notebookId ||
+        notebookData.meta.show_sub_menu
+          ? true
+          : false,
+      isEditing: false,
+    };
+  };
+
   const setupMenuItems = (notebooks) => {
     const items = {};
-    const notebookIDs = Object.keys(notebooks);
 
-    // There might be a more efficient way to do this, but I'm going to leave alone for now since this won't be a lot of updates to make. Will keep a lookout for any slowness though
-    notebookIDs.forEach((notebookId) => {
-      notebookId = Number(notebookId);
+    Object.entries(notebooks).forEach(([notebookId, notebook]) => {
+      items[notebookId] = setupMenuItem(Number(notebookId), notebook, false);
 
-      items[notebookId] = {
-        selected: selectedNotebookId === notebookId,
-        showSubMenu: selectedParentNotebookId === notebookId,
-        isEditing: false,
-      };
+      if (notebook.subnotebooks) {
+        Object.entries(notebook.subnotebooks).forEach(
+          ([subnotebookId, subnotebook]) => {
+            items[subnotebookId] = setupMenuItem(
+              Number(subnotebookId),
+              subnotebook,
+              true
+            );
+          }
+        );
+      }
     });
 
     setMenu(items);
   };
 
   if (!notesData) return null;
+
+  console.log("menu", menu);
 
   return (
     <Sider

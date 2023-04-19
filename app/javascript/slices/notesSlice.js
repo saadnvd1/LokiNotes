@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axiosI from "helpers/axiosInstance";
+import { updateUser } from "slices/userSlice";
 
 const initialState = {
   notesData: null,
@@ -43,6 +44,7 @@ export const updateSelectedNoteId = createAsyncThunk(
   "notes/updateSelectedNoteId",
   async ({ noteId }, thunkAPI) => {
     await _saveCurrentNote(thunkAPI);
+    thunkAPI.dispatch(updateUser({ meta: { last_open_note_id: noteId } }));
 
     return noteId;
   }
@@ -117,6 +119,9 @@ export const updateSelectedNotebookId = createAsyncThunk(
   "notes/updateSelectedNotebookId",
   async ({ notebookId }, thunkAPI) => {
     await _saveCurrentNote(thunkAPI);
+    thunkAPI.dispatch(
+      updateUser({ meta: { last_open_notebook_id: notebookId } })
+    );
 
     return notebookId;
   }
@@ -249,15 +254,18 @@ export const notesSlice = createSlice({
       // Add new notebook to notesData
       const parentId = action.meta.arg.parentId;
       const name = action.payload.name;
+      const meta = action.payload.meta;
 
       // Currently, we're only ever updating the title of the notebook, so don't need to worry about other parameters
       if (parentId) {
         // subnotebook
         const parentNotebook = _findNotebook(state, parentId);
         parentNotebook.subnotebooks[action.payload.id].name = name;
+        parentNotebook.subnotebooks[action.payload.id].meta = meta;
       } else {
         // main notebook
         state.notesData[action.payload.id].name = name;
+        state.notesData[action.payload.id].meta = meta;
       }
     });
   },

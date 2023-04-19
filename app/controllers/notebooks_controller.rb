@@ -24,12 +24,21 @@ class NotebooksController < ApplicationController
     @notebook = Notebook.find(params[:id])
     authorize! :update, @notebook
 
-    @notebook.update!(name: params[:name])
+    @notebook.assign_attributes(update_params.except(:meta))
+    @notebook.meta.merge!(update_params[:meta])
+    @notebook.save!
 
     render json: {
         id: @notebook.id,
         name: @notebook.name,
+        meta: @notebook.meta,
         parent_id: @notebook.parent_id,
     }
+  end
+
+  private
+
+  def update_params
+    params.permit(:name, meta: [:show_sub_menu])
   end
 end

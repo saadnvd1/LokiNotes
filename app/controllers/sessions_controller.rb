@@ -8,7 +8,7 @@ class SessionsController < Devise::SessionsController
 
     if @user.valid_password?(user_params[:password])
       sign_in :user, @user
-      render json: { user: @user, token: request.env['warden-jwt_auth.token'] }
+      render "home/session_data"
     else
       invalid_login_attempt
     end
@@ -28,6 +28,6 @@ class SessionsController < Devise::SessionsController
   end
 
   def user_params
-     params.require(:user).permit(:email, :password)
+     params.require(:user).permit(:email, :password, meta: [:last_open_notebook_id, :last_open_note_id])
   end
 end

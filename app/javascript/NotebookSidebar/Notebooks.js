@@ -30,10 +30,10 @@ const Notebooks = ({
     };
 
     return (
-      <>
+      <React.Fragment key={notebookId}>
         <NotebookRow {...sharedProps} />
         {hasSubnotebooks && <SubnotebookRow {...sharedProps} />}
-      </>
+      </React.Fragment>
     );
   };
 

@@ -41,7 +41,6 @@ const NotebookSearchResults = ({ results, activeTab }) => {
   focusedIndexRef.current = focusedIndex;
 
   const navigateToNote = (result) => {
-    debugger;
     dispatch(toggleModal({ modalName: MODAL_NAMES.COMMAND_HUB }));
 
     if (isNotebook(result.item.type) || isSubnotebook(result.item.type)) {

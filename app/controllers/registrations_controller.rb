@@ -4,7 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user = CreateUser.run!(user_params)
     if @user.save
       sign_in :user, @user
-      render json: { user: @user, token: request.env['warden-jwt_auth.token'] }
+      render "home/session_data"
     else
       warden.custom_failure!
       render json: { error: 'signup error' }, status: :unprocessable_entity
@@ -12,15 +12,16 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def update
-    @user = User.find_by_email(user_params[:email])
+    @user = current_user
+    @user.assign_attributes(user_params.except(:meta))
+    @user.meta.merge!(user_params[:meta])
 
-    if @user.update_attributes(user_params)
-      render json: @user
+    if @user.save
+      render "home/session_data"
     else
-      warden.custom_failure!
-      render :json=> @user.errors, :status=>422
+      render json: {error: 'invalid update'}, status: :unprocessable_entity
     end
- end
+  end
 
   def destroy
     @user = User.find_by_email(user_params[:email])
@@ -34,6 +35,6 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-     params.require(:user).permit(:email, :password, :password_confirmation)
+     params.require(:user).permit(:email, :password, :password_confirmation, meta: [:last_open_notebook_id, :last_open_note_id])
   end
 end

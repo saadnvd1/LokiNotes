@@ -43,7 +43,7 @@ const NotebookRow = ({
           }}
         >
           {hasSubnotebooks && !isSubnotebook && (
-            <div>
+            <div style={{ marginRight: hovered ? 8 : 0 }}>
               {!menu[notebookId]?.showSubMenu && (
                 <CaretDownFilled onClick={() => toggleSubmenu(notebookId)} />
               )}
@@ -53,7 +53,11 @@ const NotebookRow = ({
             </div>
           )}
           {hovered && (
-            <EditDropdown isSubnotebook={false} notebookId={notebookId} />
+            <EditDropdown
+              isSubnotebook={false}
+              notebookId={notebookId}
+              toggleIsEditing={toggleIsEditing}
+            />
           )}
         </div>
       </div>

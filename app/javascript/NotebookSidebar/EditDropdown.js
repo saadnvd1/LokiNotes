@@ -7,8 +7,10 @@ import {
   FolderPlusIcon,
 } from "@heroicons/react/24/solid";
 
-const EditDropdown = ({ isSubnotebook, notebookId }) => {
-  const handleRename = () => {};
+const EditDropdown = ({ isSubnotebook, notebookId, toggleIsEditing }) => {
+  const handleRename = () => {
+    toggleIsEditing(notebookId);
+  };
   const handleDelete = () => {};
   const handleNewSubnotebook = () => {};
 
@@ -57,7 +59,7 @@ const EditDropdown = ({ isSubnotebook, notebookId }) => {
   }, [isSubnotebook]);
 
   return (
-    <Dropdown menu={{ items, onClick: handleMenuClick }} arrow>
+    <Dropdown menu={{ items, onClick: handleMenuClick }}>
       <EditOutlined />
     </Dropdown>
   );

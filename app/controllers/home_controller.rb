@@ -1,11 +1,9 @@
 class HomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :check_logged_in]
 
-  # If someone hits this endpoint and they don't have a valid JWT token, then
-  # this endpoint will simply return an error, otherwise we just return the
-  # `current_user` to set on the frontend. Should be fine for now
+  # TODO: rename this to session
   def check_logged_in
-    render json: { user: current_user }
+    render "home/session_data"
   end
 
   def notes
@@ -27,6 +25,7 @@ class HomeController < ApplicationController
         id: notebook.id,
         name: notebook.name,
         notes: notebook.notes.map { |note| format_note(note) },
+        meta: notebook.meta,
         subnotebooks: {}
     }
 

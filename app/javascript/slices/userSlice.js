@@ -4,14 +4,20 @@ import axiosInstance from "helpers/axiosInstance";
 
 const initialState = {
   user: null,
-  accountModalIsOpen: false,
-  commandHubModalIsOpen: false,
 };
 
 export const checkLoggedIn = createAsyncThunk(
   "users/checkLoggedIn",
   async (thunkAPI) => {
     const response = await axiosI.get("/logged_in");
+    return response.data;
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async (data, thunkAPI) => {
+    const response = await axiosI.patch("/users.json", { user: data });
     return response.data;
   }
 );
@@ -46,7 +52,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(checkLoggedIn.fulfilled, (state, action) => {
-      state.user = action.payload.user;
+      handleUserAuthSuccess(state, action);
     });
     builder.addCase(login.fulfilled, (state, action) => {
       handleUserAuthSuccess(state, action);
@@ -58,6 +64,9 @@ export const userSlice = createSlice({
       state.user = null;
       localStorage.removeItem("lnt");
       axiosInstance.defaults.headers.Authorization = null;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.user = action.payload.user;
     });
   },
 });

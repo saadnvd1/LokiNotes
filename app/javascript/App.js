@@ -20,6 +20,7 @@ const App = () => {
   useGlobalShortcuts();
 
   const { notebookId, noteId } = useParams();
+  const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
 
@@ -36,7 +37,12 @@ const App = () => {
     // This causes the component `App.js` and then all of its children to re-render
     dispatch(getBillingData());
     dispatch(getNotesData()).then(() => {
-      goToNote(notebookId, noteId);
+      console.log("blah", user);
+      debugger;
+      goToNote(
+        notebookId || user.meta.last_open_notebook_id,
+        noteId || user.meta.last_open_note_id
+      );
     });
   }, []);
 
@@ -46,8 +52,6 @@ const App = () => {
       navigate(getRedirectUrl(selectedNoteId, selectedNotebookId));
     }
   }, [selectedNoteId, selectedNotebookId]);
-
-  console.log("re-rendeirng");
 
   return (
     <Layout style={{ height: "100vh" }}>

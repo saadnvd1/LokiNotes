@@ -3,90 +3,31 @@ import {
   MinusIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/solid";
-import React, { useEffect, useRef, useState } from "react";
-import { updateNotebook } from "slices/notesSlice";
-import { useDispatch } from "react-redux";
+import React from "react";
+import NotebookInput from "NotebookSidebar/NotebookInput";
+import LBox from "components/LBox/LBox";
 
-const RowName = ({
-  name,
-  isSubnotebook,
-  notebookId,
-  isEditing,
-  toggleIsEditing,
-}) => {
-  const [nameValue, setNameValue] = useState(name);
-  const inputRef = useRef();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (inputRef.current && isEditing) {
-        inputRef.current.focus();
-      }
-    }, 0);
-  }, [isEditing]);
-
-  const saveName = () => {
-    return dispatch(updateNotebook({ notebookId, name: nameValue }));
-  };
-
+const RowName = ({ name, isSubnotebook, isEditing }) => {
   if (isSubnotebook) {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
+      <LBox flexRowStart alignCenter>
         <ChevronRightIcon color="white" height="13" />
-        <span>{nameValue}</span>
-      </div>
+        {isEditing && <NotebookInput />}
+        {!isEditing && <span>{name}</span>}
+      </LBox>
     );
   }
 
-  const inputStyles = {
-    border: "none",
-    outline: "none",
-    fontWeight: "inherit",
-    color: "white",
-    fontSize: 12,
-    background: "transparent",
-    padding: 0,
-    margin: 0,
-    minWidth: "unset",
-    width: "100%",
-    marginTop: 0,
-    cursor: isEditing ? "unset" : "pointer",
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-      }}
-    >
+    <LBox flexRowStart>
       {!isSubnotebook && <FolderIcon height="16" />}
-      <div style={{ width: "100%" }}>
-        {isEditing && (
-          <input
-            value={nameValue}
-            onChange={(e) => setNameValue(e.target.value)}
-            style={inputStyles}
-            ref={inputRef}
-            onBlur={null}
-            onClick={() => setIsEditing(true)}
-            onKeyDown={null}
-          />
-        )}
+      <div style={{ width: "100%", marginLeft: isEditing ? 8 : 0 }}>
+        {isEditing && <NotebookInput />}
         {!isEditing && (
           <span style={{ marginLeft: "5px", padding: 0 }}>{name}</span>
         )}
       </div>
-    </div>
+    </LBox>
   );
 };
 

@@ -3,8 +3,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   before_action :authenticate_user!
 
+  helper_method :current_user, :current_token
+
   def current_token
-    request.env['warden-jwt_auth.token']
+    request.env['warden-jwt_auth.token'] || request.headers['Authorization'].split(' ').last
   end
 end
 
