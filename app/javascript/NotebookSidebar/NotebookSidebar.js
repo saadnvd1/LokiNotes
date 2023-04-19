@@ -55,13 +55,11 @@ const NotebookSidebar = () => {
   };
 
   const setupMenuItem = (notebookId, notebookData, isSubnotebook) => {
-    console.log("notebookId", notebookId);
-    console.log("selectedNotebookId", selectedNotebookId);
     return {
       selected: selectedNotebookId === notebookId,
       showSubMenu:
         selectedParentNotebookId === notebookId ||
-        notebookData.meta.show_sub_menu
+        notebookData.meta?.show_sub_menu
           ? true
           : false,
       isEditing: false,
@@ -69,6 +67,7 @@ const NotebookSidebar = () => {
   };
 
   const setupMenuItems = (notebooks) => {
+    debugger;
     const items = {};
 
     Object.entries(notebooks).forEach(([notebookId, notebook]) => {

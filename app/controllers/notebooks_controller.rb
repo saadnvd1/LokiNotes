@@ -16,6 +16,7 @@ class NotebooksController < ApplicationController
         id: @notebook.id,
         name: @notebook.name,
         notes: [],
+        meta: @notebook.meta,
         subnotebooks: {},
     }
   end
