@@ -40,7 +40,7 @@ const NotebookSidebar = () => {
     const menuCopy = menu;
     dispatch(
       updateNotebook({
-        notebookId,
+        id: notebookId,
         meta: { show_sub_menu: !menuCopy[notebookId].showSubMenu },
       })
     );

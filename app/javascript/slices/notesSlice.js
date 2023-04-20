@@ -141,7 +141,7 @@ export const createNotebook = createAsyncThunk(
 export const updateNotebook = createAsyncThunk(
   "notes/updateNotebook",
   async (data, thunkAPI) => {
-    const response = await axiosI.patch(`/notebooks/${data.notebookId}`, {
+    const response = await axiosI.patch(`/notebooks/${data.id}`, {
       ...data,
     });
     return response.data;

@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateNotebook } from "slices/notesSlice";
 
-const NotebookInput = ({ isEditing, toggleIsEditing, notebookId }) => {
+const NotebookInput = ({ isEditing, toggleIsEditing, notebookId, name }) => {
   const [nameValue, setNameValue] = useState(name);
   const dispatch = useDispatch();
 
+  console.log("noteb");
+
   const saveName = () => {
-    return dispatch(updateNotebook({ notebookId, name: nameValue }));
+    return dispatch(updateNotebook({ id: notebookId, name: nameValue }));
   };
 
   const inputRef = useRef();

@@ -22,11 +22,15 @@ class NotebooksController < ApplicationController
   end
 
   def update
-    @notebook = Notebook.find(params[:id])
+    @notebook = Notebook.find(update_params[:id])
     authorize! :update, @notebook
 
     @notebook.assign_attributes(update_params.except(:meta))
-    @notebook.meta.merge!(update_params[:meta])
+
+    if update_params[:meta].present?
+      @notebook.meta.merge!(update_params[:meta])
+    end
+
     @notebook.save!
 
     render json: {
@@ -40,6 +44,6 @@ class NotebooksController < ApplicationController
   private
 
   def update_params
-    params.permit(:name, meta: [:show_sub_menu])
+    params.permit(:id, :name, meta: [:show_sub_menu])
   end
 end

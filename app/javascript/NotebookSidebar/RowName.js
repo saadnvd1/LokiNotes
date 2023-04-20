@@ -7,12 +7,31 @@ import React from "react";
 import NotebookInput from "NotebookSidebar/NotebookInput";
 import LBox from "components/LBox/LBox";
 
-const RowName = ({ name, isSubnotebook, isEditing }) => {
+const RowName = ({
+  name,
+  isSubnotebook,
+  isEditing,
+  notebookId,
+  toggleIsEditing,
+}) => {
+  const getNotebookInput = () => {
+    if (isEditing) {
+      return (
+        <NotebookInput
+          name={name}
+          notebookId={notebookId}
+          toggleIsEditing={toggleIsEditing}
+          isEditing={isEditing}
+        />
+      );
+    }
+  };
+
   if (isSubnotebook) {
     return (
       <LBox flexRowStart alignCenter>
         <ChevronRightIcon color="white" height="13" />
-        {isEditing && <NotebookInput />}
+        {getNotebookInput()}
         {!isEditing && <span>{name}</span>}
       </LBox>
     );
@@ -22,7 +41,7 @@ const RowName = ({ name, isSubnotebook, isEditing }) => {
     <LBox flexRowStart>
       {!isSubnotebook && <FolderIcon height="16" />}
       <div style={{ width: "100%", marginLeft: isEditing ? 8 : 0 }}>
-        {isEditing && <NotebookInput />}
+        {getNotebookInput()}
         {!isEditing && (
           <span style={{ marginLeft: "5px", padding: 0 }}>{name}</span>
         )}
