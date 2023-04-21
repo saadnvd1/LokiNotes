@@ -93,7 +93,7 @@ const NotebookSidebar = () => {
   if (!notesData) return null;
 
   return (
-    <Sider style={{ display: "flex", flexShrink: 0 }}>
+    <Sider>
       <div
         style={{
           display: "flex",
