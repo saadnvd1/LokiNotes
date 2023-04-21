@@ -1,9 +1,9 @@
-import { Layout } from "antd";
+import { FloatButton, Layout } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import "react-quill/dist/quill.snow.css";
 import { getNotesData } from "slices/notesSlice";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Editor from "EditorView/Editor";
 import EditorHeader from "EditorView/EditorHeader";
 import NoteSidebar from "NoteSidebar";
@@ -15,6 +15,12 @@ import { getBillingData } from "slices/billingSlice";
 import GlobalComponents from "GlobalComponents";
 import useGlobalShortcuts from "hooks/useGlobalShortcuts";
 import useGoToNote from "hooks/useGoToNote";
+import LIcon from "components/LIcon/LIcon";
+import {
+  MoonIcon,
+  PencilSquareIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/24/solid";
 
 const App = () => {
   useGlobalShortcuts();
@@ -60,7 +66,22 @@ const App = () => {
         {!isZenMode && <EditorHeader />}
         <Editor />
       </Layout>
-      <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />
+      <FloatButton.Group
+        trigger="hover"
+        type="default"
+        style={{
+          right: 30,
+        }}
+        icon={<Cog6ToothIcon color="black" />}
+      >
+        <FloatButton tooltip="Create Note" icon={<PencilSquareIcon />} />
+        <FloatButton
+          tooltip="Toggle Zen Mode"
+          icon={<MoonIcon />}
+          onClick={() => setIsZenMode(!isZenMode)}
+        />
+      </FloatButton.Group>
+      {/*<ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />*/}
     </Layout>
   );
 };

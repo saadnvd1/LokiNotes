@@ -1,5 +1,5 @@
 import { Menu } from "antd";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { updateSelectedNoteId } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import { DocumentIcon } from "@heroicons/react/24/solid";
 
 const NoteSidebar = () => {
   const dispatch = useDispatch();
+  const [collapsed, setCollapsed] = useState(false);
+
   const currentNotebook = useSelector(selectCurrentNotebook);
   const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
 
@@ -29,8 +31,9 @@ const NoteSidebar = () => {
 
   return (
     <Sider
-      trigger={null}
       collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
       style={{ color: "white" }}
       className="hide-sidebar"
     >

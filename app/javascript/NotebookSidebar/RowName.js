@@ -13,6 +13,7 @@ const RowName = ({
   isEditing,
   notebookId,
   toggleIsEditing,
+  collapsed,
 }) => {
   const getNotebookInput = () => {
     if (isEditing) {

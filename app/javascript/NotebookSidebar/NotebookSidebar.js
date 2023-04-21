@@ -11,6 +11,7 @@ import "./NotebookSidebar.css";
 
 const NotebookSidebar = () => {
   const dispatch = useDispatch();
+  const [collapsed, setCollapsed] = useState(false);
   const [menu, setMenu] = useState({});
   const selectedNotebookId = useSelector(
     (state) => state.notes.selectedNotebookId
@@ -93,7 +94,11 @@ const NotebookSidebar = () => {
   if (!notesData) return null;
 
   return (
-    <Sider>
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
+    >
       <div
         style={{
           display: "flex",
@@ -104,6 +109,13 @@ const NotebookSidebar = () => {
         }}
       >
         <div style={{ overflowY: "auto" }}>
+          <div className="center-div" style={{ marginTop: "8px" }}>
+            <LIcon
+              onClick={handlecreateNotebook}
+              iconName="folderPlusIcon"
+              tooltipText="Create Notebook"
+            />
+          </div>
           <Notebooks
             menu={menu}
             handleChangeNotebook={handleChangeNotebook}
@@ -111,14 +123,8 @@ const NotebookSidebar = () => {
             toggleIsEditing={toggleIsEditing}
             toggleSubmenu={toggleSubmenu}
             notesData={notesData}
+            collapsed={collapsed}
           />
-          <div className="center-div" style={{ marginTop: "8px" }}>
-            <LIcon
-              onClick={handlecreateNotebook}
-              iconName="plusCircleIcon"
-              tooltipText="Create Notebook"
-            />
-          </div>
         </div>
         <div style={{ position: "relative" }}>
           <BottomMenu />

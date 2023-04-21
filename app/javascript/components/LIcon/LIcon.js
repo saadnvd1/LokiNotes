@@ -4,6 +4,7 @@ import {
   MoonIcon,
   PencilSquareIcon,
   PlusCircleIcon,
+  FolderPlusIcon,
 } from "@heroicons/react/24/solid";
 import { Tooltip } from "antd";
 
@@ -11,6 +12,7 @@ const ICONS = {
   pencilSquareIcon: PencilSquareIcon,
   plusCircleIcon: PlusCircleIcon,
   moonIcon: MoonIcon,
+  folderPlusIcon: FolderPlusIcon,
 };
 
 function LIcon({

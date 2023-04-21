@@ -10,6 +10,7 @@ const Notebooks = ({
   toggleSubmenu,
   selectedNotebookId,
   notesData,
+  collapsed,
 }) => {
   const buildNotebook = (notebookId, notebookData, isSubnotebook = false) => {
     if (!notebookId) return;
@@ -27,6 +28,7 @@ const Notebooks = ({
       buildNotebook,
       isSubnotebook,
       hasSubnotebooks,
+      collapsed,
     };
 
     return (

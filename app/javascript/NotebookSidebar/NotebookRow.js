@@ -13,6 +13,7 @@ const NotebookRow = ({
   toggleIsEditing,
   toggleSubmenu,
   hasSubnotebooks,
+  collapsed,
 }) => {
   const [hovered, setHovered] = useState(false);
   const classNames = [
@@ -34,6 +35,7 @@ const NotebookRow = ({
           isEditing={menu[notebookId]?.isEditing}
           toggleIsEditing={toggleIsEditing}
           isSubnotebook={isSubnotebook}
+          collapsed={collapsed}
         />
         <div
           style={{
