@@ -1,5 +1,8 @@
 .ant-layout-sider-trigger {
   background-color: transparent !important;
+  position: relative !important;
+  bottom: unset !important;
+  padding-bottom: 0px !important;
 }
 
 .logo {

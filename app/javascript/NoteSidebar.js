@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentNotebook } from "selectors/notesSelector";
 import { DocumentIcon } from "@heroicons/react/24/solid";
 
+import { isMobile } from "react-device-detect";
+
 const NoteSidebar = () => {
   const dispatch = useDispatch();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(isMobile);
 
   const currentNotebook = useSelector(selectCurrentNotebook);
   const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
@@ -34,18 +36,34 @@ const NoteSidebar = () => {
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      style={{ color: "white" }}
-      className="hide-sidebar"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        color: "white",
+        paddingBottom: 32,
+      }}
     >
-      <Menu
-        theme="dark"
-        mode="inline"
-        selectedKeys={[String(selectedNoteId)]}
-        items={notes}
-        onClick={(e) => {
-          handleChangeNote(e);
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%",
+          minHeight: 0,
         }}
-      />
+      >
+        <div style={{ overflowY: "auto" }}>
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={[String(selectedNoteId)]}
+            items={notes}
+            onClick={(e) => {
+              handleChangeNote(e);
+            }}
+          />
+        </div>
+      </div>
     </Sider>
   );
 };

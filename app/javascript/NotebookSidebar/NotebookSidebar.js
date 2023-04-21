@@ -8,10 +8,11 @@ import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
 import Notebooks from "NotebookSidebar/Notebooks";
 import LBox from "components/LBox/LBox";
 import "./NotebookSidebar.css";
+import { isMobile } from "react-device-detect";
 
 const NotebookSidebar = () => {
   const dispatch = useDispatch();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(isMobile);
   const [menu, setMenu] = useState({});
   const selectedNotebookId = useSelector(
     (state) => state.notes.selectedNotebookId
@@ -98,6 +99,7 @@ const NotebookSidebar = () => {
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
+      style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
     >
       <div
         style={{
