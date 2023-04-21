@@ -20,12 +20,6 @@ const App = () => {
   useGlobalShortcuts();
 
   const { notebookId, noteId } = useParams();
-  const lastOpenNotebookId = useSelector(
-    (state) => state.user.user.meta.last_open_notebook_id
-  );
-  const lastOpenNoteId = useSelector(
-    (state) => state.user.user.meta.last_open_note_id
-  );
   const navigate = useNavigate();
   const [isZenMode, setIsZenMode] = useState(false);
 
@@ -42,7 +36,7 @@ const App = () => {
     // This causes the component `App.js` and then all of its children to re-render
     dispatch(getBillingData());
     dispatch(getNotesData()).then(() => {
-      goToNote(notebookId || lastOpenNotebookId, noteId || lastOpenNoteId);
+      goToNote(notebookId, noteId);
     });
   }, []);
 

@@ -35,6 +35,6 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-     params.require(:user).permit(:email, :password, :password_confirmation, meta: [:last_open_notebook_id, :last_open_note_id])
+     params.require(:user).permit(:email, :password, :password_confirmation, meta: {})
   end
 end

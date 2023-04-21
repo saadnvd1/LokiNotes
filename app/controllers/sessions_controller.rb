@@ -28,6 +28,6 @@ class SessionsController < Devise::SessionsController
   end
 
   def user_params
-     params.require(:user).permit(:email, :password, meta: [:last_open_notebook_id, :last_open_note_id])
+     params.require(:user).permit(:email, :password)
   end
 end

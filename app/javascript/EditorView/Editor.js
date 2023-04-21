@@ -57,7 +57,6 @@ const Editor = () => {
     dispatch(uploadImage(formData))
       .unwrap()
       .then((response) => {
-        console.log("response", response);
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection();
         const index = range.index + range.length;

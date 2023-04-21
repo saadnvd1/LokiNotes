@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_19_220610) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_21_105811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -29,6 +29,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_19_220610) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["note_id"], name: "index_note_images_on_note_id"
+  end
+
+  create_table "note_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.json "object_changes"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_note_versions_on_item_type_and_item_id"
   end
 
   create_table "notebooks", force: :cascade do |t|

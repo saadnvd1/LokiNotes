@@ -26,3 +26,27 @@ class Subscription < ApplicationRecord
     Stripe::Subscription.retrieve(stripe_subscription_id)
   end
 end
+
+# == Schema Information
+#
+# Table name: subscriptions
+#
+#  id                     :bigint           not null, primary key
+#  status                 :string           not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  plan_id                :bigint           not null
+#  stripe_customer_id     :string
+#  stripe_subscription_id :string
+#  user_id                :bigint           not null
+#
+# Indexes
+#
+#  index_subscriptions_on_plan_id  (plan_id)
+#  index_subscriptions_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (plan_id => plans.id)
+#  fk_rails_...  (user_id => users.id)
+#

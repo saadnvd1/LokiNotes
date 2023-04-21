@@ -67,7 +67,6 @@ const NotebookSidebar = () => {
   };
 
   const setupMenuItems = (notebooks) => {
-    debugger;
     const items = {};
 
     Object.entries(notebooks).forEach(([notebookId, notebook]) => {
@@ -90,8 +89,6 @@ const NotebookSidebar = () => {
   };
 
   if (!notesData) return null;
-
-  console.log("menu", menu);
 
   return (
     <Sider

@@ -12,6 +12,7 @@ gem 'oj'
 gem 'cancancan'
 gem 'stripe'
 gem "fog-aws"
+gem 'paper_trail'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.2"
@@ -59,6 +60,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate'
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 

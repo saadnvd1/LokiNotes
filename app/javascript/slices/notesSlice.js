@@ -44,7 +44,6 @@ export const updateSelectedNoteId = createAsyncThunk(
   "notes/updateSelectedNoteId",
   async ({ noteId }, thunkAPI) => {
     await _saveCurrentNote(thunkAPI);
-    thunkAPI.dispatch(updateUser({ meta: { last_open_note_id: noteId } }));
 
     return noteId;
   }
@@ -119,9 +118,6 @@ export const updateSelectedNotebookId = createAsyncThunk(
   "notes/updateSelectedNotebookId",
   async ({ notebookId }, thunkAPI) => {
     await _saveCurrentNote(thunkAPI);
-    thunkAPI.dispatch(
-      updateUser({ meta: { last_open_notebook_id: notebookId } })
-    );
 
     return notebookId;
   }
