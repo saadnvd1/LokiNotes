@@ -66,22 +66,22 @@ const App = () => {
         {!isZenMode && <EditorHeader />}
         <Editor />
       </Layout>
-      <FloatButton.Group
-        trigger="hover"
-        type="default"
-        style={{
-          right: 30,
-        }}
-        icon={<Cog6ToothIcon color="black" />}
-      >
-        <FloatButton tooltip="Create Note" icon={<PencilSquareIcon />} />
-        <FloatButton
-          tooltip="Toggle Zen Mode"
-          icon={<MoonIcon />}
-          onClick={() => setIsZenMode(!isZenMode)}
-        />
-      </FloatButton.Group>
-      {/*<ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />*/}
+      {/*<FloatButton.Group*/}
+      {/*  trigger="hover"*/}
+      {/*  type="default"*/}
+      {/*  style={{*/}
+      {/*    right: 30,*/}
+      {/*  }}*/}
+      {/*  icon={<Cog6ToothIcon color="black" />}*/}
+      {/*>*/}
+      {/*  <FloatButton tooltip="Create Note" icon={<PencilSquareIcon />} />*/}
+      {/*  <FloatButton*/}
+      {/*    tooltip="Toggle Zen Mode"*/}
+      {/*    icon={<MoonIcon />}*/}
+      {/*    onClick={() => setIsZenMode(!isZenMode)}*/}
+      {/*  />*/}
+      {/*</FloatButton.Group>*/}
+      <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />
     </Layout>
   );
 };
