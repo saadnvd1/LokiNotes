@@ -29,10 +29,10 @@ const RowName = ({
 
   if (isSubnotebook) {
     return (
-      <LBox flexRowStart alignCenter>
-        <ChevronRightIcon color="white" height="13" />
+      <LBox flexRowStart alignCenter ml16>
+        <ChevronRightIcon color="white" height="10" />
         {getNotebookInput()}
-        {!isEditing && <span>{name}</span>}
+        {!isEditing && <span style={{ fontSize: 10 }}>{name}</span>}
       </LBox>
     );
   }
@@ -43,7 +43,9 @@ const RowName = ({
       <div style={{ width: "100%", marginLeft: isEditing ? 8 : 0 }}>
         {getNotebookInput()}
         {!isEditing && (
-          <span style={{ marginLeft: "5px", padding: 0 }}>{name}</span>
+          <span style={{ marginLeft: "5px", padding: 0, fontSize: 12 }}>
+            {name}
+          </span>
         )}
       </div>
     </LBox>
