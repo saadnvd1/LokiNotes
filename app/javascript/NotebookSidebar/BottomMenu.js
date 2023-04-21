@@ -19,7 +19,7 @@ const BottomMenu = () => {
   };
 
   return (
-    <div className="bottom-menu-item">
+    <div>
       <Menu
         theme="dark"
         mode="inline"

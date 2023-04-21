@@ -6,6 +6,8 @@ import LIcon from "components/LIcon/LIcon";
 import BottomMenu from "NotebookSidebar/BottomMenu";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
 import Notebooks from "NotebookSidebar/Notebooks";
+import LBox from "components/LBox/LBox";
+import "./NotebookSidebar.css";
 
 const NotebookSidebar = () => {
   const dispatch = useDispatch();
@@ -91,28 +93,37 @@ const NotebookSidebar = () => {
   if (!notesData) return null;
 
   return (
-    <Sider
-      trigger={null}
-      collapsible
-      style={{ color: "white" }}
-      className="hide-sidebar"
-    >
-      <Notebooks
-        menu={menu}
-        handleChangeNotebook={handleChangeNotebook}
-        selectedNotebookId={selectedNotebookId}
-        toggleIsEditing={toggleIsEditing}
-        toggleSubmenu={toggleSubmenu}
-        notesData={notesData}
-      />
-      <div className="center-div" style={{ marginTop: "8px" }}>
-        <LIcon
-          onClick={handlecreateNotebook}
-          iconName="plusCircleIcon"
-          tooltipText="Create Notebook"
-        />
+    <Sider style={{ display: "flex", flexShrink: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%",
+          minHeight: 0,
+        }}
+      >
+        <div style={{ overflowY: "auto" }}>
+          <Notebooks
+            menu={menu}
+            handleChangeNotebook={handleChangeNotebook}
+            selectedNotebookId={selectedNotebookId}
+            toggleIsEditing={toggleIsEditing}
+            toggleSubmenu={toggleSubmenu}
+            notesData={notesData}
+          />
+          <div className="center-div" style={{ marginTop: "8px" }}>
+            <LIcon
+              onClick={handlecreateNotebook}
+              iconName="plusCircleIcon"
+              tooltipText="Create Notebook"
+            />
+          </div>
+        </div>
+        <div style={{ position: "relative" }}>
+          <BottomMenu />
+        </div>
       </div>
-      <BottomMenu />
     </Sider>
   );
 };

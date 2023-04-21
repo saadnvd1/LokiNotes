@@ -1,0 +1,10 @@
+.bottom-menu {
+  overflow: scroll;
+  max-height: 30vh;
+  margin-top: auto;
+}
+
+.ant-layout-sider {
+  overflow: scroll;
+  min-height: calc(70vh); /* adjust the height as needed */
+}
