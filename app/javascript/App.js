@@ -71,7 +71,10 @@ const App = () => {
       {/*    onClick={() => setIsZenMode(!isZenMode)}*/}
       {/*  />*/}
       {/*</FloatButton.Group>*/}
-      <ZenModeIcon onClick={() => setIsZenMode(!isZenMode)} />
+      <ZenModeIcon
+        onClick={() => setIsZenMode(!isZenMode)}
+        isZenMode={isZenMode}
+      />
     </Layout>
   );
 };

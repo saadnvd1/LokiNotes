@@ -1,7 +1,5 @@
 import React from "react";
 import Auth from "auth/Auth";
 
-const Signup = ({}) => {
-  return <Auth type="signup" />;
-};
+const Signup = ({}) => <Auth type="signup" />;
 export default Signup;

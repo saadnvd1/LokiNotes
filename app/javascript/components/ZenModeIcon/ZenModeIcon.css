@@ -23,3 +23,7 @@
 .floating-icon:hover {
   transform: scale(1.1);
 }
+
+.floating-icon-in-zen-mode {
+  opacity: 0.08;
+}

@@ -3,12 +3,13 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { checkLoggedIn } from "slices/userSlice";
 import { Spin } from "antd";
+
 function RequireAuth({ children }) {
   const [loading, setLoading] = useState(true);
 
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  let location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     setLoading(true);
