@@ -40,9 +40,7 @@ const EditorHeader = () => {
     dispatch(createNote({ notebookId: selectedNotebookId }));
   };
 
-  const saveTitle = () => {
-    return dispatch(updateNote({ noteId: currentNote.id, title: noteTitle }));
-  };
+  const saveTitle = () => dispatch(updateNote({ noteId: currentNote.id, title: noteTitle }));
 
   const handleBlur = () => {
     if (noteTitle !== currentNote.title) {

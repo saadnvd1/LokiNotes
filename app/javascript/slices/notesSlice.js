@@ -53,9 +53,9 @@ export const updateSelectedNoteId = createAsyncThunk(
 // In most cases, we just shouldn't save a note at all if it hasn't changed
 const _shouldSaveNote = (thunkAPI, data) => {
   const notesState = thunkAPI.getState().notes;
-  const content = notesState.content;
+  const {content} = notesState;
 
-  let note = _findNoteInNotebook(
+  const note = _findNoteInNotebook(
     notesState,
     notesState.selectedNotebookId,
     data.noteId
@@ -83,8 +83,8 @@ const _findNoteInNotebook = (state, notebookId, noteId) => {
 // before doing something else
 const _saveCurrentNote = (thunkAPI) => {
   const notesState = thunkAPI.getState().notes;
-  const selectedNoteId = notesState.selectedNoteId;
-  const content = notesState.content;
+  const {selectedNoteId} = notesState;
+  const {content} = notesState;
 
   // Once the note is updated, then we change notebooks
   if (selectedNoteId) {
@@ -157,7 +157,7 @@ export const notesSlice = createSlice({
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
       state.selectedNoteId = action.payload;
 
-      let note = _findNoteInNotebook(
+      const note = _findNoteInNotebook(
         state,
         state.selectedNotebookId,
         action.payload
@@ -198,7 +198,7 @@ export const notesSlice = createSlice({
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
       state.isSavingNote = false;
-      let note = _findNoteInNotebook(
+      const note = _findNoteInNotebook(
         state,
         action.payload.note.notebook_id,
         action.payload.note.id
@@ -230,7 +230,7 @@ export const notesSlice = createSlice({
     });
     builder.addCase(createNotebook.fulfilled, (state, action) => {
       // Add new notebook to notesData
-      const parentId = action.meta.arg.parentId;
+      const {parentId} = action.meta.arg;
 
       if (parentId) {
         // subnotebook
@@ -249,9 +249,9 @@ export const notesSlice = createSlice({
     });
     builder.addCase(updateNotebook.fulfilled, (state, action) => {
       // Add new notebook to notesData
-      const parentId = action.meta.arg.parentId;
-      const name = action.payload.name;
-      const meta = action.payload.meta;
+      const {parentId} = action.meta.arg;
+      const {name} = action.payload;
+      const {meta} = action.payload;
 
       // Currently, we're only ever updating the title of the notebook, so don't need to worry about other parameters
       if (parentId) {

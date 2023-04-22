@@ -39,11 +39,9 @@ const Notebooks = ({
     );
   };
 
-  const buildNotebooks = () => {
-    return Object.entries(notesData).map(([notebookId, notebookData]) =>
+  const buildNotebooks = () => Object.entries(notesData).map(([notebookId, notebookData]) =>
       buildNotebook(Number(notebookId), notebookData)
     );
-  };
 
   return <ul className="menu">{buildNotebooks()}</ul>;
 };

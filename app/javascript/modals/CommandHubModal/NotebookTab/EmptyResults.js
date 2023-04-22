@@ -2,8 +2,7 @@ import React from "react";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import "modals/CommandHubModal/NotebookTab/EmptyResults.css"; // import your custom CSS file
 
-const EmptyResults = () => {
-  return (
+const EmptyResults = () => (
     <section className="empty-results">
       <div>
         <FaceFrownIcon className="empty-results-icon-svg" />
@@ -13,6 +12,5 @@ const EmptyResults = () => {
       </p>
     </section>
   );
-};
 
 export default EmptyResults;

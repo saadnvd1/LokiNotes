@@ -1,5 +1,5 @@
 import ReactQuill, { Quill } from "react-quill";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { Content } from "antd/es/layout/layout";
 import { updateContent, updateNote } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,8 +37,8 @@ const Editor = () => {
 
   useEffect(() => {
     const autoSave = () => {
-      const selectedNoteId = selectedNoteRef.current.selectedNoteId;
-      const content = selectedNoteRef.current.content;
+      const { selectedNoteId } = selectedNoteRef.current;
+      const { content } = selectedNoteRef.current;
 
       if (selectedNoteId) {
         dispatch(updateNote({ noteId: selectedNoteId, content }));
@@ -77,12 +77,12 @@ const Editor = () => {
           "image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
         );
         fileInput.classList.add("ql-image");
-        fileInput.addEventListener("change", function (e) {
-          const files = e.target.files;
+        fileInput.addEventListener("change", (e) => {
+          const { files } = e.target;
           let file;
           if (files.length > 0) {
             file = files[0];
-            const type = file.type;
+            const { type } = file;
             const reader = new FileReader();
             reader.onload = (e) => {
               // handle the inserted image

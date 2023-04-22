@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App";
 import Signup from "auth/Signup";
 import React from "react";
 import RequireAuth from "auth/RequireAuth";
 import Login from "auth/Login";
+import App from "./App";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +40,5 @@ const router = createBrowserRouter([
   },
 ]);
 
-const Main = ({}) => {
-  return <RouterProvider router={router} />;
-};
+const Main = () => <RouterProvider router={router} />;
 export default Main;

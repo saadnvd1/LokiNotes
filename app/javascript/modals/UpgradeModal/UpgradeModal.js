@@ -35,11 +35,9 @@ const UpgradeModal = () => {
     return `$${price.amount / 100}${monthly ? "/month" : "/year"}`;
   };
 
-  const getPrice = () => {
-    return prices.find((price) =>
+  const getPrice = () => prices.find((price) =>
       monthly ? price.name === "Monthly" : price.name === "Yearly"
     );
-  };
 
   const handleClose = () => {
     dispatch(toggleModal({ modalName: MODAL_NAMES.BILLING_UPGRADE }));

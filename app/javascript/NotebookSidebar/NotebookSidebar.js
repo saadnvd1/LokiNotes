@@ -37,7 +37,7 @@ const NotebookSidebar = () => {
     if (notesData) {
       setupMenuItems(notesData);
     }
-  }, [notesData, selectedParentNotebookId]);
+  }, []);
 
   // -- Menu Related Functions
   const toggleSubmenu = (notebookId) => {
@@ -58,17 +58,13 @@ const NotebookSidebar = () => {
     setMenu({ ...menuCopy });
   };
 
-  const setupMenuItem = (notebookId, notebookData, isSubnotebook) => {
-    return {
+  const setupMenuItem = (notebookId, notebookData, isSubnotebook) => ({
       selected: selectedNotebookId === notebookId,
       showSubMenu:
-        selectedParentNotebookId === notebookId ||
-        notebookData.meta?.show_sub_menu
-          ? true
-          : false,
+        !!(selectedParentNotebookId === notebookId ||
+        notebookData.meta?.show_sub_menu),
       isEditing: false,
-    };
-  };
+    });
 
   const setupMenuItems = (notebooks) => {
     const items = {};

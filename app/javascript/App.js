@@ -1,11 +1,9 @@
-import { FloatButton, Layout } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import { Layout } from "antd";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import "react-quill/dist/quill.snow.css";
 import { getNotesData } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Editor from "EditorView/Editor";
-import EditorHeader from "EditorView/EditorHeader";
 import NoteSidebar from "NoteSidebar";
 import NotebookSidebar from "NotebookSidebar/NotebookSidebar";
 import { useParams, useNavigate } from "react-router-dom";
@@ -15,12 +13,6 @@ import { getBillingData } from "slices/billingSlice";
 import GlobalComponents from "GlobalComponents";
 import useGlobalShortcuts from "hooks/useGlobalShortcuts";
 import useGoToNote from "hooks/useGoToNote";
-import LIcon from "components/LIcon/LIcon";
-import {
-  MoonIcon,
-  PencilSquareIcon,
-  Cog6ToothIcon,
-} from "@heroicons/react/24/solid";
 import EditorView from "EditorView/EditorView";
 
 const App = () => {

@@ -5,6 +5,7 @@ import Editor from "EditorView/Editor";
 import "./Tabs.css";
 import { SplitPane } from "react-multi-split-pane";
 import "./Resizer.css";
+
 const EditorView = () => {
   const initialItems = [
     {

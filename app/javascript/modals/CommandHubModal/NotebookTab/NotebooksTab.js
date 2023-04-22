@@ -9,11 +9,7 @@ const NotebooksTab = ({ activeTab }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const notebooksSearchIndex = useSelector(selectNotebooksSearchIndex);
 
-  const allResults = useMemo(() => {
-    return notebooksSearchIndex.slice(0, 5).map((data) => {
-      return { item: { ...data } };
-    });
-  }, [notebooksSearchIndex]);
+  const allResults = useMemo(() => notebooksSearchIndex.slice(0, 5).map((data) => ({ item: { ...data } })), [notebooksSearchIndex]);
 
   const [results, setResults] = useState(allResults);
 

@@ -1,7 +1,6 @@
 import React from "react";
 
-const SubnotebookRow = ({ buildNotebook, notebookData, menu, notebookId }) => {
-  return (
+const SubnotebookRow = ({ buildNotebook, notebookData, menu, notebookId }) => (
     <ul
       className={`submenu ${
         !menu[notebookId]?.showSubMenu ? "display-none" : ""
@@ -12,6 +11,5 @@ const SubnotebookRow = ({ buildNotebook, notebookData, menu, notebookId }) => {
       )}
     </ul>
   );
-};
 
 export default SubnotebookRow;

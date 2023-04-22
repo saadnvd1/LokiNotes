@@ -32,11 +32,7 @@ const Scope = ({ setFilteredNotes, allNotes }) => {
     setScope(value);
   };
 
-  const generateNotebookScopeOptions = () => {
-    return notebooks.map((notebook) => {
-      return { label: notebook.name, value: notebook.id };
-    });
-  };
+  const generateNotebookScopeOptions = () => notebooks.map((notebook) => ({ label: notebook.name, value: notebook.id }));
 
   return (
     <div

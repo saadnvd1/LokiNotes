@@ -6,9 +6,7 @@ const NotebookInput = ({ isEditing, toggleIsEditing, notebookId, name }) => {
   const [nameValue, setNameValue] = useState(name);
   const dispatch = useDispatch();
 
-  const saveName = () => {
-    return dispatch(updateNotebook({ id: notebookId, name: nameValue }));
-  };
+  const saveName = () => dispatch(updateNotebook({ id: notebookId, name: nameValue }));
 
   const inputRef = useRef();
 

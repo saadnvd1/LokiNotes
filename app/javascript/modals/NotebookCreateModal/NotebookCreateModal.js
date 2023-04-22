@@ -20,12 +20,10 @@ const NotebookCreateModal = () => {
   const generateParentSelectOptions = () => {
     if (!notesData) return [];
 
-    return Object.entries(notesData).map(([notebookId, notebookData]) => {
-      return {
+    return Object.entries(notesData).map(([notebookId, notebookData]) => ({
         value: notebookId,
         label: notebookData.name,
-      };
-    });
+      }));
   };
 
   const handleSubmit = () => {

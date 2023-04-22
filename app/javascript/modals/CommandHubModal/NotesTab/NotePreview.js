@@ -1,9 +1,9 @@
 import ReactQuill from "react-quill";
 import React from "react";
 
-const NotePreview = ({ content }) => {
+const NotePreview = ({ content }) => 
   // TODO: it would be nice to highlight the search query within the note itself
-  return (
+   (
     <div style={{ marginTop: 8 }}>
       <ReactQuill
         modules={{
@@ -14,7 +14,7 @@ const NotePreview = ({ content }) => {
         scrollingContainer=".editor-container"
       />
     </div>
-  );
-};
+  )
+;
 
 export default NotePreview;

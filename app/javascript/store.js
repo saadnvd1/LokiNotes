@@ -5,7 +5,7 @@ import billingReducer from "./slices/billingSlice";
 import modalsReducer from "./slices/modalSlice";
 import imagesReducer from "./slices/imagesSlice";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     user: userReducer,
     notes: notesReducer,
@@ -14,3 +14,5 @@ export const store = configureStore({
     images: imagesReducer,
   },
 });
+
+export default store;

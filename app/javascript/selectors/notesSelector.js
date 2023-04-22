@@ -115,13 +115,11 @@ export const selectAllNotes = createSelector(selectNotesData, (data) => {
 
 export const selectCurrentNotebook = createSelector(
   selectNotesSlice,
-  (data) => {
-    return getNotebookById(
+  (data) => getNotebookById(
       data.selectedParentNotebookId,
       data.notesData,
       data.selectedNotebookId
-    );
-  }
+    )
 );
 
 export const selectCurrentNoteTitleAndId = createSelector(

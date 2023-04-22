@@ -14,9 +14,9 @@ const isNotebook = (type) => type === "notebook";
 const getDescription = (type) => {
   if (isNote(type)) {
     return "Note";
-  } else if (isSubnotebook(type)) {
+  } if (isSubnotebook(type)) {
     return "Subnotebook";
-  } else if (isNotebook(type)) {
+  } if (isNotebook(type)) {
     return "Notebook";
   }
 };
@@ -24,7 +24,7 @@ const getDescription = (type) => {
 const getIcon = (type) => {
   if (isNotebook(type) || isSubnotebook(type)) {
     return <FolderIcon height="16" />;
-  } else if (isNote(type)) {
+  } if (isNote(type)) {
     return <DocumentIcon height="16px" />;
   }
 };
