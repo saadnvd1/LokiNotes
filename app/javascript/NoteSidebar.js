@@ -36,7 +36,7 @@ const NoteSidebar = () => {
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
+      style={{ display: "flex", flexDirection: "column", zIndex: 10 }}
     >
       <div
         style={{

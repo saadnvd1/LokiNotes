@@ -21,6 +21,7 @@ import {
   PencilSquareIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/solid";
+import EditorView from "EditorView/EditorView";
 
 const App = () => {
   useGlobalShortcuts();
@@ -62,10 +63,7 @@ const App = () => {
           <NoteSidebar />
         </>
       )}
-      <Layout>
-        {!isZenMode && <EditorHeader />}
-        <Editor />
-      </Layout>
+      <EditorView />
       {/*<FloatButton.Group*/}
       {/*  trigger="hover"*/}
       {/*  type="default"*/}

@@ -57,6 +57,7 @@ const Editor = () => {
     dispatch(uploadImage(formData))
       .unwrap()
       .then((response) => {
+        console.log("response", response);
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection();
         const index = range.index + range.length;
@@ -130,9 +131,6 @@ const Editor = () => {
   return (
     <Content
       style={{
-        margin: "24px 16px",
-        marginTop: 4,
-        padding: "0px",
         overflowY: "scroll",
       }}
       className="editor-container" // prevents scrolling jump issue for quill.js
