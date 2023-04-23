@@ -7,6 +7,8 @@ import hljs from "highlight.js";
 import "./dracula.css";
 import QuillImageDropAndPaste, { ImageData } from "quill-image-drop-and-paste";
 import { uploadImage } from "slices/imagesSlice";
+import { updateNote } from "slices/notesSlice";
+import { selectNoteById } from "selectors/notesSelector";
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 
@@ -26,12 +28,11 @@ hljs.configure({
 
 const Editor = ({ noteId }) => {
   const dispatch = useDispatch();
-  const [content, setContent] = useState("");
+  const note = useSelector((state) => selectNoteById(state, { noteId }));
+  const [content, setContent] = useState(note?.content);
   const uploadingImages = useSelector((state) => state.images.uploadingImages);
   const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
   const quillRef = useRef(null);
-
-  console.log("noteId", noteId);
 
   const imageUploader = (dataUrl, type, imageData) => {
     const file = imageData.toFile();
@@ -114,6 +115,13 @@ const Editor = ({ noteId }) => {
     [selectedNoteId]
   );
 
+  const handleContentChange = (content) => {
+    setContent(content);
+    dispatch(updateNote({ noteId, content }));
+  };
+
+  console.log("content", content);
+
   return (
     <Content
       style={{
@@ -127,9 +135,7 @@ const Editor = ({ noteId }) => {
           modules={modules}
           key={selectedNoteId}
           value={content}
-          onChange={(content, delta, source, editor) => {
-            setContent(content);
-          }}
+          onChange={handleContentChange}
           scrollingContainer=".editor-container"
           placeholder="Begin something amazing here..."
           readOnly={uploadingImages}

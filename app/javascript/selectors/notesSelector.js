@@ -113,13 +113,12 @@ export const selectAllNotes = createSelector(selectNotesData, (data) => {
   return notes;
 });
 
-export const selectCurrentNotebook = createSelector(
-  selectNotesSlice,
-  (data) => getNotebookById(
-      data.selectedParentNotebookId,
-      data.notesData,
-      data.selectedNotebookId
-    )
+export const selectCurrentNotebook = createSelector(selectNotesSlice, (data) =>
+  getNotebookById(
+    data.selectedParentNotebookId,
+    data.notesData,
+    data.selectedNotebookId
+  )
 );
 
 export const selectCurrentNoteTitleAndId = createSelector(
@@ -133,5 +132,17 @@ export const selectCurrentNoteTitleAndId = createSelector(
         return { title: note.title, id: note.id };
       }
     }
+  }
+);
+
+export const selectNoteById = createSelector(
+  selectAllNotes,
+  (state, props) => props.noteId,
+  (notes, noteId) => {
+    const note = notes.find((note) => note.id === noteId);
+    console.log("note selector", note);
+    console.log("notes", notes);
+    console.log("noteId", noteId);
+    return note;
   }
 );

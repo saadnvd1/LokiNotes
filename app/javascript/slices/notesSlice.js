@@ -32,7 +32,7 @@ export const createNote = createAsyncThunk(
 export const updateNote = createAsyncThunk(
   "notes/updateNote",
   async (data, thunkAPI) => {
-    if (!_shouldSaveNote(thunkAPI, data)) return thunkAPI.rejectWithValue({});
+    // if (!_shouldSaveNote(thunkAPI, data)) return thunkAPI.rejectWithValue({});
 
     const response = await axiosI.patch(`/notes/${data.noteId}`, {
       ...data,
@@ -43,11 +43,7 @@ export const updateNote = createAsyncThunk(
 
 export const updateSelectedNoteId = createAsyncThunk(
   "notes/updateSelectedNoteId",
-  async ({ noteId }, thunkAPI) => {
-    await _saveCurrentNote(thunkAPI);
-
-    return noteId;
-  }
+  async ({ noteId }, thunkAPI) => noteId
 );
 
 // Business logic for whether we want to save the note to the database or not
@@ -79,20 +75,6 @@ const _findNoteInNotebook = (state, notebookId, noteId) => {
   return state.notesData[notebookId]?.notes?.find((note) => note.id === noteId);
 };
 
-// This is an internal function that will setup and dispatch the actual action to update a note
-// It's meant to be used within other async thunks in case we want to save the current note
-// before doing something else
-const _saveCurrentNote = (thunkAPI) => {
-  const notesState = thunkAPI.getState().notes;
-  const { selectedNoteId } = notesState;
-  const { content } = notesState;
-
-  // Once the note is updated, then we change notebooks
-  if (selectedNoteId) {
-    return thunkAPI.dispatch(updateNote({ noteId: selectedNoteId, content }));
-  }
-};
-
 // -- NotebooksTab Related Functionality
 const _findNotebook = (state, notebookId, parentNotebookId = null) => {
   if (parentNotebookId) {
@@ -117,11 +99,7 @@ const _findParentNotebookId = (state, notebookId) => {
 
 export const updateSelectedNotebookId = createAsyncThunk(
   "notes/updateSelectedNotebookId",
-  async ({ notebookId }, thunkAPI) => {
-    await _saveCurrentNote(thunkAPI);
-
-    return notebookId;
-  }
+  async ({ notebookId }, thunkAPI) => notebookId
 );
 
 export const createNotebook = createAsyncThunk(

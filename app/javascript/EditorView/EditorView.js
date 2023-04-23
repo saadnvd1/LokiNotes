@@ -13,9 +13,6 @@ import { act } from "react-dom/test-utils";
 const EditorView = () => {
   const currentNote = useSelector(selectCurrentNoteTitleAndId);
   const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
-  const previousActiveTabId = useSelector(
-    (state) => state.notes.previousActiveTabId
-  );
   const dispatch = useDispatch();
   const selectedNotebookId = useSelector(
     (state) => state.notes.selectedNotebookId
@@ -23,6 +20,7 @@ const EditorView = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isChangingTab, setIsChangingTab] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const initialItems = useMemo(
     () => [
@@ -45,7 +43,6 @@ const EditorView = () => {
   const add = () => {
     setIsAdding(true);
     handleCreateNote().then((res) => {
-      debugger;
       const noteId = res.payload.note.id;
       const newPanes = [...items];
       const key = `${noteId}-0`;
@@ -61,22 +58,26 @@ const EditorView = () => {
     });
   };
   const remove = (targetKey) => {
+    debugger;
     setIsRemoving(true);
     const newPanes = items.filter((item) => item.key !== targetKey);
     const lastTab = newPanes[newPanes.length - 1];
     const lastItemNoteId = lastTab.key.split("-")[0];
     setItems(newPanes);
-    dispatch(updateSelectedNoteId({ noteId: lastItemNoteId }));
-    setIsRemoving(false);
-    setActiveKey(lastTab.key);
+    dispatch(updateSelectedNoteId({ noteId: lastItemNoteId })).then(() => {
+      debugger;
+      setIsRemoving(false);
+      setActiveKey(lastTab.key);
+    });
   };
 
   const handleTabChange = (newActiveKey) => {
     setIsChangingTab(true);
     const noteId = Number(newActiveKey.split("-")[0]);
-    dispatch(updateSelectedNoteId({ noteId }));
-    setActiveKey(newActiveKey);
-    setIsChangingTab(false);
+    dispatch(updateSelectedNoteId({ noteId })).then(() => {
+      setActiveKey(newActiveKey);
+      setIsChangingTab(false);
+    });
   };
 
   const onEdit = (targetKey, action) => {
@@ -88,14 +89,23 @@ const EditorView = () => {
   };
 
   useEffect(() => {
-    if (currentNote && !isAdding && !isRemoving && !isChangingTab) {
+    if (
+      currentNote &&
+      selectedNoteId &&
+      !isAdding &&
+      !isRemoving &&
+      !isChangingTab
+    ) {
       const itemsCopy = [...items];
 
+      debugger;
       const sameOpenNotes = itemsCopy.filter(
         (i) => Number(i.key.split("-")[0]) === currentNote.id
       );
 
       let item;
+
+      debugger;
 
       // This is for when we have a note that is already open
       if (sameOpenNotes.length > 0) {
@@ -120,11 +130,11 @@ const EditorView = () => {
       }
 
       item.label = currentNote.title || "Untitled";
-      item.children = <Editor noteId={currentNote.id} />;
+      item.children = <Editor key={item.key} noteId={currentNote.id} />;
 
       setItems(itemsCopy);
     }
-  }, [currentNote]);
+  }, [selectedNoteId, currentNote?.title]);
 
   console.log("items", items);
 
@@ -143,9 +153,16 @@ const EditorView = () => {
       <Layout
         style={{
           position: "relative",
+          overflowY: "scroll",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            overflowY: "scroll",
+          }}
+        >
           <div>
             <div style={{ margin: 10, marginLeft: 30 }}>
               <Tabs
