@@ -9,6 +9,7 @@ import QuillImageDropAndPaste, { ImageData } from "quill-image-drop-and-paste";
 import { uploadImage } from "slices/imagesSlice";
 import { updateNote } from "slices/notesSlice";
 import { selectNoteById } from "selectors/notesSelector";
+import { debounce } from "lodash";
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 
@@ -115,12 +116,16 @@ const Editor = ({ noteId }) => {
     [selectedNoteId]
   );
 
-  const handleContentChange = (content) => {
-    setContent(content);
-    dispatch(updateNote({ noteId, content }));
-  };
+  const debouncedNoteUpdate = React.useRef(
+    debounce(async (content) => {
+      dispatch(updateNote({ noteId, content }));
+    }, 300)
+  ).current;
 
-  console.log("content", content);
+  const handleContentChange = (newContent) => {
+    setContent(newContent);
+    debouncedNoteUpdate(newContent);
+  };
 
   return (
     <Content
