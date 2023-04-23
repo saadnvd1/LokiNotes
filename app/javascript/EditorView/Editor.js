@@ -127,7 +127,6 @@ const Editor = ({ noteId }) => {
       style={{
         overflowY: "scroll",
       }}
-      className="editor-container" // prevents scrolling jump issue for quill.js
     >
       <div style={{ backgroundColor: "#252525", color: "white", border: 0 }}>
         <ReactQuill

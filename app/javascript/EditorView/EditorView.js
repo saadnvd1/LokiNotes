@@ -57,15 +57,14 @@ const EditorView = () => {
       setIsAdding(false);
     });
   };
+
   const remove = (targetKey) => {
-    debugger;
     setIsRemoving(true);
     const newPanes = items.filter((item) => item.key !== targetKey);
     const lastTab = newPanes[newPanes.length - 1];
     const lastItemNoteId = lastTab.key.split("-")[0];
     setItems(newPanes);
     dispatch(updateSelectedNoteId({ noteId: lastItemNoteId })).then(() => {
-      debugger;
       setIsRemoving(false);
       setActiveKey(lastTab.key);
     });
@@ -98,14 +97,11 @@ const EditorView = () => {
     ) {
       const itemsCopy = [...items];
 
-      debugger;
       const sameOpenNotes = itemsCopy.filter(
         (i) => Number(i.key.split("-")[0]) === currentNote.id
       );
 
       let item;
-
-      debugger;
 
       // This is for when we have a note that is already open
       if (sameOpenNotes.length > 0) {
@@ -162,6 +158,7 @@ const EditorView = () => {
             flexDirection: "column",
             overflowY: "scroll",
           }}
+          className="editor-container" // prevents scrolling jump issue for quill.js
         >
           <div>
             <div style={{ margin: 10, marginLeft: 30 }}>
