@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axiosI from "helpers/axiosInstance";
-import { updateUser } from "slices/userSlice";
 
 const initialState = {
   notesData: null,
   selectedNoteId: null,
   selectedNotebookId: null,
+  previousActiveTabId: null,
   content: null,
   selectedParentNotebookId: null,
   isSavingNote: false,
+  tabs: [],
 };
 
 // -- Notes Related Functionality
@@ -53,7 +54,7 @@ export const updateSelectedNoteId = createAsyncThunk(
 // In most cases, we just shouldn't save a note at all if it hasn't changed
 const _shouldSaveNote = (thunkAPI, data) => {
   const notesState = thunkAPI.getState().notes;
-  const {content} = notesState;
+  const { content } = notesState;
 
   const note = _findNoteInNotebook(
     notesState,
@@ -83,8 +84,8 @@ const _findNoteInNotebook = (state, notebookId, noteId) => {
 // before doing something else
 const _saveCurrentNote = (thunkAPI) => {
   const notesState = thunkAPI.getState().notes;
-  const {selectedNoteId} = notesState;
-  const {content} = notesState;
+  const { selectedNoteId } = notesState;
+  const { content } = notesState;
 
   // Once the note is updated, then we change notebooks
   if (selectedNoteId) {
@@ -155,6 +156,7 @@ export const notesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
+      state.previousActiveTabId = state.selectedNoteId;
       state.selectedNoteId = action.payload;
 
       const note = _findNoteInNotebook(
@@ -164,9 +166,6 @@ export const notesSlice = createSlice({
       );
 
       if (!note) return;
-
-      // Make sure to update content when we change to another note
-      state.content = note.content;
     });
     builder.addCase(updateSelectedNotebookId.fulfilled, (state, action) => {
       const notebookId = action.payload;
@@ -224,13 +223,13 @@ export const notesSlice = createSlice({
         action.payload.parent_notebook_id
       );
 
-      notebook.notes.push(action.payload.note);
+      notebook.notes.unshift(action.payload.note);
       state.content = null;
       state.selectedNoteId = noteId;
     });
     builder.addCase(createNotebook.fulfilled, (state, action) => {
       // Add new notebook to notesData
-      const {parentId} = action.meta.arg;
+      const { parentId } = action.meta.arg;
 
       if (parentId) {
         // subnotebook
@@ -249,9 +248,9 @@ export const notesSlice = createSlice({
     });
     builder.addCase(updateNotebook.fulfilled, (state, action) => {
       // Add new notebook to notesData
-      const {parentId} = action.meta.arg;
-      const {name} = action.payload;
-      const {meta} = action.payload;
+      const { parentId } = action.meta.arg;
+      const { name } = action.payload;
+      const { meta } = action.payload;
 
       // Currently, we're only ever updating the title of the notebook, so don't need to worry about other parameters
       if (parentId) {

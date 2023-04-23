@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Header } from "antd/es/layout/layout";
 import { useDispatch, useSelector } from "react-redux";
-import { createNote, updateNote } from "slices/notesSlice";
-import LIcon from "components/LIcon/LIcon";
+import { updateNote } from "slices/notesSlice";
 import { selectCurrentNoteTitleAndId } from "selectors/notesSelector";
 
 const EditorHeader = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const selectedNotebookId = useSelector(
-    (state) => state.notes.selectedNotebookId
-  );
   const currentNote = useSelector(selectCurrentNoteTitleAndId);
   const [noteTitle, setNoteTitle] = useState(
     currentNote ? currentNote?.title || "Untitled" : ""
@@ -36,11 +32,8 @@ const EditorHeader = () => {
     }
   }, [currentNote]);
 
-  const handleCreateNote = () => {
-    dispatch(createNote({ notebookId: selectedNotebookId }));
-  };
-
-  const saveTitle = () => dispatch(updateNote({ noteId: currentNote.id, title: noteTitle }));
+  const saveTitle = () =>
+    dispatch(updateNote({ noteId: currentNote.id, title: noteTitle }));
 
   const handleBlur = () => {
     if (noteTitle !== currentNote.title) {
@@ -96,13 +89,6 @@ const EditorHeader = () => {
           onClick={() => setIsEditing(true)}
           readOnly={!isEditing}
           onKeyDown={handleKeyDown}
-        />
-      </div>
-      <div style={{ color: "#fff", cursor: "pointer" }}>
-        <LIcon
-          onClick={handleCreateNote}
-          iconName="pencilSquareIcon"
-          tooltipText="Create Note"
         />
       </div>
     </Header>

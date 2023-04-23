@@ -5,6 +5,7 @@
 .EditorView .ant-tabs-tab {
   background: linear-gradient(to bottom, #291e34, #332547) !important;
   color: white !important;
+  font-size: 13px;
 }
 
 .EditorView .ant-tabs-tab-active {

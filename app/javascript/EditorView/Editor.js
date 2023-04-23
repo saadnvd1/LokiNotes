@@ -1,7 +1,6 @@
 import ReactQuill, { Quill } from "react-quill";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Content } from "antd/es/layout/layout";
-import { updateContent, updateNote } from "slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SavingIndicator from "EditorView/SavingIndicator";
 import hljs from "highlight.js";
@@ -25,27 +24,14 @@ hljs.configure({
   ],
 });
 
-const Editor = () => {
+const Editor = ({ noteId }) => {
   const dispatch = useDispatch();
-  const content = useSelector((state) => state.notes.content);
+  const [content, setContent] = useState("");
   const uploadingImages = useSelector((state) => state.images.uploadingImages);
   const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
   const quillRef = useRef(null);
 
-  const selectedNoteRef = useRef(null);
-  selectedNoteRef.current = { selectedNoteId, content };
-
-  useEffect(() => {
-    const autoSave = () => {
-      const { selectedNoteId } = selectedNoteRef.current;
-      const { content } = selectedNoteRef.current;
-
-      if (selectedNoteId) {
-        dispatch(updateNote({ noteId: selectedNoteId, content }));
-      }
-    };
-    setInterval(autoSave, process.env.AUTOSAVE_INTERVAL || 10000);
-  }, []);
+  console.log("noteId", noteId);
 
   const imageUploader = (dataUrl, type, imageData) => {
     const file = imageData.toFile();
@@ -142,7 +128,7 @@ const Editor = () => {
           key={selectedNoteId}
           value={content}
           onChange={(content, delta, source, editor) => {
-            dispatch(updateContent(content));
+            setContent(content);
           }}
           scrollingContainer=".editor-container"
           placeholder="Begin something amazing here..."
