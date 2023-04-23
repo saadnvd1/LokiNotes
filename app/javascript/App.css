@@ -1,3 +1,202 @@
+root {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+body {
+    margin: 0;
+}
+
+#root {
+    height: 100%;
+    font-size: 10px;
+}
+
+.ant-menu-item-selected {
+    background-color: #07030e !important;
+}
+
+.ant-menu-item {
+    color: #fff !important;
+}
+
+.ant-layout-sider-dark {
+    background: linear-gradient(to bottom, #291e34, #332547) !important;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
+    border-right: none;
+}
+
+.ant-menu {
+    background-color: transparent !important;
+    font-size: 10px;
+}
+
+.ant-layout {
+    background-color: #252525 !important;
+    color: #fff;
+    height: 100%;
+}
+
+.ant-layout-header {
+    background-color: #291e34 !important;
+    border-bottom: 1px solid #140c1c;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.center-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #959595 !important;
+  opacity: 1 !important; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #959595 !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #959595 !important;
+}
+
+.icon-white:hover {
+    color: #bbbbbb;
+}
+
+/* Quill.js Placeholder */
+.ql-editor.ql-blank::before {
+  color: #aba8a8 !important;
+}
+
+.ql-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+}
+
+/* Toolbar (Bold, Italics, Underline, etc..) */
+.ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
+    color: #fff !important;
+}
+
+/* Toolbar (Normal) */
+.ql-snow .ql-picker {
+    color: #fff !important;
+}
+
+/* Toolbar Main Header */
+.ql-toolbar.ql-snow {
+    background: linear-gradient(to bottom, #291e34, #332547) !important;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5) !important;
+    border: none !important;
+}
+
+/* Border for text area */
+.ql-container.ql-snow {
+    border: none !important;
+    background: linear-gradient(to bottom, #181818, #222222);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+.ql-editor {
+    color: #ccc;
+    padding: 20px !important;
+    border-radius: 10px;
+}
+
+.ql-snow a {
+  color: #fff !important;
+}
+
+.ql-formats button svg path {
+  stroke: #fff !important;
+  transition: stroke 0.2s ease-in-out !important;
+}
+
+.ql-formats button:hover svg path {
+    stroke: #000 !important;
+}
+
+/* -- Underline START -- */
+.ql-underline .ql-fill {
+  fill: #fff !important;
+}
+
+.ql-underline:hover .ql-fill {
+  fill: #000 !important;
+}
+/* -- Underline END -- */
+
+/* -- No Formatting START -- */
+.ql-clean svg path,
+.ql-clean svg rect {
+  stroke: #fff !important;
+  fill: #fff !important;
+}
+.ql-clean:hover svg path,
+.ql-clean:hover svg rect {
+  stroke: #000 !important;
+  fill: #000 !important;
+}
+/* -- No Formatting END -- */
+
+/* -- Italics START -- */
+.ql-toolbar .ql-formats button .ql-stroke {
+  stroke: #fff !important;
+    transition: stroke 0.2s ease-in-out !important;
+}
+
+.ql-toolbar .ql-formats button:hover .ql-stroke {
+  stroke: #000 !important;
+}
+/* -- Italics END -- */
+
+/* -- Header Dropdown Options START -- */
+.ql-toolbar .ql-header .ql-picker-options {
+  background-color: #291E34 !important; /* set your desired background color here */
+}
+.ql-snow .ql-picker.ql-header .ql-picker-item:hover,
+.ql-snow .ql-picker.ql-header .ql-picker-item.ql-selected:hover {
+  color: #000 !important;
+}
+
+    /* Arrows */
+    .ql-picker.ql-header .ql-picker-label svg .ql-stroke {
+      stroke: white !important;
+    }
+
+    .ql-picker.ql-header .ql-picker-label svg .ql-stroke:hover {
+      stroke: black !important;
+    }
+
+.ql-picker.ql-header .ql-picker-label:hover {
+  color: black !important;
+}
+
+/* -- Header Dropdown Options END -- */
+
+.EditorHeader {
+    background: white;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
+    border-bottom: none;
+}
+
+.ql-editor.ql-blank:focus::before {
+  content: '';
+}
+
 /* This is because there's some kind of weird bug where the tooltip ends up staying */
 .ant-menu-inline-collapsed-tooltip {
   display: none !important;

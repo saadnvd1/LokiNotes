@@ -71,7 +71,14 @@ const EditorView = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        height: "100%",
+      }}
+    >
       <div style={{ zIndex: 1 }}>
         <EditorHeader />
       </div>
