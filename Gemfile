@@ -3,16 +3,16 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.3"
 
-gem 'devise'
-gem 'devise-jwt'
-gem 'ancestry'
-gem 'active_interaction', '~> 5.2'
-gem 'rabl'
-gem 'oj'
-gem 'cancancan'
-gem 'stripe'
+gem "devise"
+gem "devise-jwt"
+gem "ancestry"
+gem "active_interaction", "~> 5.2"
+gem "rabl"
+gem "oj"
+gem "cancancan"
+gem "stripe"
 gem "fog-aws"
-gem 'paper_trail'
+gem "paper_trail"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.2"
@@ -23,11 +23,11 @@ gem "sprockets-rails"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
-gem 'rack-cors'
-gem 'carrierwave', '>= 3.0.0.beta', '< 4.0'
+gem "rack-cors"
+gem "carrierwave", ">= 3.0.0.beta", "< 4.0"
 gem "sentry-ruby"
 gem "sentry-rails"
-gem 'newrelic_rpm'
+gem "newrelic_rpm"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -42,7 +42,7 @@ gem "redis", "~> 4.0"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -55,12 +55,13 @@ gem "bootsnap", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'pry', '~> 0.13.1'
-  gem 'rspec-rails', '~> 6.0.0'
+  gem "pry", "~> 0.13.1"
+  gem "rspec-rails", "~> 6.0.0"
+  gem "standard"
 end
 
 group :development do
-  gem 'annotate'
+  gem "annotate"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 

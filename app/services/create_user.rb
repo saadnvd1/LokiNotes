@@ -14,16 +14,15 @@ class CreateUser < ActiveInteraction::Base
 
   def create_trial(user)
     Trial.create!(user: user,
-                  start_date: Date.current,
-                  end_date: 14.days.from_now,
-                  active: true
-    )
+      start_date: Date.current,
+      end_date: 14.days.from_now,
+      active: true)
   end
 
   def user_params
     {
       email: email,
-      password: password,
+      password: password
     }
   end
 end

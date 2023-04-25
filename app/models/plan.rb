@@ -1,5 +1,4 @@
 class Plan < ApplicationRecord
-
   with_options dependent: :destroy do
     has_many :features
     has_many :subscriptions

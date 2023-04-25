@@ -8,7 +8,7 @@ class NotesController < ApplicationController
     authorize! :create, @note
 
     @note.save!
-    render json: { note: @note, parent_notebook_id: @note.notebook.ancestry }
+    render json: {note: @note, parent_notebook_id: @note.notebook.ancestry}
   end
 
   def update
@@ -16,7 +16,7 @@ class NotesController < ApplicationController
     authorize! :update, @note
 
     @note.update(update_params)
-    render json: { note: @note }
+    render json: {note: @note}
   end
 
   private

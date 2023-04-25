@@ -13,11 +13,11 @@ class NotebooksController < ApplicationController
     @notebook.save!
 
     render json: {
-        id: @notebook.id,
-        name: @notebook.name,
-        notes: [],
-        meta: @notebook.meta,
-        subnotebooks: {},
+      id: @notebook.id,
+      name: @notebook.name,
+      notes: [],
+      meta: @notebook.meta,
+      subnotebooks: {}
     }
   end
 
@@ -34,10 +34,10 @@ class NotebooksController < ApplicationController
     @notebook.save!
 
     render json: {
-        id: @notebook.id,
-        name: @notebook.name,
-        meta: @notebook.meta,
-        parent_id: @notebook.parent_id,
+      id: @notebook.id,
+      name: @notebook.name,
+      meta: @notebook.meta,
+      parent_id: @notebook.parent_id
     }
   end
 

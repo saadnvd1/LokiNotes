@@ -7,7 +7,7 @@ class RegistrationsController < Devise::RegistrationsController
       render "home/session_data"
     else
       warden.custom_failure!
-      render json: { error: 'signup error' }, status: :unprocessable_entity
+      render json: {error: "signup error"}, status: :unprocessable_entity
     end
   end
 
@@ -19,22 +19,22 @@ class RegistrationsController < Devise::RegistrationsController
     if @user.save
       render "home/session_data"
     else
-      render json: {error: 'invalid update'}, status: :unprocessable_entity
+      render json: {error: "invalid update"}, status: :unprocessable_entity
     end
   end
 
   def destroy
     @user = User.find_by_email(user_params[:email])
     if @user.destroy
-      render :json=> { success: 'user was successfully deleted' }, :status=>201
+      render json: {success: "user was successfully deleted"}, status: 201
     else
-      render :json=> { error: 'user could not be deleted' }, :status=>422
+      render json: {error: "user could not be deleted"}, status: 422
     end
   end
 
   private
 
   def user_params
-     params.require(:user).permit(:email, :password, :password_confirmation, meta: {})
+    params.require(:user).permit(:email, :password, :password_confirmation, meta: {})
   end
 end

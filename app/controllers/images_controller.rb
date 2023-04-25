@@ -8,9 +8,9 @@ class ImagesController < ApplicationController
     image.note = note
 
     if image.save
-      render json: { url: image.file.url }, status: :ok
+      render json: {url: image.file.url}, status: :ok
     else
-      render json: { errors: image.errors.full_messages }, status: :unprocessable_entity
+      render json: {errors: image.errors.full_messages}, status: :unprocessable_entity
     end
   end
 

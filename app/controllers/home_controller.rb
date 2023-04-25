@@ -15,18 +15,18 @@ class HomeController < ApplicationController
       @notes_data[notebook.id] = format_notebook(notebook)
     end
 
-    render json: { notes_data: @notes_data }
+    render json: {notes_data: @notes_data}
   end
 
   def format_notebook(notebook)
     return if notebook.nil?
 
     catH = {
-        id: notebook.id,
-        name: notebook.name,
-        notes: notebook.notes.map { |note| format_note(note) },
-        meta: notebook.meta,
-        subnotebooks: {}
+      id: notebook.id,
+      name: notebook.name,
+      notes: notebook.notes.map { |note| format_note(note) },
+      meta: notebook.meta,
+      subnotebooks: {}
     }
 
     notebook.children.includes(:notes).each do |subnotebook|
@@ -43,7 +43,7 @@ class HomeController < ApplicationController
       content: note.content,
       notebook_id: note.notebook_id,
       created_at: note.created_at.strftime("%m/%d/%Y"),
-      updated_at: note.updated_at,
+      updated_at: note.updated_at
     }
   end
 end

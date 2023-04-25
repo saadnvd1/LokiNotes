@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :current_token
 
   def current_token
-    request.env['warden-jwt_auth.token'] || request.headers['Authorization'].split(' ').last
+    request.env["warden-jwt_auth.token"] || request.headers["Authorization"].split(" ").last
   end
 end
-

@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController
-    clear_respond_to
-    respond_to :json
+  clear_respond_to
+  respond_to :json
   # POST /v1/login
   def create
     @user = User.find_by_email(user_params[:email].downcase)
@@ -24,10 +24,10 @@ class SessionsController < Devise::SessionsController
 
   def invalid_login_attempt
     warden.custom_failure!
-    render json: {error: 'invalid login attempt'}, status: :unprocessable_entity
+    render json: {error: "invalid login attempt"}, status: :unprocessable_entity
   end
 
   def user_params
-     params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password)
   end
 end

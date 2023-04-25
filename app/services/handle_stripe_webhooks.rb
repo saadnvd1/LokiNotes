@@ -12,15 +12,15 @@ class HandleStripeWebhooks < ActiveInteraction::Base
         )
       rescue JSON::ParserError => e
         # Invalid payload
-        errors.add(:base, 'Invalid payload')
+        errors.add(:base, "Invalid payload")
         return
       rescue Stripe::SignatureVerificationError => e
         # Invalid signature
-        errors.add(:base, 'Invalid signature')
+        errors.add(:base, "Invalid signature")
         return
       end
     else
-      errors.add(:base, 'No webhook secret')
+      errors.add(:base, "No webhook secret")
       return
     end
 
@@ -28,30 +28,30 @@ class HandleStripeWebhooks < ActiveInteraction::Base
     event = Stripe::Event.construct_from(data)
 
     # Get the type of webhook event sent
-    data = event['data']
-    data_object = data['object']
+    data = event["data"]
+    data_object = data["object"]
 
     case event.type
-    when 'checkout.session.completed'
+    when "checkout.session.completed"
       CreateSubscription.run!(
         subscription_id: data_object.subscription,
         user: User.find(data_object.metadata.user_id)
-    )
-    when 'invoice.paid'
-      if data_object.status == 'paid'
+      )
+    when "invoice.paid"
+      if data_object.status == "paid"
         subscription = get_subscription(data_object)
 
         return if subscription.active?
         subscription.update!(status: Subscription::STATUSES[:active])
       end
-    when 'invoice.payment_failed'
+    when "invoice.payment_failed"
       subscription = get_subscription(data_object)
       subscription.update!(status: Subscription::STATUSES[:past_due])
-    when 'customer.subscription.deleted'
+    when "customer.subscription.deleted"
       subscription = get_subscription(data_object.id)
       subscription.update!(status: Subscription::STATUSES[:canceled])
     else
-      errors.add(:base, 'Unhandled event type')
+      errors.add(:base, "Unhandled event type")
     end
 
     # TODO: handle the event where a user stops their subscription early `
