@@ -34,8 +34,6 @@ const Editor = ({ noteId, index }) => {
   const uploadingImages = useSelector((state) => state.images.uploadingImages);
   const quillRef = useRef(null);
 
-  console.log("note", note);
-
   const imageUploader = (dataUrl, type, imageData) => {
     const file = imageData.toFile();
     const formData = new FormData();
@@ -46,7 +44,6 @@ const Editor = ({ noteId, index }) => {
     dispatch(uploadImage(formData))
       .unwrap()
       .then((response) => {
-        console.log("response", response);
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection();
         const index = range.index + range.length;

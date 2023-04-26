@@ -18,7 +18,6 @@ const NoteSidebar = () => {
   );
 
   const handleChangeNote = (e) => {
-    console.log("e", e);
     dispatch(updateSelectedNoteId({ noteId: Number(e.key) }));
   };
 
@@ -27,8 +26,6 @@ const NoteSidebar = () => {
       const currentNotebookNotes = Object.entries(allNotes).filter(
         ([_, note]) => note.notebook_id === selectedNotebookId
       );
-
-      console.log("currentNotebookNotes", currentNotebookNotes);
 
       return currentNotebookNotes.map(([noteId, note]) => ({
         key: noteId,
