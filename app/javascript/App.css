@@ -78,7 +78,7 @@ body {
 
 .ql-toolbar {
   position: sticky;
-  top: 0;
+  top: 35px;
   z-index: 1;
   background-color: #fff;
 }

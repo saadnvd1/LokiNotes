@@ -1,7 +1,7 @@
 import React from "react";
 import "./LBox.css";
 
-const LBox = ({ children, style, ...props }) => {
+const LBox = ({ children, style, className, onClick, ...props }) => {
   const classNames = Object.keys(props)
     .map((prop) => {
       const className = prop.replace(
@@ -13,7 +13,11 @@ const LBox = ({ children, style, ...props }) => {
     .join(" ");
 
   return (
-    <div className={`LBox ${classNames}`} style={style}>
+    <div
+      className={`LBox ${classNames} ${className}`}
+      style={style}
+      onClick={onClick}
+    >
       {children}
     </div>
   );

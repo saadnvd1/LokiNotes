@@ -140,9 +140,6 @@ export const selectNoteById = createSelector(
   (state, props) => props.noteId,
   (notes, noteId) => {
     const note = notes.find((note) => note.id === noteId);
-    console.log("note selector", note);
-    console.log("notes", notes);
-    console.log("noteId", noteId);
     return note;
   }
 );

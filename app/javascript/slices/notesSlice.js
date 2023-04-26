@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosI from "helpers/axiosInstance";
 
 const initialState = {
@@ -9,7 +9,21 @@ const initialState = {
   content: null,
   selectedParentNotebookId: null,
   isSavingNote: false,
-  tabs: [],
+  openNoteIds: [179449, 179424],
+  tabs: {
+    open: [
+      {
+        noteId: 179449,
+      },
+      {
+        noteId: 179449,
+      },
+      {
+        noteId: 179424,
+      },
+    ],
+    activeIndex: 0,
+  },
 };
 
 // -- Notes Related Functionality
@@ -131,6 +145,9 @@ export const notesSlice = createSlice({
     updateContent: (state, action) => {
       state.content = action.payload;
     },
+    updateActiveIndex: (state, action) => {
+      state.tabs.activeIndex = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
@@ -246,6 +263,6 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateContent } = notesSlice.actions;
+export const { updateActiveIndex } = notesSlice.actions;
 
 export default notesSlice.reducer;

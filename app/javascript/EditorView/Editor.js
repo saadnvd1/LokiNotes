@@ -27,12 +27,11 @@ hljs.configure({
   ],
 });
 
-const Editor = ({ noteId }) => {
+const Editor = ({ noteId, index }) => {
   const dispatch = useDispatch();
   const note = useSelector((state) => selectNoteById(state, { noteId }));
-  const [content, setContent] = useState(note?.content);
+  const [content, setContent] = useState(note.content);
   const uploadingImages = useSelector((state) => state.images.uploadingImages);
-  const selectedNoteId = useSelector((state) => state.notes.selectedNoteId);
   const quillRef = useRef(null);
 
   const imageUploader = (dataUrl, type, imageData) => {
@@ -40,7 +39,7 @@ const Editor = ({ noteId }) => {
     const formData = new FormData();
 
     formData.append("file", file);
-    formData.append("note_id", selectedNoteId);
+    formData.append("note_id", noteId);
 
     dispatch(uploadImage(formData))
       .unwrap()
@@ -113,34 +112,41 @@ const Editor = ({ noteId }) => {
         handler: imageUploader,
       },
     }),
-    [selectedNoteId]
+    [noteId]
   );
 
-  const debouncedNoteUpdate = React.useRef(
-    debounce(async (content) => {
-      dispatch(updateNote({ noteId, content }));
-    }, 300)
-  ).current;
+  const changeHandler = (newContent) => {
+    dispatch(updateNote({ noteId, content: newContent }));
+  };
+
+  const debouncedChangeHandler = useMemo(
+    () => debounce(changeHandler, 300),
+    []
+  );
 
   const handleContentChange = (newContent) => {
+    const objDiv = document.getElementById("editor-container");
+    objDiv.scrollTop = objDiv.scrollHeight;
     setContent(newContent);
-    debouncedNoteUpdate(newContent);
+    debouncedChangeHandler(newContent);
   };
 
   return (
-    <Content
-      style={{
-        overflowY: "scroll",
-      }}
-    >
-      <div style={{ backgroundColor: "#252525", color: "white", border: 0 }}>
+    <Content>
+      <div
+        style={{
+          backgroundColor: "#252525",
+          color: "white",
+          border: 0,
+        }}
+      >
         <ReactQuill
           ref={quillRef}
           modules={modules}
-          key={selectedNoteId}
+          key={`${noteId}-${index}`}
           value={content}
           onChange={handleContentChange}
-          scrollingContainer=".editor-container"
+          scrollingContainer="#editor-container"
           placeholder="Begin something amazing here..."
           readOnly={uploadingImages}
         />
