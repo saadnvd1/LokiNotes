@@ -2,7 +2,10 @@ import { createSelector } from "reselect";
 import { getNotebookById } from "helpers/notesHelper";
 
 const selectNotesSlice = (state) => state.notes;
+export const selectAllNotes = (state) => state.notes.notes;
+const selectAllNotebooks = (state) => state.notes.notebooks;
 const selectSelectedNoteId = (state) => state.notes.selectedNoteId;
+const selectSelectedNotebokId = (state) => state.notes.selectedNotebookId;
 const selectNotesData = (state) => state.notes.notesData;
 
 const buildNotebookData = (notebook, searchableData, parentId = null) => {
@@ -52,86 +55,34 @@ export const selectNotebooksSearchIndex = createSelector(
 );
 
 export const selectAllNotebookNameAndIds = createSelector(
-  [selectNotesData],
-  (data) => {
+  selectAllNotebooks,
+  (notebooks) => {
     // Get all the notebook names, as well as all the subnotebook names
     const notebookNames = [];
 
-    Object.values(data || []).forEach((notebook) => {
-      notebookNames.push({ name: notebook.name, id: notebook.id });
-
-      if (notebook.subnotebooks) {
-        Object.values(notebook.subnotebooks).forEach((subnotebook) => {
-          notebookNames.push({
-            name: subnotebook.name,
-            id: subnotebook.id,
-            parentId: notebook.id,
-          });
-        });
-      }
+    Object.values(notebooks || []).forEach((notebook) => {
+      notebookNames.push({
+        name: notebook.name,
+        id: notebook.id,
+        parentId: notebook.parent_notebook_id,
+      });
     });
 
     return notebookNames;
   }
 );
 
-export const selectAllNotes = createSelector(selectNotesData, (data) => {
-  const notes = [];
-
-  Object.values(data || []).forEach((notebook) => {
-    if (notebook.notes) {
-      notebook.notes.forEach((note) => {
-        notes.push({
-          title: note.title,
-          id: note.id,
-          notebookId: notebook.id,
-          content: note.content,
-          createdAt: note.created_at,
-        });
-      });
-    }
-
-    // TODO: This is duplicated from the above code. Refactor.
-    if (notebook.subnotebooks) {
-      Object.values(notebook.subnotebooks).forEach((subnotebook) => {
-        if (subnotebook.notes) {
-          subnotebook.notes.forEach((note) => {
-            notes.push({
-              title: note.title,
-              id: note.id,
-              notebookId: subnotebook.id,
-              content: note.content,
-              parentNotebookId: notebook.id,
-              createdAt: note.created_at,
-            });
-          });
-        }
-      });
-    }
-  });
-
-  return notes;
-});
-
-export const selectCurrentNotebook = createSelector(selectNotesSlice, (data) =>
-  getNotebookById(
-    data.selectedParentNotebookId,
-    data.notesData,
-    data.selectedNotebookId
-  )
-);
-
 export const selectCurrentNoteTitleAndId = createSelector(
-  selectCurrentNotebook,
+  selectAllNotes,
   selectSelectedNoteId,
-  (notebook, selectedNoteId) => {
-    if (notebook) {
-      const note = notebook.notes.find((note) => note.id === selectedNoteId);
+  (notes, selectedNoteId) => {
+    if (!selectedNoteId) return;
+    const currentNote = notes[selectedNoteId];
 
-      if (note) {
-        return { title: note.title, id: note.id };
-      }
-    }
+    return {
+      title: currentNote.title,
+      id: currentNote.id,
+    };
   }
 );
 
@@ -139,7 +90,6 @@ export const selectNoteById = createSelector(
   selectAllNotes,
   (state, props) => props.noteId,
   (notes, noteId) => {
-    const note = notes.find((note) => note.id === noteId);
-    return note;
+    return notes[noteId];
   }
 );

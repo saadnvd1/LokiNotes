@@ -34,6 +34,8 @@ const Editor = ({ noteId, index }) => {
   const uploadingImages = useSelector((state) => state.images.uploadingImages);
   const quillRef = useRef(null);
 
+  console.log("note", note);
+
   const imageUploader = (dataUrl, type, imageData) => {
     const file = imageData.toFile();
     const formData = new FormData();

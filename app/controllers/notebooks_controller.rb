@@ -17,7 +17,8 @@ class NotebooksController < ApplicationController
       name: @notebook.name,
       notes: [],
       meta: @notebook.meta,
-      subnotebooks: {}
+      parent_notebook_id: @notebook.parent.try(:id),
+      subnotebook_ids: @notebook.descendants.pluck(:id),
     }
   end
 
@@ -37,7 +38,8 @@ class NotebooksController < ApplicationController
       id: @notebook.id,
       name: @notebook.name,
       meta: @notebook.meta,
-      parent_id: @notebook.parent_id
+      parent_notebook_id: @notebook.parent.try(:id),
+      subnotebook_ids: @notebook.descendants.pluck(:id),
     }
   end
 

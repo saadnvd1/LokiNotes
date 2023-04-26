@@ -2,19 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosI from "helpers/axiosInstance";
 
 const initialState = {
-  notesData: null,
+  notebooks: null,
+  notes: null,
   selectedNoteId: null,
   selectedNotebookId: null,
-  previousActiveTabId: null,
   content: null,
   selectedParentNotebookId: null,
   isSavingNote: false,
   openNoteIds: [179449, 179424],
   tabs: {
     open: [
-      {
-        noteId: 179449,
-      },
       {
         noteId: 179449,
       },
@@ -60,56 +57,7 @@ export const updateSelectedNoteId = createAsyncThunk(
   async ({ noteId }, thunkAPI) => noteId
 );
 
-// Business logic for whether we want to save the note to the database or not
-// In most cases, we just shouldn't save a note at all if it hasn't changed
-const _shouldSaveNote = (thunkAPI, data) => {
-  const notesState = thunkAPI.getState().notes;
-  const { content } = notesState;
-
-  const note = _findNoteInNotebook(
-    notesState,
-    notesState.selectedNotebookId,
-    data.noteId
-  );
-
-  // Do not save the note if content hasn't changed
-  // And check to see whether we're even sending a `content` update
-  if ("content" in data && note && note.content === content) return false;
-
-  return true;
-};
-
-const _findNoteInNotebook = (state, notebookId, noteId) => {
-  if (state.selectedParentNotebookId) {
-    return state.notesData[state.selectedParentNotebookId].subnotebooks[
-      state.selectedNotebookId
-    ].notes.find((note) => note.id === noteId);
-  }
-
-  return state.notesData[notebookId]?.notes?.find((note) => note.id === noteId);
-};
-
 // -- NotebooksTab Related Functionality
-const _findNotebook = (state, notebookId, parentNotebookId = null) => {
-  if (parentNotebookId) {
-    return state.notesData[parentNotebookId].subnotebooks[notebookId];
-  }
-
-  return state.notesData[notebookId];
-};
-
-const _findParentNotebookId = (state, notebookId) => {
-  if (state.notesData[notebookId]) {
-    return null; // not a subnotebook
-  }
-
-  for (const [parentId, data] of Object.entries(state.notesData)) {
-    const parentNotebookId = Number(parentId);
-    if (data.subnotebooks[notebookId]) {
-      return parentNotebookId;
-    }
-  }
-};
 
 export const updateSelectedNotebookId = createAsyncThunk(
   "notes/updateSelectedNotebookId",
@@ -142,66 +90,32 @@ export const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    updateContent: (state, action) => {
-      state.content = action.payload;
-    },
     updateActiveIndex: (state, action) => {
       state.tabs.activeIndex = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
-      state.previousActiveTabId = state.selectedNoteId;
       state.selectedNoteId = action.payload;
-
-      const note = _findNoteInNotebook(
-        state,
-        state.selectedNotebookId,
-        action.payload
-      );
-
-      if (!note) return;
     });
     builder.addCase(updateSelectedNotebookId.fulfilled, (state, action) => {
       const notebookId = action.payload;
       state.selectedNotebookId = notebookId;
 
       // Also make sure we keep track of the parent notebook ID
-      const parentNotebookId = _findParentNotebookId(state, notebookId);
-      state.selectedParentNotebookId = parentNotebookId;
+      state.selectedParentNotebookId =
+        state.notebooks[notebookId].parent_notebook_id;
 
-      // By default we should select the first note in that notebook
-      let firstNote = state.notesData[notebookId]?.notes[0];
-
-      if (parentNotebookId) {
-        firstNote =
-          state.notesData[parentNotebookId].subnotebooks[notebookId].notes[0];
-      }
-
-      if (firstNote) {
-        state.selectedNoteId = firstNote.id;
-        state.content = firstNote.content;
-      } else {
-        // When we have no notes in the existing notebook yet
-        state.selectedNoteId = null;
-        state.content = null;
-      }
+      // TODO: pass in a note ID to set selected note ID
     });
     builder.addCase(getNotesData.fulfilled, (state, action) => {
-      state.notesData = action.payload.notes_data;
+      state.notebooks = action.payload.notebooks;
+      state.notes = action.payload.notes;
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
       state.isSavingNote = false;
-      const note = _findNoteInNotebook(
-        state,
-        action.payload.note.notebook_id,
-        action.payload.note.id
-      );
 
-      if (!note) return;
-
-      note.content = action.payload.note.content;
-      note.title = action.payload.note.title;
+      state.notes[action.payload.note.id].title = action.payload.note.title;
     });
     builder.addCase(updateNote.pending, (state, action) => {
       state.isSavingNote = true;
@@ -212,52 +126,14 @@ export const notesSlice = createSlice({
     builder.addCase(createNote.fulfilled, (state, action) => {
       const noteId = action.payload.note.id;
 
-      const notebook = _findNotebook(
-        state,
-        action.payload.note.notebook_id,
-        action.payload.parent_notebook_id
-      );
-
-      notebook.notes.unshift(action.payload.note);
-      state.content = null;
-      state.selectedNoteId = noteId;
+      state.notes[noteId] = action.payload.note;
     });
     builder.addCase(createNotebook.fulfilled, (state, action) => {
-      // Add new notebook to notesData
-      const { parentId } = action.meta.arg;
-
-      if (parentId) {
-        // subnotebook
-        const parentNotebook = _findNotebook(state, parentId);
-        parentNotebook.subnotebooks[action.payload.id] = { ...action.payload };
-        state.selectedParentNotebookId = parentId;
-      } else {
-        // main notebook
-        state.notesData[action.payload.id] = { ...action.payload };
-        state.selectedParentNotebookId = null;
-      }
-
+      state.notebooks[action.payload.id] = action.payload;
       state.selectedNotebookId = action.payload.id;
-      state.selectedNoteId = null;
-      state.content = null;
     });
     builder.addCase(updateNotebook.fulfilled, (state, action) => {
-      // Add new notebook to notesData
-      const { parentId } = action.meta.arg;
-      const { name } = action.payload;
-      const { meta } = action.payload;
-
-      // Currently, we're only ever updating the title of the notebook, so don't need to worry about other parameters
-      if (parentId) {
-        // subnotebook
-        const parentNotebook = _findNotebook(state, parentId);
-        parentNotebook.subnotebooks[action.payload.id].name = name;
-        parentNotebook.subnotebooks[action.payload.id].meta = meta;
-      } else {
-        // main notebook
-        state.notesData[action.payload.id].name = name;
-        state.notesData[action.payload.id].meta = meta;
-      }
+      state.notebooks[action.payload.id] = action.payload;
     });
   },
 });

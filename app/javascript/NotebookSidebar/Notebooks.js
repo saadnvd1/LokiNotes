@@ -9,13 +9,14 @@ const Notebooks = ({
   toggleIsEditing,
   toggleSubmenu,
   selectedNotebookId,
-  notesData,
+  notebooks,
   collapsed,
 }) => {
-  const buildNotebook = (notebookId, notebookData, isSubnotebook = false) => {
+  const buildNotebook = (notebookId, notebookData) => {
     if (!notebookId) return;
+    const isSubnotebook = !!notebookData.parent_notebook_id;
 
-    const hasSubnotebooks = !isEmpty(notebookData.subnotebooks);
+    const hasSubnotebooks = !isEmpty(notebookData.subnotebook_ids);
 
     const sharedProps = {
       selectedNotebookId,
@@ -29,6 +30,8 @@ const Notebooks = ({
       isSubnotebook,
       hasSubnotebooks,
       collapsed,
+      notebooks,
+      subnotebookIds: notebookData.subnotebook_ids,
     };
 
     return (
@@ -39,9 +42,12 @@ const Notebooks = ({
     );
   };
 
-  const buildNotebooks = () => Object.entries(notesData).map(([notebookId, notebookData]) =>
-      buildNotebook(Number(notebookId), notebookData)
-    );
+  const buildNotebooks = () =>
+    Object.entries(notebooks)
+      .filter(([_, notebookData]) => !notebookData.parent_notebook_id)
+      .map(([notebookId, notebookData]) =>
+        buildNotebook(Number(notebookId), notebookData)
+      );
 
   return <ul className="menu">{buildNotebooks()}</ul>;
 };

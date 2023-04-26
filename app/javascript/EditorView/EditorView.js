@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import EditorTabs from "EditorView/EditorTabs";
 
 const EditorView = () => {
-  const notesData = useSelector((state) => state.notes.notesData);
+  const notes = useSelector((state) => state.notes.notes);
 
   // // This useEffect is for when we update our notes, we want to make sure the URL reflects that so that if the user wants to save that to bookmarks, they can easily access it again
   // useEffect(() => {
@@ -14,7 +14,7 @@ const EditorView = () => {
   //   }
   // }, [navigate, selectedNoteId, selectedNotebookId]);
 
-  if (!notesData) {
+  if (!notes) {
     return null;
   }
 

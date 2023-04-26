@@ -7,33 +7,29 @@ class HomeController < ApplicationController
   end
 
   def notes
-    # TODO: make sure there's no n+1s here, esp with the ancestry stuff
-    @notebooks = current_user.notebooks.where(ancestry: nil).includes(:notes)
-    @notes_data = {}
+    @notebooks = {}
+    @notes = {}
 
-    @notebooks.each do |notebook|
-      @notes_data[notebook.id] = format_notebook(notebook)
+    current_user.notes.each do |note|
+      @notes[note.id] = format_note(note)
     end
 
-    render json: {notes_data: @notes_data}
+    current_user.notebooks.each do |notebook|
+      @notebooks[notebook.id] = format_notebook(notebook)
+    end
+
+
+    render json: {notes: @notes, notebooks: @notebooks}
   end
 
   def format_notebook(notebook)
-    return if notebook.nil?
-
-    catH = {
+    {
       id: notebook.id,
       name: notebook.name,
-      notes: notebook.notes.map { |note| format_note(note) },
       meta: notebook.meta,
-      subnotebooks: {}
+      parent_notebook_id: notebook.parent.try(:id),
+      subnotebook_ids: notebook.descendants.pluck(:id),
     }
-
-    notebook.children.includes(:notes).each do |subnotebook|
-      catH[:subnotebooks][subnotebook.id] = format_notebook(subnotebook)
-    end
-
-    catH
   end
 
   def format_note(note)

@@ -24,7 +24,7 @@ const EditorTabs = () => {
         {openTabs.map((tab, index) => (
           <LBox
             onClick={() => dispatch(updateActiveIndex(index))}
-            key={`${tab.noteId}-${index}-tab`}
+            key={`${tab.noteId}-tab`}
           >
             <LBox
               className="editor-tab"
@@ -39,11 +39,10 @@ const EditorTabs = () => {
       </LBox>
       {openTabs.map((tab, index) => (
         <LBox
-          key={`${tab.noteId}-${index}-editor`}
+          key={`${tab.noteId}-editor`}
           style={{ display: `${activeIndex === index ? "block" : "none"}` }}
         >
-          {/* eslint-disable-next-line react/no-array-index-key */}
-          <Editor noteId={tab.noteId} index={index} />
+          <Editor noteId={tab.noteId} />
         </LBox>
       ))}
     </LBox>

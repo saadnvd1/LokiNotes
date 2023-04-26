@@ -18,8 +18,7 @@ const NotebookSidebar = () => {
     (state) => state.notes.selectedNotebookId
   );
 
-  // TODO: in the future, this component really doesn't need to be subscribed to this entire notesData. I'd like to refactor in the future because right now if we update a note and save something like its content, then this component gets re-rendered even though it really doesn't need to
-  const notesData = useSelector((state) => state.notes.notesData);
+  const notebooks = useSelector((state) => state.notes.notebooks);
   const selectedParentNotebookId = useSelector(
     (state) => state.notes.selectedParentNotebookId
   );
@@ -34,10 +33,10 @@ const NotebookSidebar = () => {
 
   // Setup Menu State
   useEffect(() => {
-    if (notesData) {
-      setupMenuItems(notesData);
+    if (notebooks) {
+      setupMenuItems(notebooks);
     }
-  }, [notesData, selectedParentNotebookId]);
+  }, [notebooks, selectedParentNotebookId]);
 
   // -- Menu Related Functions
   const toggleSubmenu = (notebookId) => {
@@ -72,24 +71,12 @@ const NotebookSidebar = () => {
 
     Object.entries(notebooks).forEach(([notebookId, notebook]) => {
       items[notebookId] = setupMenuItem(Number(notebookId), notebook, false);
-
-      if (notebook.subnotebooks) {
-        Object.entries(notebook.subnotebooks).forEach(
-          ([subnotebookId, subnotebook]) => {
-            items[subnotebookId] = setupMenuItem(
-              Number(subnotebookId),
-              subnotebook,
-              true
-            );
-          }
-        );
-      }
     });
 
     setMenu(items);
   };
 
-  if (!notesData) return null;
+  if (!notebooks) return null;
 
   return (
     <Sider
@@ -121,7 +108,7 @@ const NotebookSidebar = () => {
             selectedNotebookId={selectedNotebookId}
             toggleIsEditing={toggleIsEditing}
             toggleSubmenu={toggleSubmenu}
-            notesData={notesData}
+            notebooks={notebooks}
             collapsed={collapsed}
           />
         </div>
