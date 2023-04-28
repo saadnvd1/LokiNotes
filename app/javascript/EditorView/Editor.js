@@ -30,7 +30,7 @@ hljs.configure({
 const Editor = ({ noteId, index }) => {
   const dispatch = useDispatch();
   const note = useSelector((state) => selectNoteById(state, { noteId }));
-  const [content, setContent] = useState(note.content);
+  const [content, setContent] = useState(note?.content || "");
   const uploadingImages = useSelector((state) => state.images.uploadingImages);
   const quillRef = useRef(null);
 

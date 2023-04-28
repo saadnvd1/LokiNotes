@@ -35,7 +35,7 @@ const NoteSidebar = () => {
     }
 
     return [];
-  }, [selectedNotebookId]);
+  }, [selectedNotebookId, allNotes]);
 
   return (
     <Sider

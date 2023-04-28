@@ -9,14 +9,10 @@ const initialState = {
   content: null,
   selectedParentNotebookId: null,
   isSavingNote: false,
-  openNoteIds: [179449, 179424],
   tabs: {
     open: [
       {
-        noteId: 179449,
-      },
-      {
-        noteId: 179424,
+        noteId: 179474,
       },
     ],
     activeIndex: 0,
@@ -93,6 +89,10 @@ export const notesSlice = createSlice({
     updateActiveIndex: (state, action) => {
       state.tabs.activeIndex = action.payload;
     },
+    addTab: (state, action) => {
+      state.tabs.open.push(action.payload);
+      state.tabs.activeIndex = state.tabs.open.length - 1;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
@@ -125,8 +125,8 @@ export const notesSlice = createSlice({
     });
     builder.addCase(createNote.fulfilled, (state, action) => {
       const noteId = action.payload.note.id;
-
       state.notes[noteId] = action.payload.note;
+      state.selectedNoteId = noteId;
     });
     builder.addCase(createNotebook.fulfilled, (state, action) => {
       state.notebooks[action.payload.id] = action.payload;
@@ -139,6 +139,6 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateActiveIndex } = notesSlice.actions;
+export const { updateActiveIndex, addTab } = notesSlice.actions;
 
 export default notesSlice.reducer;

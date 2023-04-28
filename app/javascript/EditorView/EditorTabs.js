@@ -3,7 +3,8 @@ import LBox from "components/LBox/LBox";
 import "EditorView/EditorTabs.css";
 import Editor from "EditorView/Editor";
 import { useDispatch, useSelector } from "react-redux";
-import { createNote, updateActiveIndex } from "slices/notesSlice";
+import { createNote, addTab } from "slices/notesSlice";
+import EditorTab from "EditorView/EditorTab";
 
 const EditorTabs = () => {
   const dispatch = useDispatch();
@@ -14,25 +15,23 @@ const EditorTabs = () => {
   );
 
   const handleAddTab = () => {
-    dispatch(createNote({ notebookId: selectedNotebookId }));
+    dispatch(createNote({ notebookId: selectedNotebookId }))
+      .unwrap()
+      .then((res) => {
+        dispatch(addTab({ noteId: res.note.id }));
+      });
   };
 
   return (
     <LBox>
       <LBox flexRowStart className="editor-tab-bar">
         {openTabs.map((tab, index) => (
-          <LBox
-            onClick={() => dispatch(updateActiveIndex(index))}
+          <EditorTab
             key={`${tab.noteId}-tab`}
-          >
-            <LBox
-              className={`editor-tab ${
-                activeIndex === index ? "editor-tab-selected" : ""
-              }`}
-            >
-              Tab {index}
-            </LBox>
-          </LBox>
+            index={index}
+            tab={tab}
+            activeIndex={activeIndex}
+          />
         ))}
         <LBox onClick={handleAddTab}>
           <LBox className="editor-tab">+</LBox>
