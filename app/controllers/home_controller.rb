@@ -19,7 +19,7 @@ class HomeController < ApplicationController
     end
 
 
-    render json: {notes: @notes, notebooks: @notebooks}
+    render json: {notes: @notes, notebooks: @notebooks, default_notebook_id: current_user.default_notebook.id, default_note_id: current_user.default_notebook.notes.first.id}
   end
 
   def format_notebook(notebook)

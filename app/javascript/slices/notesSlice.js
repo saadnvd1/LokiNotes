@@ -10,11 +10,7 @@ const initialState = {
   selectedParentNotebookId: null,
   isSavingNote: false,
   tabs: {
-    open: [
-      {
-        noteId: 179474,
-      },
-    ],
+    open: [],
     activeIndex: 0,
   },
 };
@@ -111,6 +107,10 @@ export const notesSlice = createSlice({
     builder.addCase(getNotesData.fulfilled, (state, action) => {
       state.notebooks = action.payload.notebooks;
       state.notes = action.payload.notes;
+      state.selectedNoteId = action.payload.default_note_id;
+      state.selectedNotebookId = action.payload.default_notebook_id;
+
+      state.tabs.open.push({ noteId: action.payload.default_note_id });
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
       state.isSavingNote = false;

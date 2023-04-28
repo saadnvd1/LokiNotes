@@ -28,6 +28,10 @@ class User < ApplicationRecord
   def premium?
     paying? || on_trial?
   end
+
+  def default_notebook
+    notebooks.find_by(default: true)
+  end
 end
 
 # == Schema Information
