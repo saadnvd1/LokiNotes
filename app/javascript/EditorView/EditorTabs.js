@@ -31,6 +31,7 @@ const EditorTabs = () => {
             index={index}
             tab={tab}
             activeIndex={activeIndex}
+            numOfTabs={openTabs.length}
           />
         ))}
         <LBox onClick={handleAddTab}>

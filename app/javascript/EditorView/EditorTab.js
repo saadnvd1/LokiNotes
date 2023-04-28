@@ -1,28 +1,43 @@
-import { updateActiveIndex, updateSelectedNoteId } from "slices/notesSlice";
+import {
+  removeTab,
+  updateActiveIndex,
+  updateSelectedNoteId,
+} from "slices/notesSlice";
 import LBox from "components/LBox/LBox";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectNoteById } from "selectors/notesSelector";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const EditorTab = ({ index, tab, activeIndex }) => {
+const EditorTab = ({ index, tab, activeIndex, numOfTabs }) => {
   const dispatch = useDispatch();
   const note = useSelector((state) =>
     selectNoteById(state, { noteId: tab.noteId })
   );
 
   const handleChangeTab = () => {
-    dispatch(updateActiveIndex(index));
-    dispatch(updateSelectedNoteId({ noteId: tab.noteId }));
+    dispatch(updateActiveIndex({ index, noteId: tab.noteId }));
+  };
+
+  const handleCloseTab = (e) => {
+    e.stopPropagation();
+    dispatch(removeTab({ noteId: tab.noteId }));
   };
 
   return (
     <LBox onClick={handleChangeTab}>
       <LBox
+        flexRowBetween
         className={`editor-tab ${
           activeIndex === index ? "editor-tab-selected" : ""
         }`}
       >
-        {note.title || "Untitled"}
+        <LBox>{note.title || "Untitled"}</LBox>
+        {numOfTabs > 1 && (
+          <LBox ml8 onClick={handleCloseTab}>
+            <XMarkIcon height="12" />
+          </LBox>
+        )}
       </LBox>
     </LBox>
   );

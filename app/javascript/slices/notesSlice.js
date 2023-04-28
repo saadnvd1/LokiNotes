@@ -83,16 +83,44 @@ export const notesSlice = createSlice({
   initialState,
   reducers: {
     updateActiveIndex: (state, action) => {
-      state.tabs.activeIndex = action.payload;
+      state.tabs.activeIndex = action.payload.index;
+      state.selectedNoteId = action.payload.noteId;
     },
     addTab: (state, action) => {
       state.tabs.open.push(action.payload);
       state.tabs.activeIndex = state.tabs.open.length - 1;
+      state.selectedNoteId = action.payload.noteId;
+    },
+    removeTab: (state, action) => {
+      const newTabs = state.tabs.open.filter(
+        (tab) => tab.noteId !== action.payload.noteId
+      );
+
+      const newActiveIndex = newTabs.length - 1;
+
+      state.tabs.open = newTabs;
+
+      state.tabs.activeIndex = newActiveIndex;
+      state.selectedNoteId = newTabs[newActiveIndex].noteId;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(updateSelectedNoteId.fulfilled, (state, action) => {
       state.selectedNoteId = action.payload;
+
+      if (state.tabs.open.length === 1) {
+        state.tabs.open[0].noteId = action.payload;
+      } else {
+        const noteCurrentlyOpenIndex = state.tabs.open.findIndex(
+          (tab) => tab.noteId === action.payload
+        );
+
+        if (noteCurrentlyOpenIndex !== -1) {
+          state.tabs.activeIndex = noteCurrentlyOpenIndex;
+        } else {
+          state.tabs.open[state.tabs.activeIndex].noteId = action.payload;
+        }
+      }
     });
     builder.addCase(updateSelectedNotebookId.fulfilled, (state, action) => {
       const notebookId = action.payload;
@@ -116,6 +144,7 @@ export const notesSlice = createSlice({
       state.isSavingNote = false;
 
       state.notes[action.payload.note.id].title = action.payload.note.title;
+      state.notes[action.payload.note.id].content = action.payload.note.content;
     });
     builder.addCase(updateNote.pending, (state, action) => {
       state.isSavingNote = true;
@@ -139,6 +168,6 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateActiveIndex, addTab } = notesSlice.actions;
+export const { updateActiveIndex, addTab, removeTab } = notesSlice.actions;
 
 export default notesSlice.reducer;
