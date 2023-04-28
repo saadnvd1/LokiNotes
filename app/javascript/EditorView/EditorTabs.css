@@ -1,6 +1,24 @@
+.editor-tab-bar {
+    position: sticky;
+    top: -1px;
+    z-index: 100;
+    background-color: #181818;
+    background: linear-gradient(to bottom, #181818, #151515);
+}
 .editor-tab {
+    cursor: pointer;
     padding: 8px 16px;
-    background-color: white;
-    color: black;
-    border: 1px solid black;
+    font-size: 11px;
+    border-right: 1px solid #212121;
+    transition: all 0.2s ease;
+}
+
+.editor-tab:hover {
+    background: #282828;
+}
+
+.editor-tab-selected {
+    background: linear-gradient(to bottom, #282828, #212121);
+    color: white;
+    font-weight: bold;
 }

@@ -6,6 +6,11 @@ body {
     margin: 0;
 }
 
+::selection {
+    background: #594479;
+    color: #fff;
+}
+
 #root {
     height: 100%;
     font-size: 10px;
@@ -78,7 +83,7 @@ body {
 
 .ql-toolbar {
   position: sticky;
-  top: 35px;
+  top: 27px;
   z-index: 1;
   background-color: #fff;
 }
