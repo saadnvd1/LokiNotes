@@ -3,6 +3,7 @@ import { Header } from "antd/es/layout/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNote } from "slices/notesSlice";
 import { selectCurrentNoteTitleAndId } from "selectors/notesSelector";
+import LBox from "components/LBox/LBox";
 
 const EditorHeader = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -56,27 +57,20 @@ const EditorHeader = () => {
     outline: "none",
     fontWeight: "inherit",
     color: "white",
-    fontSize: 32,
+    fontSize: 20,
     background: "transparent",
     padding: 0,
     margin: 0,
     minWidth: "unset",
-    width: "100%",
-    marginTop: 20,
     cursor: isEditing ? "unset" : "pointer",
   };
 
   return (
-    <Header
+    <LBox
       key={currentNote?.id}
       className="EditorHeader"
       style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingRight: "25px",
-        paddingLeft: "25px",
-        alignItems: "center",
+        paddingLeft: 15,
       }}
     >
       <div style={{ width: "100%" }}>
@@ -91,7 +85,7 @@ const EditorHeader = () => {
           onKeyDown={handleKeyDown}
         />
       </div>
-    </Header>
+    </LBox>
   );
 };
 

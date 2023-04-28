@@ -193,9 +193,10 @@ body {
 /* -- Header Dropdown Options END -- */
 
 .EditorHeader {
-    background: white;
+    background: linear-gradient(to bottom, #291e34, #332547);
     box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
     border-bottom: none;
+    padding: 10px;
 }
 
 .ql-editor.ql-blank:focus::before {
