@@ -13,7 +13,7 @@ class Note < ApplicationRecord
   end
 
   encrypts :content
-  encrypts :title, deterministic: true
+  encrypts :title, deterministic: true, previous: { deterministic: false }
 end
 
 # == Schema Information
