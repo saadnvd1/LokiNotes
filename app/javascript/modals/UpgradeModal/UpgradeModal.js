@@ -35,7 +35,8 @@ const UpgradeModal = () => {
     return `$${price.amount / 100}${monthly ? "/month" : "/year"}`;
   };
 
-  const getPrice = () => prices.find((price) =>
+  const getPrice = () =>
+    prices.find((price) =>
       monthly ? price.name === "Monthly" : price.name === "Yearly"
     );
 
@@ -57,13 +58,13 @@ const UpgradeModal = () => {
       {isLoading && <Spin />}
       <Row justify="space-between" align="middle">
         <Col>
-          <Title level={3}>LokiNotes Pro</Title>
+          <Title level={3}>Lokinotes Pro</Title>
           <Paragraph style={{ marginTop: 10 }}>
-            Elevate your LokiNotes experience by upgrading to our Pro plan and
+            Elevate your Lokinotes experience by upgrading to our Pro plan and
             enjoy a wealth of exclusive features. Your support not only enhances
             your own productivity but also drives the development of our app.
           </Paragraph>
-          <b>Discover the benefits of LokiNotes Pro:</b>
+          <b>Discover the benefits of Lokinotes Pro:</b>
           <ul>
             <li>Save Images within Notes</li>
             <li>Multi-Note Panes</li>

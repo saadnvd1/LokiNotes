@@ -8,5 +8,5 @@ node :price_formatted do |subscription|
 end
 
 node :plan_name do |subscription|
-  "LokiNotes #{subscription.plan.name}"
+  "Lokinotes #{subscription.plan.name}"
 end

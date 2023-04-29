@@ -67,7 +67,7 @@ const UpgradeModalSuccess = () => {
         <Col>
           {!isSubscribed && (
             <>
-              <Title level={3}>Activating LokiNotes Pro!</Title>
+              <Title level={3}>Activating Lokinotes Pro!</Title>
               <Paragraph style={{ marginTop: 10 }}>
                 Please wait, we're activating all your awesome new Pro features!
                 <Spin style={{ marginTop: 10 }} />

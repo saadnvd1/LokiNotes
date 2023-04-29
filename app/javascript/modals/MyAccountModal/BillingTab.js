@@ -14,7 +14,7 @@ const BillingTab = () => {
       return subscription.plan_name;
     }
 
-    return "LokiNotes Free";
+    return "Lokinotes Free";
   };
 
   const getPlanPrice = () => {

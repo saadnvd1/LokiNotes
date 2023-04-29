@@ -24,7 +24,7 @@ class CreateUser < ActiveInteraction::Base
 
     Note.create!(
       notebook: user.notebooks.first,
-      title: "Welcome to LokiNotes!",
+      title: "Welcome to Lokinotes!",
       content: "This is your first note. You can edit it or delete it and create your own."
     )
   end
