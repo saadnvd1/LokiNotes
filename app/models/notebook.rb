@@ -8,7 +8,7 @@ class Notebook < ApplicationRecord
     has_many :notes
   end
 
-  encrypts :name
+  encrypts :name, deterministic: true
 
   def validate_only_one_default_per_user
     if default.present? && user.notebooks.where(default: true).exists?

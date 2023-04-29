@@ -12,7 +12,8 @@ class Note < ApplicationRecord
     has_many :note_images
   end
 
-  encrypts :content, :title
+  encrypts :content
+  encrypts :title, deterministic: true
 end
 
 # == Schema Information
