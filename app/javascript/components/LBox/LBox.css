@@ -1,3 +1,11 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.justify-center {
+  justify-content: center;
+}
 .flex-row-between {
   display: flex;
   flex-direction: row;
@@ -33,4 +41,8 @@
 
 .ml8 {
   margin-left: 8px;
+}
+
+.mt4 {
+  margin-top: 4px;
 }

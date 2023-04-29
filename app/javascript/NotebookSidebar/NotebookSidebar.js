@@ -9,6 +9,8 @@ import Notebooks from "NotebookSidebar/Notebooks";
 import LBox from "components/LBox/LBox";
 import "./NotebookSidebar.css";
 import { isMobile } from "react-device-detect";
+import Logo from "images/logo.png";
+import LogoCollapsed from "images/logo-collapsed.png";
 
 const NotebookSidebar = () => {
   const dispatch = useDispatch();
@@ -85,6 +87,17 @@ const NotebookSidebar = () => {
       onCollapse={(value) => setCollapsed(value)}
       style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
     >
+      <LBox flexRow alignCenter justifyCenter mt4>
+        <img
+          src={collapsed ? LogoCollapsed : Logo}
+          style={{
+            width: collapsed ? 20 : 150,
+            height: collapsed ? 20 : "100%",
+            marginTop: collapsed ? 5 : 0,
+            marginBottom: collapsed ? 5 : 0,
+          }}
+        />
+      </LBox>
       <div
         style={{
           display: "flex",
