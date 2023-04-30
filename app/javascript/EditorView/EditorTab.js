@@ -32,7 +32,15 @@ const EditorTab = ({ index, tab, activeIndex, numOfTabs }) => {
           activeIndex === index ? "editor-tab-selected" : ""
         }`}
       >
-        <LBox>{note.title || "Untitled"}</LBox>
+        <LBox
+          style={{
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {note.title || "Untitled"}
+        </LBox>
         {numOfTabs > 1 && (
           <LBox ml8 onClick={handleCloseTab}>
             <XMarkIcon height="12" />

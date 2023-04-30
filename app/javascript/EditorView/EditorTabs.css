@@ -4,6 +4,8 @@
     z-index: 100;
     background-color: #181818;
     background: linear-gradient(to bottom, #181818, #151515);
+    display: flex;
+    overflow: auto;
 }
 .editor-tab {
     cursor: pointer;
@@ -11,6 +13,8 @@
     font-size: 11px;
     border-right: 1px solid #212121;
     transition: all 0.2s ease;
+    height: 29px;
+    max-width: 150px;
 }
 
 .editor-tab:hover {

@@ -17,6 +17,12 @@ hljs.configure({
   languages: [
     "javascript",
     "ruby",
+    "php",
+    "perl",
+    "scss",
+    "shell",
+    "swift",
+    "vim",
     "python",
     "rust",
     "css",
@@ -24,6 +30,7 @@ hljs.configure({
     "txt",
     "sql",
     "yaml",
+    "html",
   ],
 });
 

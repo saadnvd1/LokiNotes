@@ -61,7 +61,7 @@ const EditorHeader = () => {
     background: "transparent",
     padding: 0,
     margin: 0,
-    minWidth: "unset",
+    width: "100%",
     cursor: isEditing ? "unset" : "pointer",
   };
 
