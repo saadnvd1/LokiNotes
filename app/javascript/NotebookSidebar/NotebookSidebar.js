@@ -10,7 +10,6 @@ import LBox from "components/LBox/LBox";
 import "./NotebookSidebar.css";
 import { isMobile } from "react-device-detect";
 import Logo from "images/logo.png";
-import LogoCollapsed from "images/logo-collapsed.png";
 
 const NotebookSidebar = () => {
   const dispatch = useDispatch();

@@ -27,7 +27,7 @@ const MyAccountModal = () => {
     {
       key: "1",
       label: `General`,
-      children: `Content of Tab Pane 1`,
+      children: `Under Construction`,
     },
     {
       key: "2",
