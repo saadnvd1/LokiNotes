@@ -53,10 +53,10 @@ body {
 
 .center-screen {
   display: flex;
+    flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 100vh;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
