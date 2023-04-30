@@ -131,8 +131,8 @@ const Editor = ({ noteId, index }) => {
   );
 
   const handleContentChange = (newContent) => {
-    const objDiv = document.getElementById("editor-container");
-    objDiv.scrollTop = objDiv.scrollHeight;
+    // const objDiv = document.getElementById("editor-container");
+    // objDiv.scrollTop = objDiv.scrollHeight;
     setContent(newContent);
     debouncedChangeHandler(newContent);
   };

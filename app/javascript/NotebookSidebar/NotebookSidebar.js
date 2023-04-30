@@ -81,33 +81,30 @@ const NotebookSidebar = () => {
   if (!notebooks) return null;
 
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
-      style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
-    >
+    <Sider style={{ display: "flex", flexDirection: "column" }}>
       <LBox flexRow alignCenter justifyCenter mt4>
-        <img
-          src={collapsed ? LogoCollapsed : Logo}
-          style={{
-            width: collapsed ? 20 : 150,
-            height: collapsed ? 20 : "100%",
-            marginTop: collapsed ? 5 : 0,
-            marginBottom: collapsed ? 5 : 0,
-          }}
-        />
+        <a href="/">
+          <img
+            src={Logo}
+            style={{
+              width: 150,
+              marginTop: 0,
+              marginBottom: 0,
+            }}
+          />
+        </a>
       </LBox>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          height: "100%",
+          height: "90%",
+          overflow: "auto",
           minHeight: 0,
         }}
       >
-        <div style={{ overflowY: "auto" }}>
+        <div>
           <div className="center-div" style={{ marginTop: "8px" }}>
             <LIcon
               onClick={handlecreateNotebook}
@@ -125,7 +122,7 @@ const NotebookSidebar = () => {
             collapsed={collapsed}
           />
         </div>
-        <div style={{ position: "relative" }}>
+        <div>
           <BottomMenu />
         </div>
       </div>
