@@ -3,9 +3,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNotebook } from "slices/notesSlice";
 import { MODAL_NAMES, toggleModal } from "slices/modalSlice";
+import { getParentNotebooks } from "helpers/notesHelper";
 
 const NotebookCreateModal = () => {
-  const notesData = useSelector((state) => state.notes.notesData);
+  const notebooks = useSelector((state) => state.notes.notebooks);
   const createNotebookModalIsOpen = useSelector(
     (state) => state.modals.createNotebookModalIsOpen
   );
@@ -18,12 +19,12 @@ const NotebookCreateModal = () => {
   };
 
   const generateParentSelectOptions = () => {
-    if (!notesData) return [];
+    if (!notebooks) return [];
 
-    return Object.entries(notesData).map(([notebookId, notebookData]) => ({
-        value: notebookId,
-        label: notebookData.name,
-      }));
+    return getParentNotebooks(notebooks).map(([notebookId, notebookData]) => ({
+      value: notebookId,
+      label: notebookData.name,
+    }));
   };
 
   const handleSubmit = () => {

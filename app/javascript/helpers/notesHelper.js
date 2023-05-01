@@ -23,3 +23,11 @@ export const getNotebookById = (selectedParentNotebookId, notesData, id) => {
 
   return notesData[id];
 };
+
+export const getParentNotebooks = (notebooks) => {
+  if (!notebooks) return [];
+
+  return Object.entries(notebooks).filter(
+    ([_, notebookData]) => !notebookData.parent_notebook_id
+  );
+};

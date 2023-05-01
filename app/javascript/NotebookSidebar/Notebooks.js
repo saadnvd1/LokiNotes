@@ -2,6 +2,7 @@ import React from "react";
 import { isEmpty } from "lodash";
 import SubnotebookRow from "NotebookSidebar/SubnotebookRow";
 import NotebookRow from "NotebookSidebar/NotebookRow";
+import { getParentNotebooks } from "helpers/notesHelper";
 
 const Notebooks = ({
   menu,
@@ -43,11 +44,9 @@ const Notebooks = ({
   };
 
   const buildNotebooks = () =>
-    Object.entries(notebooks)
-      .filter(([_, notebookData]) => !notebookData.parent_notebook_id)
-      .map(([notebookId, notebookData]) =>
-        buildNotebook(Number(notebookId), notebookData)
-      );
+    getParentNotebooks(notebooks).map(([notebookId, notebookData]) =>
+      buildNotebook(Number(notebookId), notebookData)
+    );
 
   return <ul className="menu">{buildNotebooks()}</ul>;
 };
