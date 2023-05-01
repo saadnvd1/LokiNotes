@@ -158,7 +158,10 @@ export const notesSlice = createSlice({
       state.selectedNoteId = noteId;
     });
     builder.addCase(createNotebook.fulfilled, (state, action) => {
+      const parentNotebookId = action.payload.parent_notebook_id;
+
       state.notebooks[action.payload.id] = action.payload;
+      state.notebooks[parentNotebookId].subnotebook_ids.push(action.payload.id);
       state.selectedNotebookId = action.payload.id;
     });
     builder.addCase(updateNotebook.fulfilled, (state, action) => {
