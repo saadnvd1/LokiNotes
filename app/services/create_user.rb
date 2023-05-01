@@ -24,8 +24,8 @@ class CreateUser < ActiveInteraction::Base
 
     Note.create!(
       notebook: user.notebooks.first,
-      title: "Welcome to Lokinotes!",
-      content: "This is your first note. You can edit it or delete it and create your own."
+      title: "Untitled",
+      content: "<p>👋 </p><p><br></p><p>This is your very first note. Edit it as much as you want, or start creating other notes and notebooks.</p><p><br></p><h2>What are some things you can take notes about?</h2><p><br></p><ul><li>New subjects you're learning about at school or work</li><li>Helping you remember something</li><li>Journaling about your day</li><li>A gratitude list consisting of things that you're really happy about</li><li>Starting on a new short story or novel</li><li>...and much more!</li></ul><p><br></p>"
     )
   end
 
