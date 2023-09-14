@@ -54,5 +54,5 @@ end
 
 gem "shakapacker", "= 6.6"
 
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 7.1"
 gem "sidekiq-cron"
