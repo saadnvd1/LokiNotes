@@ -22,7 +22,7 @@ gem "carrierwave", ">= 3.0.0.beta", "< 4.0"
 gem "sentry-ruby"
 gem "sentry-rails"
 gem "newrelic_rpm"
-gem "puma", "~> 5.0"
+gem "puma", "~> 5.6"
 gem "redis", "~> 4.0"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
